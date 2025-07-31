@@ -3,27 +3,34 @@ services:
     build: .
     volumes:
       - ..:/workspace
-      - /var/run/docker.sock:/var/run/docker.sock
+      # - /var/run/docker.sock:/var/run/docker.sock
     networks:
       - dev-tools
-      - shared  # Add shared network for app communication
+      - shared # Add shared network for app communication
     command: sleep infinity
-    depends_on:
-      - redis
-      - searxng
-      - crawl4ai
-      - context7-mcp
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+    extra_hosts:
+      - host.docker.internal:host-gateway # access host's `localhost` using `host.docker.internal`
+    # depends_on:
+    #   - redis
+    #   - searxng
+    #   - crawl4ai
+    #   - context7-mcp
 
   # --- MCP services for development environment
   # These services are isolated on the dev-tools network
   # and do not expose ports to the host by default.
   redis:
+    profiles:
+      - mcp
     container_name: devenv-searxng-redis
     image: docker.io/valkey/valkey:8-alpine
     command: valkey-server --save 30 1 --loglevel warning
     restart: unless-stopped
     networks:
-      - dev-tools  # Keep MCP services on internal network
+      - dev-tools # Keep MCP services on internal network
     volumes:
       - .data/valkey:/data:z
     cap_drop:
@@ -39,6 +46,8 @@ services:
         max-file: "1"
 
   searxng:
+    profiles:
+      - mcp
     image: searxng/searxng:latest
     container_name: devenv-searxng
     environment:
@@ -59,7 +68,8 @@ services:
       - ./mcp/searxng:/etc/searxng:z
     restart: unless-stopped
     networks:
-      - dev-tools  # Keep on internal network
+      - shared # Add shared network for app communication
+      - dev-tools # Keep on internal network
     ports:
       - "8080"
       - "8888"
@@ -79,6 +89,8 @@ services:
         max-file: "1"
 
   crawl4ai:
+    profiles:
+      - mcp
     image: unclecode/crawl4ai:latest
     container_name: devenv-crawl4ai
     shm_size: 1g
@@ -87,27 +99,30 @@ services:
     extra_hosts:
       - host.docker.internal:host-gateway
     networks:
-      - dev-tools  # Keep on internal network
+      - shared # Add shared network for app communication
+      - dev-tools # Keep on internal network
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
     ports:
-      - "11235"
+      - "11236:11235"
 
   context7-mcp:
+    profiles:
+      - mcp
     build:
       context: mcp/context7
       dockerfile: Dockerfile
     container_name: devenv-mcp-context7
     networks:
-      - dev-tools  # Keep on internal network
+      - dev-tools # Keep on internal network
     ports:
       - "8080"
     restart: unless-stopped
 
 networks:
   dev-tools:
-    internal: true  # MCP services stay isolated
+    internal: true # MCP services stay isolated
   shared:
     # This network allows host access for your app
     driver: bridge

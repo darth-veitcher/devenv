@@ -1,5 +1,13 @@
 {
   "mcpServers": {
+    "time": {
+      "command": "uvx",
+      "args": ["mcp-server-time"]
+    },
+    "git": {
+      "command": "uvx",
+      "args": ["mcp-server-git", "--repository", "/workspace"]
+    },
     "serena": {
       "type": "stdio",
       "command": "uvx",
@@ -18,7 +26,8 @@
       "type": "stdio",
       "command": "npx",
       "args": ["-y", "@modelcontextprotocol/server-sequential-thinking"],
-      "env": {}
+      "env": {},
+      "alwaysAllow": ["sequentialthinking"]
     },
     "context7": {
       "type": "stdio",
@@ -67,16 +76,7 @@
     },
     "mcp-crawl4ai": {
       "type": "sse",
-      "url": "http://devenv-crawl4ai:11235/mcp/sse",
-      "alwaysAllow": [
-        "md",
-        "html",
-        "screenshot",
-        "pdf",
-        "execute_js",
-        "crawl",
-        "ask"
-      ]
+      "url": "http://devenv-crawl4ai:11235/mcp/sse"
     }
   }
 }

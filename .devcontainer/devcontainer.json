@@ -9,11 +9,15 @@
     "ghcr.io/devcontainers/features/common-utils:2": {},
     "ghcr.io/devcontainers/features/git:1": {},
     "ghcr.io/mikaello/devcontainer-features/modern-shell-utils:2.0.0": {},
-    "ghcr.io/devcontainers-extra/features/pre-commit:2": {},
-    "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {}
+    "ghcr.io/devcontainers-extra/features/pre-commit:2": {}
+    // "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {}
   },
-  "forwardPorts": [8000],
+  "forwardPorts": [11236, 8000],
   "portsAttributes": {
+    "11236": {
+      "label": "Craw4AI MCP",
+      "onAutoForward": "openBrowser"
+    },
     "8000": {
       "label": "FastAPI App",
       "onAutoForward": "openBrowser"
@@ -49,7 +53,8 @@
   },
   "mounts": [
     "source=claude-code-bashhistory-${devcontainerId},target=/commandhistory,type=volume",
-    "source=claude-code-config-${devcontainerId},target=/home/node/.claude,type=volume"
+    "source=claude-code-config-${devcontainerId},target=/home/node/.claude,type=volume",
+    "source=docker-cache-${devcontainerId},target=/var/lib/docker,type=volume"
   ],
   "remoteEnv": {
     "NODE_OPTIONS": "--max-old-space-size=4096",
@@ -59,5 +64,5 @@
     "LOCAL_WORKSPACE_FOLDER": "${localWorkspaceFolder:-.}"
   },
   "postCreateCommand": "",
-  "postStartCommand": "claude update && uvx superclaude update --quiet --yes --components commands core mcp || uvx SuperClaude install --profile developer --yes --quiet || true && echo 'DevContainer started!'"
+  "postStartCommand": "screen -DmS startup .devcontainer/startup.sh"
 }

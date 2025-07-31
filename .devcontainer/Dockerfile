@@ -31,6 +31,7 @@ RUN apt-get update && apt-get install -y \
     locales \
     software-properties-common \
     ca-certificates \
+    screen \
     && rm -rf /var/lib/apt/lists/*
 
 # Create node user and add to docker group

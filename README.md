@@ -12,6 +12,60 @@ This repository implements a sophisticated multi-layer containerized development
 - **Professional Development Experience**: Full VS Code integration with MCP (Model Context Protocol) services for AI-assisted development
 - **Security-First Design**: Multiple layers of isolation with principle of least privilege
 
+## Quickstart (5 minutes)
+
+Get up and running with this AI-powered development environment in under 5 minutes.
+
+### Prerequisites
+
+- [ ] Docker Desktop installed and running
+- [ ] VS Code with [Dev Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)
+- [ ] Git for cloning the repository
+
+### Steps
+
+1. **Clone and Open**
+
+   ```bash
+   git clone <repository-url>
+   cd <repository-name>
+   code .
+   ```
+
+2. **Start Development Environment**
+
+   - VS Code will detect `.devcontainer` and prompt "Reopen in Container"
+   - Click "Reopen in Container" (or use Command Palette: `Dev Containers: Reopen in Container`)
+   - First-time setup builds the container (2-3 minutes)
+
+3. **Verify Everything is Running**
+
+   ```bash
+   # In the VS Code terminal (inside container)
+   docker compose ps  # Should show all services healthy
+   ```
+
+4. **Start Using Claude**
+
+   ```bash
+   # Claude CLI is pre-configured with all MCP services
+   claude "explain the architecture of this project"
+   claude "help me add a new API endpoint"
+   ```
+
+5. **Access Your Application**
+   - Run `docker compose -f app/compose.yml up -d`
+   - Open http://localhost:8000 in your browser
+   - The FastAPI application is now running with hot-reload enabled
+
+That's it! You're now running a fully isolated development environment with AI assistance.
+
+### Next Steps
+
+- Run `claude "show me what MCP services are available"` to explore AI capabilities
+- Check the [Development Workflow](#development-workflow) section for detailed usage
+- See [MCP Services Integration](#mcp-services-integration) for available AI tools
+
 ## Architecture Overview
 
 ### Four-Layer Design

@@ -2,10 +2,10 @@ services:
   app:
     build: .
     ports:
-      - "8000:8000"  # Exposed to host
+      - "8000:8000" # Exposed to host
     networks:
-      - shared        # Can communicate with devcontainer
-      - app-network   # Can communicate with its own postgres
+      - shared # Can communicate with devcontainer
+      - app-network # Can communicate with its own postgres
     environment:
       - DATABASE_URL=postgresql://appuser:password@postgres:5432/appdb
     depends_on:
@@ -18,12 +18,12 @@ services:
       POSTGRES_USER: appuser
       POSTGRES_PASSWORD: password
     networks:
-      - app-network  # Isolated to app only
+      - app-network # Isolated to app only
     # Note: No 'ports' - only accessible from app
 
 networks:
   shared:
-    external: true  # References the shared network from devcontainer
-    name: devenv_devcontainer_shared  # Docker Compose prefixes with folder name
+    external: true # References the shared network from devcontainer
+    name: devcontainer_shared # Docker Compose prefixes with folder name
   app-network:
-    internal: true  # App's private network
+    internal: true # App's private network
