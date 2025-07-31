@@ -16,6 +16,8 @@
       "Bash(groups)",
       "Bash(curl:*)",
       "Bash(docker:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
       "mcp__time__get_current_time",
       "mcp__time__convert_time",
       "mcp__git__git_status",
@@ -112,8 +114,7 @@
       "mcp__mcp-crawl4ai__pdf",
       "mcp__mcp-crawl4ai__execute_js",
       "mcp__mcp-crawl4ai__crawl",
-      "mcp__mcp-crawl4ai__ask",
-      "Bash(git add:*)"
+      "mcp__mcp-crawl4ai__ask"
     ]
   },
   "enableAllProjectMcpServers": true,
