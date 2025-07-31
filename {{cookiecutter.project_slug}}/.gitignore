@@ -1,2 +1,7 @@
 !.claude/*
+
+# Serena - ignore everything except specific memory files
+.serena/*
+!.serena/memories/
+.serena/memories/*
 !.serena/memories/mcp_tool_usage_guide.md
