@@ -3,7 +3,9 @@
     "allow": [
       "WebFetch(domain:docs.anthropic.com)",
       "WebFetch(domain:medium.com)",
-      "WebFetch(domain:claudelog.com)"
+      "WebFetch(domain:claudelog.com)",
+      "WebFetch(domain:github.com)",
+      "Bash(cp:*)"
     ]
   },
   "enableAllProjectMcpServers": true,
@@ -19,6 +21,7 @@
     "fetch",
     "searxng",
     "mcp-memgraph",
-    "mcp-crawl4ai"
+    "mcp-crawl4ai",
+    "docker"
   ]
 }

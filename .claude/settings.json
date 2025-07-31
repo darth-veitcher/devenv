@@ -139,6 +139,7 @@
     "fetch",
     "searxng",
     "mcp-memgraph",
-    "mcp-crawl4ai"
+    "mcp-crawl4ai",
+    "docker"
   ]
 }

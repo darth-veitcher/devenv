@@ -77,6 +77,12 @@
     "mcp-crawl4ai": {
       "type": "sse",
       "url": "http://devenv-crawl4ai:11235/mcp/sse"
+    },
+    "docker": {
+      "type": "stdio",
+      "command": "uvx",
+      "args": ["docker-mcp"],
+      "env": {}
     }
   }
 }

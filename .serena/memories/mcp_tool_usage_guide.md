@@ -20,6 +20,13 @@
 1. **mcp__sequential-thinking** (for planning and analysis)
 2. **Task tool** (for parallel agent work)
 
+### Container Management (NEW)
+1. **docker** MCP server (container operations)
+   - `create-container` - Create and run containers
+   - `deploy-compose` - Deploy compose stacks
+   - `list-containers` - List all containers
+   - `get-logs` - Get container logs
+
 ## Required Usage Patterns
 
 ### Every Session Start
@@ -35,13 +42,15 @@
 2. Context7 (check docs)
 3. Serena (understand code)
 4. Task (parallel implementation)
+5. Docker (test locally before deploy)
 ```
 
 ### Every Debug Session
 ```
 1. Sequential thinking (analyze)
 2. Serena search (find code)
-3. WebSearch → SearxNG (research error)
+3. Docker get-logs (container errors)
+4. WebSearch → SearxNG (research error)
 ```
 
 ## Common Mistakes to Avoid
