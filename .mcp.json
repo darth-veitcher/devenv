@@ -59,7 +59,7 @@
       "command": "npx",
       "args": ["-y", "mcp-searxng"],
       "env": {
-        "SEARXNG_URL": "http://{{ cookiecutter.project_slug }}-searxng:8080"
+        "SEARXNG_URL": "http://devenv-searxng:8080"
       }
     },
     "mcp-memgraph": {
@@ -76,7 +76,7 @@
     },
     "mcp-crawl4ai": {
       "type": "sse",
-      "url": "http://{{ cookiecutter.project_slug }}-crawl4ai:11235/mcp/sse"
+      "url": "http://devenv-crawl4ai:11235/mcp/sse"
     }
   }
 }
