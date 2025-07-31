@@ -1,404 +1,154 @@
-# Multi-Layer Containerized Development Environment
+# Cookiecutter Multi-Layer Containerized Development Environment
 
-## Purpose and Vision
+A [Cookiecutter](https://github.com/cookiecutter/cookiecutter) template for creating a sophisticated multi-layer containerized development environment with complete host isolation and AI-powered development support.
 
-This repository implements a sophisticated multi-layer containerized development environment that achieves complete host isolation while providing excellent developer experience. The architecture separates development tools, application services, and host concerns into distinct, secure layers with carefully designed network boundaries.
+## Features
 
-### Core Objectives
+- 🔒 **Complete Host Isolation**: Zero development dependencies on host machine
+- 🌐 **Network Segmentation**: Isolated networks for development tools and application services
+- 🐳 **Docker-First**: Everything runs in containers with Docker Compose
+- 🤖 **AI-Powered Development**: Integrated Claude AI with MCP services
+- 🔧 **VS Code Dev Containers**: Professional development experience
+- 🚀 **FastAPI Application**: Modern Python web framework included
+- 🗄️ **PostgreSQL Database**: Production-ready database setup
+- 🔍 **Development Services**: SearxNG, Crawl4AI, Context7, and more
 
-- **Complete Host Isolation**: Zero development dependencies or services installed on the host machine
-- **Network Segmentation**: Isolated networks preventing cross-contamination between development tools and application services
-- **Transparent Operations**: Standard Docker Compose commands only - no custom shell scripts or opaque abstractions
-- **Professional Development Experience**: Full VS Code integration with MCP (Model Context Protocol) services for AI-assisted development
-- **Security-First Design**: Multiple layers of isolation with principle of least privilege
-
-## Quickstart (5 minutes)
-
-Get up and running with this AI-powered development environment in under 5 minutes.
+## Quick Start
 
 ### Prerequisites
 
-- [ ] Docker Desktop installed and running
-- [ ] VS Code with [Dev Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)
-- [ ] Git for cloning the repository
+- Python 3.8+ (for Cookiecutter)
+- Docker Desktop
+- VS Code with Dev Containers extension
+- Git
 
-### Steps
+### Installation
 
-1. **Clone and Open**
-
+1. Install Cookiecutter:
    ```bash
-   git clone <repository-url>
-   cd <repository-name>
+   pip install cookiecutter
+   ```
+
+2. Generate a new project:
+   ```bash
+   cookiecutter https://github.com/yourusername/cookiecutter-devenv.git
+   ```
+
+3. Answer the prompts:
+   - `project_name`: Your project's human-readable name
+   - `project_slug`: Directory name for your project (auto-generated)
+   - `author_name`: Your name
+   - `author_email`: Your email
+   - `python_version`: Python version for the application (default: 3.12)
+   - `app_port`: Port for your application (default: 8000)
+   - And more...
+
+4. Navigate to your new project:
+   ```bash
+   cd your-project-slug
    code .
    ```
 
-2. **Start Development Environment**
+5. When VS Code opens, it will prompt to "Reopen in Container" - click yes!
 
-   - VS Code will detect `.devcontainer` and prompt "Reopen in Container"
-   - Click "Reopen in Container" (or use Command Palette: `Dev Containers: Reopen in Container`)
-   - First-time setup builds the container (2-3 minutes)
+## Template Variables
 
-3. **Verify Everything is Running**
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `project_name` | Human-readable project name | Multi-Layer Containerized Development Environment |
+| `project_slug` | Directory name (auto-generated from project_name) | multi-layer-containerized-development-environment |
+| `project_description` | Short project description | A sophisticated multi-layer containerized development environment |
+| `author_name` | Your name | Your Name |
+| `author_email` | Your email | your.email@example.com |
+| `github_username` | Your GitHub username | yourusername |
+| `python_version` | Python version for containers | 3.12 |
+| `fastapi_version` | FastAPI framework version | 0.104.1 |
+| `uvicorn_version` | Uvicorn server version | 0.24.0 |
+| `postgres_version` | PostgreSQL version | 15 |
+| `postgres_user` | Database username | appuser |
+| `postgres_password` | Database password | password |
+| `postgres_db` | Database name | appdb |
+| `app_port` | Application port | 8000 |
+| `enable_mcp_services` | Enable MCP AI services | yes |
+| `use_claude_ai` | Configure Claude AI integration | yes |
 
-   ```bash
-   # In the VS Code terminal (inside container)
-   docker compose ps  # Should show all services healthy
-   ```
+## Project Structure
 
-4. **Start Using Claude**
-
-   ```bash
-   # Claude CLI is pre-configured with all MCP services
-   claude "explain the architecture of this project"
-   claude "help me add a new API endpoint"
-   ```
-
-5. **Access Your Application**
-   - Run `docker compose -f app/compose.yml up -d`
-   - Open http://localhost:8000 in your browser
-   - The FastAPI application is now running with hot-reload enabled
-
-That's it! You're now running a fully isolated development environment with AI assistance.
-
-### Next Steps
-
-- Run `claude "show me what MCP services are available"` to explore AI capabilities
-- Check the [Development Workflow](#development-workflow) section for detailed usage
-- See [MCP Services Integration](#mcp-services-integration) for available AI tools
-
-## Architecture Overview
-
-### Four-Layer Design
-
-1. **Host Machine** - Provides Docker runtime only, remains completely clean
-2. **Development Environment** - VS Code devcontainer with development tools and AI services
-3. **Development Services** - MCP servers, search engines, and development utilities
-4. **Application Stack** - Your actual application with isolated database and caching
-
-### Network Topology
+After generation, your project will have:
 
 ```
-┌─────────────────┐    ┌─────────────────┐
-│   Host Machine  │    │  External Web   │
-│   (Docker only) │    │   (port 8000)   │
-└─────────────────┘    └─────────────────┘
-         │                       │
-         │                       │
-┌─────────────────────────────────────────┐
-│           Shared Network                │
-│  ┌─────────────────┐  ┌───────────────┐ │
-│  │  Devcontainer   │  │  Application  │ │
-│  │                 │  │     :8000     │ │
-│  └─────────────────┘  └───────────────┘ │
-└─────────────────────────────────────────┘
-         │                       │
-         │                       │
-┌─────────────────┐    ┌─────────────────┐
-│  Dev-Tools Net  │    │  App Network    │
-│   (internal)    │    │   (internal)    │
-│                 │    │                 │
-│ • SearxNG       │    │ • PostgreSQL    │
-│ • Crawl4AI      │    │ • Redis         │
-│ • Context7      │    │                 │
-│ • Redis/Valkey  │    │                 │
-└─────────────────┘    └─────────────────┘
+your-project-slug/
+├── .devcontainer/          # VS Code Dev Container configuration
+│   ├── compose.yml         # Development services
+│   ├── devcontainer.json   # VS Code settings
+│   └── mcp/               # MCP service configurations
+├── app/                   # Your application
+│   ├── compose.yml        # Application stack
+│   ├── Dockerfile         # Application container
+│   ├── main.py           # FastAPI application
+│   └── requirements.txt   # Python dependencies
+├── .claude/              # Claude AI configuration
+├── .gitignore            # Git ignore rules
+├── .mcp.json             # MCP server configuration
+└── README.md             # Project documentation
 ```
 
-## Technology Stack
+## Customization
 
-### Development Environment
+### Adding Dependencies
 
-- **Base**: Python 3.12 slim container with VS Code Dev Containers
-- **Package Management**: FastAPI with standard pip (UV integration available)
-- **Container Runtime**: Docker-in-Docker for application stack management
-
-### MCP (Model Context Protocol) Services
-
-- **SearxNG**: Self-hosted search engine for private web search
-- **Crawl4AI**: AI-powered web crawling and content extraction
-- **Context7**: Codebase documentation and context service
-- **Sequential Thinking**: Structured reasoning and analysis tools
-- **Serena**: IDE assistant for development workflows
-
-### Application Services
-
-- **Web Framework**: FastAPI with Uvicorn server
-- **Database**: PostgreSQL 15 with isolated networking
-- **Caching**: Redis (separate from development Redis)
-
-## Core Design Principles
-
-### 1. No Custom Shell Scripts
-
-**Principle**: Use standard tooling without custom abstractions.
-
-**Rationale**: Shell scripts create opaque, brittle abstractions over standard tools. They become maintenance burdens and make debugging harder.
-
-**Implementation**: All operations use standard Docker Compose commands:
-
-```bash
-# Start services
-docker compose up -d
-
-# View logs
-docker compose logs -f
-
-# Execute commands
-docker compose exec service-name command
+Edit `app/requirements.txt` to add Python packages:
+```
+fastapi=={{ cookiecutter.fastapi_version }}
+uvicorn=={{ cookiecutter.uvicorn_version }}
+your-package==1.0.0
 ```
 
-### 2. Network Isolation by Design
+### Modifying Services
 
-**Principle**: Each layer operates on isolated networks with explicit connectivity.
+Edit `app/compose.yml` to add new services or modify existing ones.
 
-**Networks**:
+### Configuring MCP Services
 
-- `dev-tools` (internal): MCP services isolated from external access
-- `shared`: Connects devcontainer and application for communication
-- `app-network` (internal): Application's private data services
+Edit `.mcp.json` to configure AI services and tools.
 
-### 3. Configuration Over Code
+## Post-Generation
 
-**Principle**: Declarative YAML configuration instead of imperative scripts.
+The template includes a post-generation hook that:
+- Initializes a git repository
+- Makes an initial commit
+- Provides next steps guidance
 
-**Benefits**:
+## Architecture
 
-- Version controlled configuration
-- Predictable behavior
-- Standard Docker Compose patterns
-- Easy to understand and modify
+The generated project uses a four-layer architecture:
 
-### 4. Security Through Isolation
+1. **Host Machine**: Only Docker runtime
+2. **Development Environment**: VS Code devcontainer
+3. **Development Services**: MCP servers and utilities
+4. **Application Stack**: Your application and databases
 
-**Principle**: Multiple layers of isolation prevent unauthorized access.
+## Security
 
-**Implementation**:
+- No development tools on host machine
+- Isolated networks for different concerns
+- Internal-only networks for sensitive services
+- Non-root containers
 
-- Development services: No external ports, internal network only
-- Application data: Isolated to application containers only
-- Host access: Only application port 8000 exposed
+## Contributing
 
-## Repository Structure
+1. Fork this repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
-```
-├── .devcontainer/
-│   ├── compose.yml              # Development services orchestration
-│   ├── devcontainer.json        # VS Code Dev Container configuration
-│   ├── Dockerfile               # Development environment image
-│   └── mcp/                     # MCP service configurations
-│       ├── crawl4ai/
-│       ├── searxng/
-│       └── context7/
-├── app/
-│   ├── compose.yml              # Application stack orchestration
-│   ├── Dockerfile               # Application container image
-│   ├── main.py                  # FastAPI application
-│   └── requirements.txt         # Python dependencies
-├── .mcp.json                    # MCP server configuration for Claude
-├── .gitmodules                  # Git submodules for MCP services
-└── README.md                    # This documentation
-```
+## License
 
-## Development Workflow
+This template is open source and available under the [MIT License](LICENSE).
 
-### Initial Setup
+## Acknowledgments
 
-1. **Prerequisites**: Docker Desktop and VS Code with Dev Containers extension
-2. **Open Repository**: VS Code automatically detects and offers to open in container
-3. **Container Build**: First-time setup builds development environment (2-3 minutes)
-4. **Service Startup**: MCP services start automatically with health checks
-
-### Daily Development
-
-```bash
-# Services start automatically when opening devcontainer
-
-# Start application stack
-cd app
-docker compose up -d
-
-# View application logs
-docker compose logs -f app
-
-# Access application shell
-docker compose exec app bash
-
-# Test MCP services (from devcontainer terminal)
-curl http://devenv-searxng:8080        # Search engine
-curl http://devenv-crawl4ai:11235      # AI web crawler
-```
-
-### Application Access
-
-- **From Host**: http://localhost:8000
-- **From Devcontainer**: http://app:8000
-- **Health Check**: http://localhost:8000/health
-
-## MCP Services Integration
-
-### SearxNG (Private Search)
-
-- **Purpose**: Self-hosted search engine for private web searches
-- **Access**: http://devenv-searxng:8080 (devcontainer only)
-- **Configuration**: Privacy-focused with no external tracking
-
-### Crawl4AI (Web Intelligence)
-
-- **Purpose**: AI-powered web crawling and content extraction
-- **Access**: http://devenv-crawl4ai:11235 (devcontainer only)
-- **Features**: LLM-powered content analysis and extraction
-
-### Context7 (Codebase Documentation)
-
-- **Purpose**: Automated codebase documentation and context
-- **Access**: http://devenv-mcp-context7:8080 (devcontainer only)
-- **Integration**: Provides repository context to AI assistants
-
-## Security Model
-
-### Access Control Matrix
-
-| Service        | Host Access  | Devcontainer Access | App Container Access |
-| -------------- | ------------ | ------------------- | -------------------- |
-| Application    | ✅ Port 8000 | ✅ http://app:8000  | N/A                  |
-| SearxNG        | ❌           | ✅ Internal network | ❌                   |
-| Crawl4AI       | ❌           | ✅ Internal network | ❌                   |
-| Context7       | ❌           | ✅ Internal network | ❌                   |
-| App PostgreSQL | ❌           | ❌                  | ✅ Internal only     |
-| App Redis      | ❌           | ❌                  | ✅ Internal only     |
-
-### Security Boundaries
-
-1. **Host Isolation**: No development services accessible from host
-2. **Network Segmentation**: MCP services cannot access application data
-3. **Service Isolation**: Application data services isolated from development tools
-4. **Container Security**: Non-root users, minimal attack surface
-
-## Operational Commands
-
-### Service Management
-
-```bash
-# View all running containers
-docker compose ps
-
-# Stop all services
-docker compose down
-
-# Restart specific service
-docker compose restart service-name
-
-# View service logs
-docker compose logs -f service-name
-
-# Execute commands in service
-docker compose exec service-name bash
-```
-
-### Application Development
-
-```bash
-# Start application stack
-cd app && docker compose up -d
-
-# Hot reload development
-cd app && docker compose up --watch
-
-# Run tests
-cd app && docker compose exec app python -m pytest
-
-# Database access
-cd app && docker compose exec postgres psql -U appuser -d appdb
-```
-
-### Debugging and Troubleshooting
-
-```bash
-# Check service health
-docker compose ps
-
-# Inspect networks
-docker network ls
-docker network inspect devcontainer_dev-tools
-
-# View resource usage
-docker stats
-
-# Clean up resources
-docker system prune -f
-```
-
-## Development Patterns
-
-### Adding MCP Services
-
-1. Add service to `.devcontainer/compose.yml` on `dev-tools` network
-2. Configure in `.mcp.json` for Claude integration
-3. Use `expose` not `ports` to maintain isolation
-4. Add health checks for reliable startup
-
-### Scaling Application Services
-
-1. Add services to `app/compose.yml` on `app-network`
-2. Use internal networking for data services
-3. Only expose application ports to `shared` network
-4. Maintain database isolation principles
-
-### Environment Configuration
-
-- **Development**: Service discovery via Docker DNS
-- **Production**: External service configuration
-- **Testing**: Isolated test databases and services
-
-## Benefits and Trade-offs
-
-### Benefits
-
-- **Security**: Multiple isolation layers prevent unauthorized access
-- **Consistency**: Identical environments across all developers
-- **Productivity**: Rich AI assistance through MCP services
-- **Maintainability**: Standard tools, no custom scripts
-- **Scalability**: Easy to add services or team members
-
-### Trade-offs
-
-- **Complexity**: Multi-network setup requires Docker knowledge
-- **Resources**: Multiple containers consume more system resources
-- **Startup Time**: Initial container builds take 2-3 minutes
-- **Platform Dependency**: Requires Docker Desktop and VS Code
-
-## Future Enhancements
-
-### Planned Improvements
-
-- **UV Integration**: Faster Python dependency management
-- **Multi-stage Builds**: Optimized container images
-- **Health Dashboards**: Service monitoring and alerting
-- **CI/CD Integration**: Automated testing and deployment
-
-### Extension Points
-
-- **Additional MCP Services**: Easy to add new AI tools
-- **Database Options**: Support for MongoDB, MySQL, etc.
-- **Language Support**: Extend to other development stacks
-- **Cloud Integration**: Deployment to container orchestration platforms
-
-## Contributing and Customization
-
-### Customizing for Your Needs
-
-1. **Fork the repository** and modify service configurations
-2. **Add your MCP services** to the dev-tools network
-3. **Configure your application stack** in the app directory
-4. **Update .mcp.json** for Claude integration
-
-### Best Practices
-
-- Maintain network isolation principles
-- Use standard Docker Compose patterns
-- Document any custom configurations
-- Test across platforms (Windows, macOS, Linux)
-
----
-
-**This repository represents a production-ready approach to containerized development that prioritizes security, maintainability, and developer experience while avoiding the complexity and brittleness of custom shell scripts.**
+- [Cookiecutter](https://github.com/cookiecutter/cookiecutter) for the templating engine
+- [VS Code Dev Containers](https://code.visualstudio.com/docs/devcontainers/containers) for the development experience
+- [Claude AI](https://claude.ai) and MCP for AI-powered development tools

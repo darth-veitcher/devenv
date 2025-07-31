@@ -1,0 +1,2 @@
+fastapi=={{ cookiecutter.fastapi_version }}
+uvicorn=={{ cookiecutter.uvicorn_version }}
