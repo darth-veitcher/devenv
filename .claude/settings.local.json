@@ -1,4 +1,12 @@
 {
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:docs.anthropic.com)",
+      "WebFetch(domain:medium.com)",
+      "WebFetch(domain:claudelog.com)"
+    ]
+  },
+  "enableAllProjectMcpServers": true,
   "enabledMcpjsonServers": [
     "time",
     "git",
@@ -12,6 +20,5 @@
     "searxng",
     "mcp-memgraph",
     "mcp-crawl4ai"
-  ],
-  "enableAllProjectMcpServers": true
+  ]
 }

@@ -41,6 +41,7 @@
       "mcp__git__git_checkout",
       "mcp__git__git_create_branch",
       "mcp__git__git_init",
+      "mcp__serena__initial_instructions",
       "mcp__serena__list_dir",
       "mcp__serena__find_file",
       "mcp__serena__replace_regex",

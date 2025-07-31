@@ -2,6 +2,8 @@
 
 A [Cookiecutter](https://github.com/cookiecutter/cookiecutter) template for creating a sophisticated multi-layer containerized development environment with complete host isolation and AI-powered development support.
 
+> 📋 **Project Documentation**: See the [`project-management/`](project-management/) folder for detailed PRD, implementation plan, and architectural decisions for the Solo Dev AI Agent enhancements.
+
 ## Features
 
 - 🔒 **Complete Host Isolation**: Zero development dependencies on host machine
