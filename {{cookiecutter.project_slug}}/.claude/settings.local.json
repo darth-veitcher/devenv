@@ -1,0 +1,17 @@
+{
+  "enabledMcpjsonServers": [
+    "time",
+    "git",
+    "serena",
+    "sequential-thinking",
+    "context7",
+    "magic",
+    "playwright",
+    "filesystem",
+    "fetch",
+    "searxng",
+    "mcp-memgraph",
+    "mcp-crawl4ai"
+  ],
+  "enableAllProjectMcpServers": true
+}
