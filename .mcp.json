@@ -1,0 +1,82 @@
+{
+  "mcpServers": {
+    "serena": {
+      "type": "stdio",
+      "command": "uvx",
+      "args": [
+        "--from",
+        "git+https://github.com/oraios/serena",
+        "serena-mcp-server",
+        "--context",
+        "ide-assistant",
+        "--project",
+        "/workspace"
+      ],
+      "env": {}
+    },
+    "sequential-thinking": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-sequential-thinking"],
+      "env": {}
+    },
+    "context7": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "@upstash/context7-mcp"],
+      "env": {}
+    },
+    "magic": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "@21st-dev/magic"],
+      "env": {}
+    },
+    "playwright": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "@playwright/mcp@latest"],
+      "env": {}
+    },
+    "filesystem": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-filesystem", "/workspace"]
+    },
+    "fetch": {
+      "command": "sudo",
+      "args": ["docker", "run", "-i", "--rm", "mcp/fetch"]
+    },
+    "searxng": {
+      "command": "npx",
+      "args": ["-y", "mcp-searxng"],
+      "env": {
+        "SEARXNG_URL": "http://devenv-searxng:8080"
+      }
+    },
+    "mcp-memgraph": {
+      "type": "stdio",
+      "command": "docker",
+      "args": [
+        "run",
+        "--rm",
+        "-i",
+        "-e",
+        "MCP_TRANSPORT=stdio",
+        "mcp-memgraph:latest"
+      ]
+    },
+    "mcp-crawl4ai": {
+      "type": "sse",
+      "url": "http://devenv-crawl4ai:11235/mcp/sse",
+      "alwaysAllow": [
+        "md",
+        "html",
+        "screenshot",
+        "pdf",
+        "execute_js",
+        "crawl",
+        "ask"
+      ]
+    }
+  }
+}
