@@ -12,10 +12,14 @@
     "ghcr.io/devcontainers-extra/features/pre-commit:2": {}
     // "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {}
   },
-  "forwardPorts": [11236, 8000],
+  "forwardPorts": [11235, 8080, 8000],
   "portsAttributes": {
-    "11236": {
-      "label": "Craw4AI MCP",
+    "8080": {
+      "label": "SearXNG",
+      "onAutoForward": "openBrowser"
+    },
+    "11235": {
+      "label": "Craw4AI",
       "onAutoForward": "openBrowser"
     },
     "8000": {
@@ -55,7 +59,9 @@
     "source=claude-code-bashhistory-${devcontainerId},target=/commandhistory,type=volume",
     "source=claude-code-config-${devcontainerId},target=/home/node/.claude,type=volume",
     // don't make the docker cache unique per devcontainerId, otherwise it will not be shared between containers
-    "source=devenv-docker-cache,target=/var/lib/docker,type=volume"
+    "source=devenv-docker-cache,target=/var/lib/docker,type=volume",
+    // add a cache for data associated with the devcontainer services (e.g. memgraph, valkey)
+    "source=devenv-data,target=/workspace/.devcontainer/.data,type=volume"
   ],
   "remoteEnv": {
     "NODE_OPTIONS": "--max-old-space-size=4096",

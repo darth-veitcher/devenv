@@ -1,11 +1,15 @@
 {
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
   "permissions": {
     "allow": [
-      "WebFetch(domain:docs.anthropic.com)",
-      "WebFetch(domain:medium.com)",
-      "WebFetch(domain:claudelog.com)",
-      "WebFetch(domain:github.com)",
-      "Bash(cp:*)"
+      "Bash(rm:*)",
+      "mcp__memgraph__get_storage",
+      "mcp__memgraph__run_query",
+      "Bash(ls:*)",
+      "Bash(cookiecutter:*)",
+      "Bash(pip install:*)",
+      "Bash(grep:*)",
+      "Bash(git add:*)"
     ]
   },
   "enableAllProjectMcpServers": true,
@@ -20,8 +24,8 @@
     "filesystem",
     "fetch",
     "searxng",
-    "mcp-memgraph",
-    "mcp-crawl4ai",
+    "memgraph",
+    "crawl4ai",
     "docker"
   ]
 }

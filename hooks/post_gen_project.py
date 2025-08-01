@@ -17,6 +17,25 @@ def init_git():
         print("Git repository already exists, skipping initialization.")
 
 
+def init_submodules():
+    """Initialize git submodules for MCP servers."""
+    print("\nInitializing MCP server submodules...")
+    
+    # Add memgraph-ai-toolkit submodule
+    memgraph_path = '.devcontainer/mcp/memgraph-ai-toolkit'
+    if not os.path.exists(memgraph_path):
+        print("Adding memgraph-ai-toolkit submodule...")
+        subprocess.call(['git', 'submodule', 'add', 'https://github.com/memgraph/ai-toolkit.git', memgraph_path])
+        subprocess.call(['git', 'submodule', 'update', '--init', '--recursive'])
+        print("Memgraph AI Toolkit submodule added!")
+    else:
+        print("Memgraph AI Toolkit submodule already exists.")
+    
+    # Commit the submodule addition
+    subprocess.call(['git', 'add', '.gitmodules', memgraph_path])
+    subprocess.call(['git', 'commit', '-m', 'Add memgraph-ai-toolkit submodule'])
+
+
 def main():
     """Main entry point for post generation hook."""
     print("\n🎉 Project '{{ cookiecutter.project_name }}' created successfully!")
@@ -24,6 +43,9 @@ def main():
     
     # Initialize git repository
     init_git()
+    
+    # Initialize submodules
+    init_submodules()
     
     # Print next steps
     print("\n📋 Next steps:")

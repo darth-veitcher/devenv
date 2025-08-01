@@ -1,4 +1,6 @@
 {
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "enableAllProjectMcpServers": true,
   "enabledMcpjsonServers": [
     "time",
     "git",
@@ -10,8 +12,8 @@
     "filesystem",
     "fetch",
     "searxng",
-    "mcp-memgraph",
-    "mcp-crawl4ai"
-  ],
-  "enableAllProjectMcpServers": true
+    "memgraph",
+    "crawl4ai",
+    "docker"
+  ]
 }

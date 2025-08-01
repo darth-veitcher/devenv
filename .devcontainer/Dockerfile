@@ -32,6 +32,7 @@ RUN apt-get update && apt-get install -y \
     software-properties-common \
     ca-certificates \
     screen \
+    netcat-openbsd \
     && rm -rf /var/lib/apt/lists/*
 
 # Create node user and add to docker group

@@ -12,9 +12,13 @@
     "ghcr.io/devcontainers-extra/features/pre-commit:2": {}
     // "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {}
   },
-  "forwardPorts": [11236, 8000],
+  "forwardPorts": [11235, 8080, 8000],
   "portsAttributes": {
-    "11236": {
+    "8080": {
+      "label": "SearXNG MCP",
+      "onAutoForward": "openBrowser"
+    },
+    "11235": {
       "label": "Craw4AI MCP",
       "onAutoForward": "openBrowser"
     },
