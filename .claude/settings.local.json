@@ -1,19 +1,7 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-settings.json",
   "permissions": {
-    "allow": [
-      "Bash(rm:*)",
-      "mcp__memgraph__get_storage",
-      "mcp__memgraph__run_query",
-      "Bash(ls:*)",
-      "Bash(cookiecutter:*)",
-      "Bash(pip install:*)",
-      "Bash(grep:*)",
-      "Bash(git add:*)",
-      "Bash(git commit:*)",
-      "Bash(git push:*)",
-      "Bash(git checkout:*)"
-    ]
+    "allow": []
   },
   "enableAllProjectMcpServers": true,
   "enabledMcpjsonServers": [
