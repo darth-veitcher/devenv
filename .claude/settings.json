@@ -26,6 +26,7 @@
       "Bash(git branch:*)",
       "Bash(git checkout:*)",
       "Bash(git init:*)",
+      "Bash(git merge:*)",
       "Bash(cp:*)",
       "Bash(hostname:*)",
       "Bash(rm:*)",
