@@ -83,7 +83,6 @@ curl -f http://crawl4ai:11235/health >/dev/null 2>&1 && echo "✓ Crawl4AI healt
 wget --quiet --spider http://searxng:8080/ >/dev/null 2>&1 && echo "✓ SearXNG healthy" || echo "✗ SearXNG not responding"
 
 # Update tools
-echo ""
 echo "Updating tools..."
 claude update
 uvx superclaude update --quiet --yes --components commands core mcp || uvx SuperClaude install --profile developer --yes --quiet || true

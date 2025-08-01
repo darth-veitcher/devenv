@@ -28,6 +28,11 @@
       "Bash(git init:*)",
       "Bash(cp:*)",
       "Bash(hostname:*)",
+      "Bash(rm:*)",
+      "Bash(cookiecutter:*)",
+      "Bash(pip install:*)",
+      "Bash(grep:*)",
+      "Bash(jq:*)",
       "WebFetch(domain:docs.anthropic.com)",
       "WebFetch(domain:medium.com)",
       "WebFetch(domain:claudelog.com)",
@@ -146,9 +151,7 @@
       "mcp__memgraph__get_storage",
       "mcp__memgraph__get_triggers",
       "mcp__memgraph__get_betweenness_centrality",
-      "mcp__memgraph__get_page_rank",
-      "mcp__memgraph__get_storage",
-      "mcp__memgraph__run_query"
+      "mcp__memgraph__get_page_rank"
     ]
   }
 }

@@ -119,6 +119,10 @@ That's it! You're now running a fully isolated development environment with AI a
 - **Context7**: Codebase documentation and context service
 - **Sequential Thinking**: Structured reasoning and analysis tools
 - **Serena**: IDE assistant for development workflows
+- **Memgraph**: Graph database with MAGE algorithms for complex data relationships
+- **Docker**: Container management and orchestration
+- **Playwright**: Browser automation and testing
+- **Magic**: UI component generation from 21st.dev
 
 ### Application Services
 
@@ -188,7 +192,8 @@ docker compose exec service-name command
 │   └── mcp/                     # MCP service configurations
 │       ├── crawl4ai/
 │       ├── searxng/
-│       └── context7/
+│       ├── context7/
+│       └── memgraph-ai-toolkit/ # Memgraph MCP server (submodule)
 ├── app/
 │   ├── compose.yml              # Application stack orchestration
 │   ├── Dockerfile               # Application container image
@@ -224,8 +229,10 @@ docker compose logs -f app
 docker compose exec app bash
 
 # Test MCP services (from devcontainer terminal)
-curl http://devenv-searxng:8080        # Search engine
-curl http://devenv-crawl4ai:11235      # AI web crawler
+curl http://searxng:8080               # Search engine
+curl http://crawl4ai:11235             # AI web crawler
+nc -zv memgraph 7687                   # Memgraph database
+curl http://memgraph-lab:3000          # Memgraph Lab UI
 ```
 
 ### Application Access
@@ -254,17 +261,26 @@ curl http://devenv-crawl4ai:11235      # AI web crawler
 - **Access**: http://devenv-mcp-context7:8080 (devcontainer only)
 - **Integration**: Provides repository context to AI assistants
 
+### Memgraph (Graph Database)
+
+- **Purpose**: Graph database with MAGE algorithms for complex data relationships
+- **Database Access**: bolt://memgraph:7687 (Bolt protocol)
+- **Web UI**: http://memgraph-lab:3000 (Visual graph exploration)
+- **Features**: Cypher queries, graph algorithms (PageRank, centrality), schema management
+
 ## Security Model
 
 ### Access Control Matrix
 
-| Service        | Host Access  | Devcontainer Access | App Container Access |
-| -------------- | ------------ | ------------------- | -------------------- |
-| Application    | ✅ Port 8000 | ✅ http://app:8000  | N/A                  |
-| SearxNG        | ❌           | ✅ Internal network | ❌                   |
-| Crawl4AI       | ❌           | ✅ Internal network | ❌                   |
-| Context7       | ❌           | ✅ Internal network | ❌                   |
-| App PostgreSQL | ❌           | ❌                  | ✅ Internal only     |
+| Service        | Host Access       | Devcontainer Access | App Container Access |
+| -------------- | ----------------- | ------------------- | -------------------- |
+| Application    | ✅ Port 8000      | ✅ http://app:8000  | N/A                  |
+| SearxNG        | ✅ Port 8080      | ✅ Internal network | ❌                   |
+| Crawl4AI       | ✅ Port 11235     | ✅ Internal network | ❌                   |
+| Context7       | ❌                | ✅ Internal network | ❌                   |
+| Memgraph       | ❌                | ✅ Internal network | ❌                   |
+| Memgraph Lab   | ✅ Port 3000      | ✅ Internal network | ❌                   |
+| App PostgreSQL | ❌                | ❌                  | ✅ Internal only     |
 | App Redis      | ❌           | ❌                  | ✅ Internal only     |
 
 ### Security Boundaries

@@ -33,7 +33,7 @@ A [Cookiecutter](https://github.com/cookiecutter/cookiecutter) template for crea
 
 2. Generate a new project:
    ```bash
-   cookiecutter https://github.com/yourusername/cookiecutter-devenv.git
+   cookiecutter https://github.com/darth-veitcher/devenv.git
    ```
 
 3. Answer the prompts:
@@ -118,6 +118,7 @@ Edit `.mcp.json` to configure AI services and tools.
 
 The template includes a post-generation hook that:
 - Initializes a git repository
+- Adds the memgraph-ai-toolkit submodule for MCP integration
 - Makes an initial commit
 - Provides next steps guidance
 
@@ -149,8 +150,25 @@ The generated project uses a four-layer architecture:
 
 This template is open source and available under the [MIT License](LICENSE).
 
+## Accessing Services
+
+When running in the devcontainer, these services are available:
+
+- **Crawl4AI**: http://crawl4ai:11235
+- **SearxNG**: http://searxng:8080
+- **Memgraph**: bolt://memgraph:7687
+- **Memgraph Lab**: http://memgraph-lab:3000 (Visual graph exploration)
+- **Redis**: redis:6379
+- **Context7**: http://context7-mcp:8080
+
+From the host machine (if port forwarding is enabled):
+- **SearxNG**: http://localhost:8080
+- **Crawl4AI**: http://localhost:11235
+- **Memgraph Lab**: http://localhost:3000
+
 ## Acknowledgments
 
 - [Cookiecutter](https://github.com/cookiecutter/cookiecutter) for the templating engine
 - [VS Code Dev Containers](https://code.visualstudio.com/docs/devcontainers/containers) for the development experience
 - [Claude AI](https://claude.ai) and MCP for AI-powered development tools
+- [Memgraph](https://memgraph.com) for the graph database with MAGE algorithms
