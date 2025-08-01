@@ -9,7 +9,9 @@
       "Bash(cookiecutter:*)",
       "Bash(pip install:*)",
       "Bash(grep:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)"
     ]
   },
   "enableAllProjectMcpServers": true,
