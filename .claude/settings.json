@@ -33,6 +33,7 @@
       "Bash(pip install:*)",
       "Bash(grep:*)",
       "Bash(jq:*)",
+      "Bash(diff:*)",
       "WebFetch(domain:docs.anthropic.com)",
       "WebFetch(domain:medium.com)",
       "WebFetch(domain:claudelog.com)",
