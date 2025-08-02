@@ -5,6 +5,7 @@
 When starting any new session on this project:
 
 1. **Initialize Serena Context**
+
    ```
    mcp__serena__initial_instructions()
    mcp__serena__list_memories()
@@ -12,19 +13,44 @@ When starting any new session on this project:
    ```
 
 2. **Check Project Status**
+
    - Read `/workspace/project-management/IMPLEMENTATION_PLAN.md`
    - Identify current week and tasks
    - Review completed vs pending items
 
 3. **Plan Session with Sequential Thinking**
+
    ```
    mcp__sequential-thinking("What should I work on this session based on the implementation plan?")
    ```
 
 4. **Set Up Tool Fallbacks**
-   - WebSearch → mcp__searxng → mcp__crawl4ai
-   - Fetch → mcp__crawl4ai
-   - Read → mcp__serena__find_symbol
+   - WebSearch → mcp**searxng → mcp**crawl4ai
+   - Fetch → mcp\_\_crawl4ai
+   - Read → mcp**serena**find_symbol
+
+## 📝 MEMORY CREATION TRIGGERS
+
+**ALWAYS create a Serena memory when:**
+
+1. **Starting a new project or major feature** - Document goals, architecture, and approach
+2. **Making architectural decisions** - Record the decision, rationale, and alternatives considered
+3. **Completing major milestones** - Capture what was accomplished and lessons learned
+4. **Discovering important patterns or solutions** - Save for future reference
+5. **Establishing project conventions** - Document agreed-upon standards and practices
+
+**Memory Naming Convention**: Use descriptive names like `project_name_topic` (e.g., `claude_memory_project_overview`, `auth_system_architecture`)
+
+**What to Include**: Summary, key decisions, technical details, file locations, current status, next steps
+
+## 🏁 SESSION END CHECKLIST
+
+Before ending a session, consider:
+
+1. **Document significant work** - Did you complete something memory-worthy? (See triggers above)
+2. **Update project status** - Does the "Current Phase" in CLAUDE.md need updating?
+3. **Commit changes** - Are there uncommitted changes that should be saved?
+4. **Note blockers** - Document any blockers or issues for the next session
 
 ## Project Overview
 
@@ -33,19 +59,30 @@ You are working on a **Cookiecutter template** that creates containerized develo
 ## Key Project Goals
 
 1. **Zero to Deployed in 30 seconds** - One command from code to live URL
-2. **Parallel AI Agents** - Up to 10 agents working simultaneously 
+2. **Parallel AI Agents** - Up to 10 agents working simultaneously
 3. **Magic, Not Manual** - Common tasks automated (auth, payments, deployment)
 4. **Solo Dev Focused** - No enterprise complexity, just tools that help ship
 
 ## Documentation Structure
 
 ### Project Management (`/project-management/`)
+
 - **PRD_SOLO_DEV_CONTAINERIZED_ENVIRONMENT.md** - Full requirements and specifications
 - **IMPLEMENTATION_PLAN.md** - 4-week sprint plan with daily tasks
 - **AGENT_IMPLEMENTATION_GUIDE.md** - Technical details for agent implementation
 - **ULTIMATE_SOLO_DEV_MLP.md** - Vision and philosophy
 
+Check this directory in general for:
+
+- Project requirements and specifications
+- Implementation plans and roadmaps
+- Technical architecture decisions
+- Feature specifications
+
+Use these documents as canonical sources of intent and background context for all development decisions.
+
 ### Current Project Structure
+
 ```
 /workspace/
 ├── .claude/                  # Claude configuration (this project)
@@ -65,6 +102,7 @@ You are working on a **Cookiecutter template** that creates containerized develo
 ## Development Workflow
 
 ### When implementing features:
+
 1. Check `IMPLEMENTATION_PLAN.md` for current sprint tasks
 2. Reference `AGENT_IMPLEMENTATION_GUIDE.md` for technical patterns
 3. Follow the philosophy in `ULTIMATE_SOLO_DEV_MLP.md`
@@ -72,7 +110,9 @@ You are working on a **Cookiecutter template** that creates containerized develo
 ### Key Implementation Areas
 
 #### 1. Agent System (`{{cookiecutter.project_slug}}/.claude/agents/`)
+
 Create YAML configurations for:
+
 - Deploy Agent (handles deployment to Railway/Fly/Render)
 - Feature Factory Agent (generates auth, payments, email features)
 - Debug Detective Agent (auto-fixes errors)
@@ -80,7 +120,9 @@ Create YAML configurations for:
 - Documentation Agent (keeps docs updated)
 
 #### 2. Smart Makefile (`{{cookiecutter.project_slug}}/Makefile`)
+
 Human-friendly commands:
+
 - `make deploy` - Deploy to production in 30 seconds
 - `make share` - Get public URL with QR code
 - `make save` - Smart git commit and push
@@ -88,13 +130,16 @@ Human-friendly commands:
 - `make idea` - Research → Build → Deploy flow
 
 #### 3. Deployment Templates
+
 - Railway configuration (`railway.toml`)
 - Fly.io configuration (`fly.toml`)
 - Environment variable management
 - Zero-downtime deployment scripts
 
 #### 4. Feature Templates (`{{cookiecutter.project_slug}}/.claude/templates/`)
+
 Complete, production-ready implementations:
+
 - Authentication (JWT, OAuth, password reset)
 - Payments (Stripe integration, subscriptions)
 - Email (transactional, queues, templates)
@@ -104,17 +149,20 @@ Complete, production-ready implementations:
 ### Tool Selection and Fallback Strategies
 
 #### Web Research Hierarchy
+
 1. **Primary**: `WebSearch` for general queries
 2. **Fallback**: `mcp__searxng` when WebSearch fails or returns limited results
 3. **Deep Dive**: `mcp__crawl4ai` for specific page content when Fetch fails
 
 #### Documentation and Learning
+
 1. **Always Start With**: `mcp__context7` for official library documentation
    - Use for: FastAPI, Docker, Railway, Fly.io docs
    - Command: First `resolve-library-id` then `get-library-docs`
 2. **Fallback**: WebSearch → SearxNG → Crawl4AI
 
 #### Complex Problem Solving
+
 1. **Use Sequential Thinking** for:
    - Architecture decisions
    - Multi-step implementations
@@ -123,8 +171,9 @@ Complete, production-ready implementations:
 2. **Minimum Usage**: At least once per complex task
 
 #### Code Analysis (Serena)
+
 1. **Session Start**: ALWAYS run `mcp__serena__initial_instructions`
-2. **Memory Usage**: 
+2. **Memory Usage**:
    - Check memories with `mcp__serena__list_memories`
    - Read relevant memories for context
    - Write new memories for important decisions
@@ -135,6 +184,7 @@ Complete, production-ready implementations:
 ### MCP Tool Best Practices
 
 #### Research Flow
+
 ```
 1. mcp__serena__initial_instructions (get project context)
 2. mcp__context7 (check official docs)
@@ -145,6 +195,7 @@ Complete, production-ready implementations:
 ```
 
 #### Implementation Flow
+
 ```
 1. mcp__sequential-thinking (plan approach)
 2. mcp__serena__find_symbol (understand existing code)
@@ -154,6 +205,7 @@ Complete, production-ready implementations:
 ```
 
 #### Debugging Flow
+
 ```
 1. mcp__sequential-thinking (analyze problem)
 2. mcp__serena__search_for_pattern (find related code)
@@ -165,17 +217,20 @@ Complete, production-ready implementations:
 ### Required Tool Usage Per Task Type
 
 #### Feature Implementation
+
 - ✅ Sequential thinking for planning
 - ✅ Context7 for framework patterns
 - ✅ Serena for code structure understanding
 - ✅ Task tool for parallel work
 
 #### Debugging
+
 - ✅ Sequential thinking for root cause analysis
 - ✅ Serena pattern search
 - ✅ WebSearch → SearxNG for error research
 
 #### Documentation
+
 - ✅ Context7 for best practices
 - ✅ Serena memories for project decisions
 - ✅ Sequential thinking for structure
@@ -183,8 +238,9 @@ Complete, production-ready implementations:
 ### Session Initialization Checklist
 
 Every new session MUST:
+
 1. Run `mcp__serena__initial_instructions`
-2. Check `mcp__serena__list_memories` 
+2. Check `mcp__serena__list_memories`
 3. Read CLAUDE.md (this file)
 4. Review current task in IMPLEMENTATION_PLAN.md
 5. Use `mcp__sequential-thinking` to plan session
@@ -192,6 +248,7 @@ Every new session MUST:
 ## Agent Development Guidelines
 
 ### Creating New Agents
+
 ```yaml
 # .claude/agents/example.yml
 name: "Agent Name"
@@ -204,6 +261,7 @@ prompt: |
 ```
 
 ### Parallel Execution
+
 - Use Task tool to spawn sub-agents
 - Maximum 10 agents running simultaneously
 - Each agent has independent context window
@@ -226,6 +284,7 @@ prompt: |
 ## MCP Tool Usage Patterns
 
 ### Research Pattern (Use for all new features)
+
 ```python
 # 1. Plan with sequential thinking
 mcp__sequential-thinking("How should I implement deployment to Railway?")
@@ -244,6 +303,7 @@ mcp__crawl4ai("https://docs.railway.app/deploy/deployments")
 ```
 
 ### Code Analysis Pattern (Use before any edits)
+
 ```python
 # 1. Get Serena context
 mcp__serena__initial_instructions()
@@ -257,22 +317,25 @@ mcp__serena__find_referencing_symbols("deploy_command")
 ```
 
 ### Parallel Implementation Pattern
+
 ```python
 # Use Task tool for parallel work
 Task("Deploy Agent", "Create Railway deployment configuration")
-Task("Feature Agent", "Create authentication template") 
+Task("Feature Agent", "Create authentication template")
 Task("Doc Agent", "Update README with new commands")
 ```
 
 ### Common Pitfalls to Avoid
 
 #### ❌ Bad Pattern: Direct implementation without research
+
 ```python
 # DON'T DO THIS
 Write("railway.toml", "some config I think might work")
 ```
 
 #### ✅ Good Pattern: Research → Plan → Implement
+
 ```python
 # DO THIS
 mcp__sequential-thinking("Plan Railway deployment")
@@ -282,12 +345,14 @@ Write("railway.toml", "validated config from docs")
 ```
 
 #### ❌ Bad Pattern: Using Fetch without fallback
+
 ```python
 # DON'T DO THIS
 Fetch("https://some-site.com") # Often fails
 ```
 
 #### ✅ Good Pattern: Fetch → Crawl4AI fallback
+
 ```python
 # DO THIS
 try:
@@ -297,6 +362,7 @@ except:
 ```
 
 #### ❌ Bad Pattern: Sequential work that could be parallel
+
 ```python
 # DON'T DO THIS
 create_auth_system()
@@ -305,6 +371,7 @@ create_email_system()
 ```
 
 #### ✅ Good Pattern: Parallel agents for independent tasks
+
 ```python
 # DO THIS
 Task("Auth Agent", "Create auth system")
@@ -331,12 +398,14 @@ cd test-project && make add-feature auth
 ## Important Context
 
 ### Target User: Solo Developer
+
 - Coding from home/basement
 - Wants to ship fast, not configure
 - Values magic over manual processes
 - Building side projects and startups
 
 ### NOT Target User: Enterprise Teams
+
 - No Kubernetes needed
 - No complex CI/CD pipelines
 - No extensive monitoring
@@ -359,4 +428,4 @@ Check `IMPLEMENTATION_PLAN.md` for the current week's tasks. As of now, we're re
 
 ---
 
-*Remember: The goal is to make solo developers feel like they have superpowers. Every feature should contribute to that feeling.*
+_Remember: The goal is to make solo developers feel like they have superpowers. Every feature should contribute to that feeling._

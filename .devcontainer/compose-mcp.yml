@@ -119,12 +119,21 @@ services:
     container_name: memgraph
     hostname: memgraph
     restart: unless-stopped
+    ports:
+      - "7687" # bolt
+      - "7444" # logs
     networks:
       - mcp-services
     # No ports exposed - internal access only
     environment:
-      - IN_MEMORY_ANALYTICAL
-    command: ["--schema-info-enabled=true"]
+      MEMGRAPH_USER:
+      MEMGRAPH_PASSWORD:
+    command:
+      [
+        "--log-level=TRACE",
+        "--schema-info-enabled=true",
+        "--storage-mode=IN_MEMORY_ANALYTICAL",
+      ]
     volumes:
       - ./.data/memgraph:/var/lib/memgraph:z
     cap_drop:
@@ -133,6 +142,12 @@ services:
       - SETGID
       - SETUID
       - DAC_OVERRIDE
+    healthcheck:
+      test: ["CMD-SHELL", "echo 'RETURN 0;' | mgconsole || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 0s
     logging:
       driver: "json-file"
       options:

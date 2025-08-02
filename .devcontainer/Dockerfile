@@ -5,6 +5,22 @@ ARG USERNAME=node
 
 # Set `DEVCONTAINER` environment variable to help with orientation
 ENV DEVCONTAINER=true
+# Set environment variables for working with Python
+# ---
+# PYTHONDONTWRITEBYTECODE prevents Python from writing .pyc files
+# PYTHONUNBUFFERED ensures that Python output is sent straight to the terminal
+# UV_COMPILE_BYTECODE enables bytecode compilation for uvx
+# UV_LINK_MODE sets how uvx links Python packages
+# UV_SYSTEM_PYTHON ensures uvx uses the system Python interpreter
+# ---
+# These settings help with performance and compatibility in the container environment
+# They also ensure that Python packages are installed in a way that works well with the container's filesystem
+# and that the Python environment is consistent across different runs
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    UV_COMPILE_BYTECODE=1 \
+    UV_LINK_MODE=copy \
+    UV_SYSTEM_PYTHON=1
 
 RUN apt-get update && apt-get install -y \
     git \

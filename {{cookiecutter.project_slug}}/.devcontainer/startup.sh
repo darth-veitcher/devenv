@@ -23,6 +23,8 @@ docker build -f .devcontainer/mcp/memgraph-ai-toolkit/integrations/mcp-memgraph/
 
 # Start MCP services on isolated network
 echo "Starting MCP services..."
+docker compose -f .devcontainer/compose-mcp.yml down --remove-orphans || true
+sudo chown -R $(id -u):$(id -g) .devcontainer/.data
 docker compose -f .devcontainer/compose-mcp.yml up -d
 
 # Wait for services to start
