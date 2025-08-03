@@ -13,6 +13,7 @@ cd /workspace
 echo "Updating git submodules..."
 git submodule update --init --recursive
 git submodule foreach --recursive git fetch
+mkdir -p .devcontainer/.data
 
 # Build mcp-memgraph image
 echo "Building mcp-memgraph Docker image..."

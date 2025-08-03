@@ -115,35 +115,43 @@ services:
       retries: 3
 
   memgraph:
-    image: memgraph/memgraph-mage:latest # Use the Mage image for Memgraph (has built-in support for analytical queries and graph algorithms)
+    image: memgraph/memgraph-mage:latest # Use latest MAGE image for advanced graph algorithms
     container_name: memgraph
     hostname: memgraph
     restart: unless-stopped
+    # No ports exposed - internal access only
     ports:
       - "7687" # bolt
       - "7444" # logs
     networks:
       - mcp-services
-    # No ports exposed - internal access only
-    environment:
-      MEMGRAPH_USER:
-      MEMGRAPH_PASSWORD:
+    # environment:
+    #   MEMGRAPH_USER: memgraph
+    #   MEMGRAPH_PASSWORD: memgraph
     command:
       [
-        "--log-level=TRACE",
+        "--log-level=INFO",
         "--schema-info-enabled=true",
         "--storage-mode=IN_MEMORY_ANALYTICAL",
       ]
     volumes:
-      - ./.data/memgraph:/var/lib/memgraph:z
+      - ./.data/memgraph:/var/lib/memgraph
+      - ./.data/memgraph-logs:/var/log/memgraph
+    user: "${UID:-1000}:${GID:-1000}"
     cap_drop:
       - ALL
     cap_add:
       - SETGID
       - SETUID
       - DAC_OVERRIDE
+      - CHOWN
+      - FOWNER
     healthcheck:
-      test: ["CMD-SHELL", "echo 'RETURN 0;' | mgconsole || exit 1"]
+      test:
+        [
+          "CMD-SHELL",
+          "echo 'MATCH (n) RETURN count(n) as node_count;' | mgconsole || exit 1",
+        ]
       interval: 10s
       timeout: 5s
       retries: 3
@@ -151,8 +159,8 @@ services:
     logging:
       driver: "json-file"
       options:
-        max-size: "1m"
-        max-file: "1"
+        max-size: "10m"
+        max-file: "3"
 
   lab:
     container_name: memgraph-lab
