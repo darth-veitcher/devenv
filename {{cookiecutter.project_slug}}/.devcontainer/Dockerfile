@@ -5,6 +5,22 @@ ARG USERNAME=node
 
 # Set `DEVCONTAINER` environment variable to help with orientation
 ENV DEVCONTAINER=true
+# Set environment variables for working with Python
+# ---
+# PYTHONDONTWRITEBYTECODE prevents Python from writing .pyc files
+# PYTHONUNBUFFERED ensures that Python output is sent straight to the terminal
+# UV_COMPILE_BYTECODE enables bytecode compilation for uvx
+# UV_LINK_MODE sets how uvx links Python packages
+# UV_SYSTEM_PYTHON ensures uvx uses the system Python interpreter
+# ---
+# These settings help with performance and compatibility in the container environment
+# They also ensure that Python packages are installed in a way that works well with the container's filesystem
+# and that the Python environment is consistent across different runs
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    UV_COMPILE_BYTECODE=1 \
+    UV_LINK_MODE=copy \
+    UV_SYSTEM_PYTHON=1
 
 RUN apt-get update && apt-get install -y \
     git \
@@ -32,7 +48,19 @@ RUN apt-get update && apt-get install -y \
     software-properties-common \
     ca-certificates \
     screen \
-    && rm -rf /var/lib/apt/lists/*
+    netcat-openbsd
+
+# Add github cli
+RUN (type -p wget >/dev/null || (apt update && apt install wget -y)) \
+	&& mkdir -p -m 755 /etc/apt/keyrings \
+	&& out=$(mktemp) && wget -nv -O$out https://cli.github.com/packages/githubcli-archive-keyring.gpg \
+	&& cat $out | tee /etc/apt/keyrings/githubcli-archive-keyring.gpg > /dev/null \
+	&& chmod go+r /etc/apt/keyrings/githubcli-archive-keyring.gpg \
+	&& mkdir -p -m 755 /etc/apt/sources.list.d \
+	&& echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null \
+	&& apt update \
+	&& apt install gh -y  \
+  && rm -rf /var/lib/apt/lists/*
 
 # Create node user and add to docker group
 RUN groupadd docker || true
