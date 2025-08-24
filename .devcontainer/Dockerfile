@@ -48,6 +48,7 @@ RUN apt-get update && apt-get install -y \
     software-properties-common \
     ca-certificates \
     screen \
+    ripgrep \
     netcat-openbsd
 
 # Add github cli
