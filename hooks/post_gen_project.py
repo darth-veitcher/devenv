@@ -36,6 +36,36 @@ def init_submodules():
     subprocess.call(['git', 'commit', '-m', 'Add memgraph-ai-toolkit submodule'])
 
 
+def setup_precommit():
+    """Set up pre-commit hooks."""
+    print("\nSetting up pre-commit hooks...")
+    
+    try:
+        # Install pre-commit using uv
+        subprocess.check_call(['uv', 'add', '--dev', 'pre-commit'], 
+                            stdout=subprocess.DEVNULL, 
+                            stderr=subprocess.DEVNULL)
+        
+        # Install pre-commit hooks
+        subprocess.check_call(['uv', 'run', 'pre-commit', 'install'], 
+                            stdout=subprocess.DEVNULL, 
+                            stderr=subprocess.DEVNULL)
+        
+        print("✅ Pre-commit hooks installed successfully!")
+        
+        # Optional: Install commit-msg hook for better commit messages
+        subprocess.call(['uv', 'run', 'pre-commit', 'install', '--hook-type', 'commit-msg'], 
+                       stdout=subprocess.DEVNULL, 
+                       stderr=subprocess.DEVNULL)
+        
+    except subprocess.CalledProcessError as e:
+        print(f"⚠️ Warning: Failed to set up pre-commit hooks: {e}")
+        print("You can set them up manually later with: uv run pre-commit install")
+    except FileNotFoundError:
+        print("⚠️ Warning: 'uv' not found. Pre-commit setup skipped.")
+        print("Install uv and run: uv add --dev pre-commit && uv run pre-commit install")
+
+
 def main():
     """Main entry point for post generation hook."""
     print("\n🎉 Project '{{ cookiecutter.project_name }}' created successfully!")
@@ -46,6 +76,9 @@ def main():
     
     # Initialize submodules
     init_submodules()
+    
+    # Set up pre-commit hooks
+    setup_precommit()
     
     # Print next steps
     print("\n📋 Next steps:")
