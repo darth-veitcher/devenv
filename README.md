@@ -80,19 +80,33 @@ After generation, your project will have:
 
 ```
 your-project-slug/
-├── .devcontainer/          # VS Code Dev Container configuration
-│   ├── compose.yml         # Development services
-│   ├── devcontainer.json   # VS Code settings
-│   └── mcp/               # MCP service configurations
-├── app/                   # Your application
-│   ├── compose.yml        # Application stack
-│   ├── Dockerfile         # Application container
-│   ├── main.py           # FastAPI application
-│   └── requirements.txt   # Python dependencies
-├── .claude/              # Claude AI configuration
-├── .gitignore            # Git ignore rules
-├── .mcp.json             # MCP server configuration
-└── README.md             # Project documentation
+├── .devcontainer/              # VS Code Dev Container configuration
+│   ├── compose.yml             # Development services (SearxNG, Crawl4AI, etc.)
+│   ├── devcontainer.json       # VS Code settings and container config
+│   └── mcp/                   # MCP service configurations and submodules
+│       ├── context7/          # Context7 documentation service
+│       └── memgraph-ai-toolkit/ # Memgraph AI Toolkit (git submodule)
+├── app/                       # Your FastAPI application
+│   ├── compose.yml            # Application stack (app + PostgreSQL)
+│   ├── Dockerfile             # Application container
+│   ├── main.py               # FastAPI application entry point
+│   └── requirements.txt       # Python dependencies
+├── .claude/                   # Claude AI configuration
+│   ├── CLAUDE.md             # Project context and instructions
+│   ├── COMMANDS.md           # Available slash commands
+│   ├── FLAGS.md              # Command flags reference
+│   ├── PRINCIPLES.md         # Development principles
+│   ├── RULES.md              # Operational rules
+│   ├── MCP.md                # MCP server configurations
+│   ├── PERSONAS.md           # AI personas system
+│   ├── ORCHESTRATOR.md       # Routing intelligence
+│   └── MODES.md              # Operational modes
+├── .serena/                   # Serena MCP configuration
+├── .pre-commit-config.yaml    # Pre-commit hooks (linting, formatting, security)
+├── .gitignore                # Git ignore rules
+├── .gitmodules               # Git submodule configuration
+├── .mcp.json                 # MCP server configuration
+└── README.md                 # Project documentation
 ```
 
 ## Customization
@@ -114,13 +128,36 @@ Edit `app/compose.yml` to add new services or modify existing ones.
 
 Edit `.mcp.json` to configure AI services and tools.
 
+### Using Pre-commit Hooks
+
+The template includes comprehensive pre-commit hooks that run automatically on each commit:
+
+- **Code Quality**: Python linting and formatting with Ruff
+- **Security**: Bandit security analysis and private key detection
+- **Standards**: YAML, JSON, TOML syntax validation
+- **Consistency**: Trailing whitespace, line endings, file size checks
+- **Testing**: Optional fast test runs (manual trigger)
+
+To run hooks manually:
+```bash
+uv run pre-commit run --all-files      # Run all hooks
+uv run pre-commit run ruff             # Run specific hook
+uv run pre-commit run --hook-stage manual bandit  # Run security checks
+```
+
 ## Post-Generation
 
-The template includes a post-generation hook that:
-- Initializes a git repository
-- Adds the memgraph-ai-toolkit submodule for MCP integration
-- Makes an initial commit
-- Provides next steps guidance
+The template includes a post-generation hook (`hooks/post_gen_project.py`) that automatically:
+- **Initializes git repository**: Creates `.git` and makes initial commit
+- **Sets up MCP submodules**: Adds memgraph-ai-toolkit submodule for AI integration
+- **Installs pre-commit hooks**: Automatically configures code quality gates
+  - Installs `pre-commit` as dev dependency using `uv`
+  - Sets up git hooks with comprehensive linting, formatting, and security checks
+  - Includes Python (ruff), YAML, Markdown, and custom project validations
+  - Graceful fallbacks if `uv` is not available
+- **Provides next steps guidance**: Clear instructions for getting started
+
+This ensures your generated project has production-ready development practices from day one.
 
 ## Architecture
 

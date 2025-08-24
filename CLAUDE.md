@@ -14,7 +14,7 @@ When starting any new session on this project:
 
 2. **Check Project Status**
 
-   - Read `/workspace/project-management/IMPLEMENTATION_PLAN.md`
+   - Read `project-management/IMPLEMENTATION_PLAN.md`
    - Identify current week and tasks
    - Review completed vs pending items
 
@@ -54,7 +54,18 @@ Before ending a session, consider:
 
 ## Project Overview
 
-You are working on a **Cookiecutter template** that creates containerized development environments with AI agent superpowers for solo developers. This project aims to transform solo developers into "AI Orchestra Conductors" who can build and deploy applications 10x faster using Claude Code's agent capabilities.
+You are working on a **Cookiecutter template** that creates sophisticated containerized development environments with AI agent superpowers for solo developers.
+
+**Current Implementation Status:**
+- ✅ **Complete Containerization**: Multi-layer Docker architecture with VS Code Dev Containers
+- ✅ **MCP Services Integration**: SearxNG, Crawl4AI, Context7, Memgraph with AI Toolkit
+- ✅ **Quality Gates**: Comprehensive pre-commit hooks with linting, formatting, and security
+- ✅ **FastAPI Application**: Production-ready Python web framework template
+- ✅ **AI-Ready Infrastructure**: Full Claude Code integration with MCP server configuration
+- 🔄 **Agent System**: In development - AI agents for deployment, feature generation, debugging
+- 🔄 **Instant Deployment**: Planned - 30-second deployment to Railway/Fly/Render
+
+This project aims to transform solo developers into "AI Orchestra Conductors" who can build and deploy applications 10x faster using Claude Code's agent capabilities.
 
 ## Key Project Goals
 
@@ -84,19 +95,31 @@ Use these documents as canonical sources of intent and background context for al
 ### Current Project Structure
 
 ```
-/workspace/
-├── .claude/                  # Claude configuration (this project)
-├── .devcontainer/           # VS Code container config
-├── .serena/                 # Serena MCP configuration
-├── hooks/                   # Cookiecutter post-generation hooks
-├── project-management/      # All planning documentation
-├── {{cookiecutter.project_slug}}/  # Template files
-│   ├── .claude/            # Generated project Claude config
-│   ├── .devcontainer/      # Generated container setup
-│   ├── app/               # FastAPI application
-│   └── ...
-├── cookiecutter.json       # Template variables
-└── README.md              # User-facing documentation
+devenv/                           # Cookiecutter template repository
+├── .claude/                      # Claude configuration (this template project)
+├── .devcontainer/               # VS Code container config for template development
+├── .serena/                     # Serena MCP configuration
+├── hooks/                       # Cookiecutter post-generation hooks
+│   └── post_gen_project.py     # Handles git init, submodules, and pre-commit setup
+├── project-management/          # All planning documentation
+├── {{cookiecutter.project_slug}}/  # Template files (what gets generated)
+│   ├── .claude/                # Generated project Claude config
+│   ├── .devcontainer/          # Generated container setup with MCP services
+│   │   ├── compose.yml         # Development services (SearxNG, Crawl4AI, etc.)
+│   │   ├── devcontainer.json   # VS Code settings
+│   │   └── mcp/               # MCP service configurations
+│   ├── .serena/               # Generated Serena configuration
+│   ├── app/                   # FastAPI application template
+│   │   ├── Dockerfile         # Application container
+│   │   ├── compose.yml        # Application stack
+│   │   ├── main.py           # FastAPI app
+│   │   └── requirements.txt   # Python dependencies
+│   ├── .pre-commit-config.yaml # Pre-commit hooks configuration
+│   ├── .mcp.json             # MCP server configuration
+│   ├── .gitignore            # Git ignore rules
+│   └── README.md             # Generated project documentation
+├── cookiecutter.json           # Template variables
+└── README.md                   # Template documentation
 ```
 
 ## Development Workflow
@@ -106,6 +129,18 @@ Use these documents as canonical sources of intent and background context for al
 1. Check `IMPLEMENTATION_PLAN.md` for current sprint tasks
 2. Reference `AGENT_IMPLEMENTATION_GUIDE.md` for technical patterns
 3. Follow the philosophy in `ULTIMATE_SOLO_DEV_MLP.md`
+
+### Post-Generation Setup
+
+The cookiecutter template includes automatic setup via `hooks/post_gen_project.py`:
+
+1. **Git Initialization**: Creates git repository and initial commit
+2. **Submodule Setup**: Adds Memgraph AI Toolkit submodule for MCP integration
+3. **Pre-commit Installation**: Automatically installs and configures pre-commit hooks
+   - Installs `pre-commit` as dev dependency using `uv`
+   - Sets up git hooks with comprehensive linting and formatting
+   - Includes security checks, code quality validation, and more
+   - Provides graceful fallbacks if `uv` is not available
 
 ### Key Implementation Areas
 
