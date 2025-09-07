@@ -129,6 +129,6 @@ RUN sh -c "$(wget -O- https://github.com/deluan/zsh-in-docker/releases/download/
 
 # Install Claude
 RUN npm install -g npm@latest && npm install -g @anthropic-ai/claude-code
-RUN uvx pip install --upgrade SuperClaude && uvx SuperClaude install --profile developer --yes
+RUN uvx pip install --upgrade SuperClaude && uvx SuperClaude install --yes
 
 USER ${USERNAME}
