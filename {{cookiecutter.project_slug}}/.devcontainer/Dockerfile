@@ -1,6 +1,6 @@
 FROM node:lts AS node
 
-FROM python:3.12-slim
+FROM python:3.12-slim-bookworm
 ARG USERNAME=node
 
 # Set `DEVCONTAINER` environment variable to help with orientation
@@ -128,6 +128,6 @@ RUN sh -c "$(wget -O- https://github.com/deluan/zsh-in-docker/releases/download/
 
 # Install Claude
 RUN npm install -g npm@latest && npm install -g @anthropic-ai/claude-code
-RUN uvx pip install --upgrade SuperClaude && uvx SuperClaude install --profile developer --yes
+RUN uvx pip install --upgrade SuperClaude && uvx SuperClaude install --yes
 
 USER ${USERNAME}
