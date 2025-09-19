@@ -131,4 +131,8 @@ RUN sh -c "$(wget -O- https://github.com/deluan/zsh-in-docker/releases/download/
 RUN npm install -g npm@latest && npm install -g @anthropic-ai/claude-code
 RUN uvx pip install --upgrade SuperClaude && uvx SuperClaude install --yes
 
+# Install spec-kit
+RUN uv tool install "git+https://github.com/github/spec-kit.git" && \
+    uvx --from git+https://github.com/github/spec-kit.git specify init --here --ai claude
+
 USER ${USERNAME}
