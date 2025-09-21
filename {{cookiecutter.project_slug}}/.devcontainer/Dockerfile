@@ -1,6 +1,6 @@
 FROM node:lts AS node
 
-FROM python:3.12-slim-bookworm
+FROM python:{{ cookiecutter.python_version }}-slim-bookworm
 ARG USERNAME=node
 
 # Set `DEVCONTAINER` environment variable to help with orientation

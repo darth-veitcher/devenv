@@ -1,5 +1,5 @@
 default_language_version:
-  python: python3.13
+  python: python{{ cookiecutter.python_version }}
 
 repos:
   # General file fixes
