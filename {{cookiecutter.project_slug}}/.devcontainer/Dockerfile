@@ -127,12 +127,11 @@ RUN sh -c "$(wget -O- https://github.com/deluan/zsh-in-docker/releases/download/
   -x
 
 
-# Install Claude
-RUN npm install -g npm@latest && npm install -g @anthropic-ai/claude-code
-
 # Switch to non-root user
 USER ${USERNAME}
 
+# Install Claude
+RUN npm install -g npm@latest && npm install -g @anthropic-ai/claude-code
 # Install SuperClaude
 RUN uvx pip install --upgrade SuperClaude && uvx SuperClaude install --yes
 # Install spec-kit
