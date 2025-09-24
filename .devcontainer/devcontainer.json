@@ -34,7 +34,9 @@
       "extensions": [
         "dbaeumer.vscode-eslint",
         "esbenp.prettier-vscode",
-        "eamodio.gitlens"
+        "eamodio.gitlens",
+        "ms-python.python",
+        "charliermarsh.ruff"
       ],
       "settings": {
         "editor.formatOnSave": true,
@@ -59,14 +61,20 @@
     "source=claude-code-bashhistory-${devcontainerId},target=/commandhistory,type=volume",
     "source=claude-code-config-${devcontainerId},target=/home/node/.claude,type=volume",
     // don't make the docker cache unique per devcontainerId, otherwise it will not be shared between containers
-    "source=docker-cache,target=/var/lib/docker,type=volume"
+    "source=docker-cache,target=/var/lib/docker,type=volume",
+    // HF Cache
+    "source=huggingface-cache-${devcontainerId},target=/home/node/.cache/huggingface,type=volume"
   ],
   "remoteEnv": {
     "NODE_OPTIONS": "--max-old-space-size=4096",
     "CLAUDE_CONFIG_DIR": "/home/node/.claude",
     "POWERLEVEL9K_DISABLE_GITSTATUS": "true",
     // the original host directory which is needed for volume mount commands from inside the container (Docker in Docker)
-    "LOCAL_WORKSPACE_FOLDER": "${localWorkspaceFolder:-.}"
+    "LOCAL_WORKSPACE_FOLDER": "${localWorkspaceFolder:-.}",
+    // HF Cache
+    "HF_HOME": "/home/node/.cache/huggingface",
+    "TRANSFORMERS_CACHE": "/home/node/.cache/huggingface/hub",
+    "HF_DATASETS_CACHE": "/home/node/.cache/huggingface/datasets"
   },
   "postCreateCommand": "",
   "postStartCommand": "screen -DmS startup .devcontainer/startup.sh"
