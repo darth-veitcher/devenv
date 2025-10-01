@@ -16,15 +16,15 @@
   "portsAttributes": {
     "8080": {
       "label": "SearXNG",
-      "onAutoForward": "openBrowser"
+      "onAutoForward": "notify"
     },
     "11235": {
       "label": "Craw4AI",
-      "onAutoForward": "openBrowser"
+      "onAutoForward": "notify"
     },
     "8000": {
       "label": "FastAPI App",
-      "onAutoForward": "openBrowser"
+      "onAutoForward": "notify"
     }
   },
   "shutdownAction": "stopCompose",
@@ -63,7 +63,7 @@
     // don't make the docker cache unique per devcontainerId, otherwise it will not be shared between containers
     "source=docker-cache,target=/var/lib/docker,type=volume",
     // HF Cache
-    "source=huggingface-cache-${devcontainerId},target=/home/node/.cache/huggingface,type=volume"
+    "source=huggingface-cache-${devcontainerId},target=/workspace/.cache/huggingface,type=volume"
   ],
   "remoteEnv": {
     "NODE_OPTIONS": "--max-old-space-size=4096",
@@ -72,9 +72,9 @@
     // the original host directory which is needed for volume mount commands from inside the container (Docker in Docker)
     "LOCAL_WORKSPACE_FOLDER": "${localWorkspaceFolder:-.}",
     // HF Cache
-    "HF_HOME": "/home/node/.cache/huggingface",
-    "TRANSFORMERS_CACHE": "/home/node/.cache/huggingface/hub",
-    "HF_DATASETS_CACHE": "/home/node/.cache/huggingface/datasets"
+    "HF_HOME": "/workspace/.cache/huggingface",
+    "TRANSFORMERS_CACHE": "/workspace/.cache/huggingface/hub",
+    "HF_DATASETS_CACHE": "/workspace/.cache/huggingface/datasets"
   },
   "postCreateCommand": "",
   "postStartCommand": "screen -DmS startup .devcontainer/startup.sh"

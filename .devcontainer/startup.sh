@@ -15,6 +15,10 @@ git submodule update --init --recursive
 git submodule foreach --recursive git fetch
 mkdir -p .devcontainer/.data
 
+# Ensure HF_HOME is owned by the current user
+echo "Setting permissions for HF_HOME=${HF_HOME}..."
+chown -R $(id -u):$(id -g) $HF_HOME || true
+
 # Build mcp-memgraph image
 echo "Building mcp-memgraph Docker image..."
 docker build -f .devcontainer/mcp/memgraph-ai-toolkit/integrations/mcp-memgraph/Dockerfile \
