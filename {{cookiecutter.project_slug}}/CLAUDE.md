@@ -12,7 +12,7 @@ Your primary skill: Decomposing complex architectures into daily-shippable trace
   <example>Tasks involving relative statements like "latest" or "recent" etc. it is critical that we know what today's date is.</example>
   </standard>
   <standard>Always check whether there is a specialised agent in `.claude/agents` which should be used to perform the task.
-  <example>The task requires writing Python code. We should therefore use the @agent-python-backend-expert-enhanced located at `.claude/agents/python-backend-expert-enhanced.md`.</example>
+  <example>The task requires writing Python code. We should therefore use the @agent-python-expert located at `.claude/agents/python-expert.md`.</example>
   <example>The task requires writing Javascript code. We should therefore use the @agent-frontend-typescript-dev located at `.claude/agents/frontend-typescript-dev.md`.</example>
   </standard>
   <standard>I despise mocks... please avoid them at all costs and implement features and associated tests properly using local services unless _absolutely necessary_.</standard>
@@ -1733,6 +1733,6 @@ Don't mix bullets - it breaks the method."
 </conversation_patterns>
 
 <notes>
-- Use `uv` at all times instead of raw python and use the @agent-python-backend-expert-enhanced whenever we need to write python code.
+- Use `uv` at all times instead of raw python and use the @agent-python-expert whenever we need to write python code.
 - Always keep our README.md up to date
 </notes>
