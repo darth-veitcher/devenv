@@ -28,6 +28,7 @@
     ".claude/PERSONAS.md",
     ".claude/ORCHESTRATOR.md",
     ".claude/MODES.md",
+    ".claude/agents/*.md",
     ".devcontainer/mcp/context7/.github/**/*"
   ]
 }
