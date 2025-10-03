@@ -65,6 +65,9 @@
     // HF Cache
     "source=huggingface-cache-${devcontainerId},target=/workspace/.cache/huggingface,type=volume"
   ],
+  "containerEnv": {
+    "DISPLAY": "host.docker.internal:0.0"
+  },
   "remoteEnv": {
     "NODE_OPTIONS": "--max-old-space-size=4096",
     "CLAUDE_CONFIG_DIR": "/home/node/.claude",
@@ -76,6 +79,6 @@
     "TRANSFORMERS_CACHE": "/workspace/.cache/huggingface/hub",
     "HF_DATASETS_CACHE": "/workspace/.cache/huggingface/datasets"
   },
-  "postCreateCommand": "",
+  "postCreateCommand": "sudo npx playwright install-deps",
   "postStartCommand": "screen -DmS startup .devcontainer/startup.sh"
 }
