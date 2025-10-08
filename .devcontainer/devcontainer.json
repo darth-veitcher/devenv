@@ -79,6 +79,6 @@
     "TRANSFORMERS_CACHE": "/workspace/.cache/huggingface/hub",
     "HF_DATASETS_CACHE": "/workspace/.cache/huggingface/datasets"
   },
-  "postCreateCommand": "sudo npx playwright install-deps",
+  "postCreateCommand": "screen -DmS playwright .devcontainer/playwright.sh",
   "postStartCommand": "screen -DmS startup .devcontainer/startup.sh"
 }
