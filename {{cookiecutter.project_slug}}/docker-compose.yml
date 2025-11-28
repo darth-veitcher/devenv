@@ -1,0 +1,48 @@
+# {{ cookiecutter.project_name }} - Docker Compose
+# Application stack with database
+
+services:
+  app:
+    build: .
+    ports:
+      - "{{ cookiecutter.app_port }}:{{ cookiecutter.app_port }}"
+    networks:
+      - shared
+      - app-network
+    environment:
+      - DATABASE_URL=postgresql://{{ cookiecutter.postgres_user }}:{{ cookiecutter.postgres_password }}@postgres:5432/{{ cookiecutter.postgres_db }}
+      - DEBUG=false
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:{{ cookiecutter.app_port }}/health')"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+  postgres:
+    image: postgres:{{ cookiecutter.postgres_version }}-alpine
+    environment:
+      POSTGRES_DB: {{ cookiecutter.postgres_db }}
+      POSTGRES_USER: {{ cookiecutter.postgres_user }}
+      POSTGRES_PASSWORD: {{ cookiecutter.postgres_password }}
+    networks:
+      - app-network
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U {{ cookiecutter.postgres_user }} -d {{ cookiecutter.postgres_db }}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+networks:
+  shared:
+    external: true
+    name: devcontainer_shared
+  app-network:
+    internal: true
+
+volumes:
+  postgres-data:

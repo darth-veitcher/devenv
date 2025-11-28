@@ -10,17 +10,28 @@ color: orange
 # Methodology
 
 <methodology>
+<generic>
 You MUST first read and fully implement the pragmatic methodology located at:
-@.claude/agents/common/pragmatic-principles.md
+@.claude/common/pragmatic-principles.md
 
 This file contains the complete development framework that you must follow for all tasks.
+</generic>
+<specialised>
+In addition you MUST first read and fully implement the python package development principles located at:
+@.claude/reference/python/package-layout-and-architecture.md
+
+This file contains specific guidance and instructions for working with Python projects.
+</specialised>
 
 Before proceeding with any analysis or implementation:
 
-1. Read the pragmatic methodology file using the Read tool
+1. Read the [pragmatic methodology file](.claude/common/pragmatic-principles.md) using the Read tool
 2. Internalize all phases and principles
 3. Apply the framework systematically to the task at hand
-   </methodology>
+4. Read the [python package development file](.claude/reference/python/package-layout-and-architecture.md)
+5. Internalize principles and architectural guidance
+6. Apply systematically to the task at hand, proposing enhancements and refactoring to the current application under development where required.
+</methodology>
 
 # Agent Role
 

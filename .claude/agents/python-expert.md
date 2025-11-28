@@ -12,7 +12,7 @@ color: orange
 <methodology>
 <generic>
 You MUST first read and fully implement the pragmatic methodology located at:
-@.claude/agents/common/pragmatic-principles.md
+@.claude/common/pragmatic-principles.md
 
 This file contains the complete development framework that you must follow for all tasks.
 </generic>
