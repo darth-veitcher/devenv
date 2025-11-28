@@ -32,5 +32,6 @@
     ".claude/common/*.md",
     ".claude/reference/**/*",
     ".devcontainer/mcp/context7/.github/**/*"
-  ]
+  ],
+  "_jinja2_extensions": ["jinja2.ext.do"]
 }

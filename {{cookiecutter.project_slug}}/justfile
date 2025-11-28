@@ -23,7 +23,7 @@ install-prod:
 
 # Start the API server
 serve *ARGS:
-    uv run {{ cookiecutter.project_slug|replace('-', '_') }} serve {{ARGS}}
+    uv run {{ cookiecutter.project_slug|replace('-', '_') }} serve {{ '{{' }}ARGS{{ '}}' }}
 
 # Start API server in development mode with auto-reload
 dev:
@@ -31,7 +31,7 @@ dev:
 
 # Run CLI command
 cli *ARGS:
-    uv run {{ cookiecutter.project_slug|replace('-', '_') }} {{ARGS}}
+    uv run {{ cookiecutter.project_slug|replace('-', '_') }} {{ '{{' }}ARGS{{ '}}' }}
 
 # ============================================================================
 # Code Quality
@@ -70,7 +70,7 @@ security:
 
 # Run all tests
 test *ARGS:
-    uv run pytest {{ARGS}}
+    uv run pytest {{ '{{' }}ARGS{{ '}}' }}
 
 # Run tests with coverage
 test-cov:
@@ -151,7 +151,7 @@ down:
 
 # View logs
 logs *ARGS:
-    docker compose logs {{ARGS}}
+    docker compose logs {{ '{{' }}ARGS{{ '}}' }}
 
 # ============================================================================
 # Git Shortcuts
@@ -159,7 +159,7 @@ logs *ARGS:
 
 # Quick save: add all, commit with message
 save MESSAGE:
-    git add -A && git commit -m "{{MESSAGE}}"
+    git add -A && git commit -m "{{ '{{' }}MESSAGE{{ '}}' }}"
 
 # Undo last commit (keep changes)
 undo:
