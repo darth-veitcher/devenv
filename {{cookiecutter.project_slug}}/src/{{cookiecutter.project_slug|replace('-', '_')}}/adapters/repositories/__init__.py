@@ -10,10 +10,10 @@ from typing import TYPE_CHECKING, Protocol
 from uuid import UUID
 {%- if cookiecutter.database_backend in ['sqlite', 'postgresql'] %}
 
-from sqlalchemy import String, Text, select
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy import select
 
-from ...infrastructure.database import Base, get_session
+from ...infrastructure.database import get_session
+from ..models import ExampleEntityModel
 {%- endif %}
 
 if TYPE_CHECKING:
@@ -61,16 +61,6 @@ class InMemoryExampleRepository:
             return True
         return False
 {% if cookiecutter.database_backend in ['sqlite', 'postgresql'] %}
-
-
-class ExampleEntityModel(Base):
-    """SQLAlchemy model for ExampleEntity persistence."""
-
-    __tablename__ = "example_entities"
-
-    id: Mapped[str] = mapped_column(String(36), primary_key=True)
-    name: Mapped[str] = mapped_column(String(255), nullable=False)
-    description: Mapped[str | None] = mapped_column(Text, nullable=True)
 
 
 class SQLAlchemyExampleRepository:
