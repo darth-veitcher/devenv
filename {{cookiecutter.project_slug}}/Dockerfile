@@ -47,7 +47,7 @@ ENV PATH="/app/.venv/bin:$PATH"
 ENV PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
     PORT={{ cookiecutter.app_port }}
-
+{% if cookiecutter.api_framework == 'fastapi' %}
 # Expose the application port
 EXPOSE {{ cookiecutter.app_port }}
 
@@ -57,3 +57,7 @@ HEALTHCHECK --interval=30s --timeout=5s --start-period=5s --retries=3 \
 
 # Default command: run the API server
 CMD ["python", "-m", "uvicorn", "{{ cookiecutter.project_slug|replace('-', '_') }}.api.main:app", "--host", "0.0.0.0", "--port", "{{ cookiecutter.app_port }}"]
+{% else %}
+# Default command: run the CLI help
+CMD ["{{ cookiecutter.project_slug|replace('-', '_') }}", "--help"]
+{% endif %}

@@ -101,3 +101,11 @@ Thumbs.db
 # Project specific
 *.log
 *.tmp
+{% if cookiecutter.database_backend == 'sqlite' %}
+
+# SQLite database files
+data/
+*.db
+*.sqlite
+*.sqlite3
+{% endif %}

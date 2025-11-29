@@ -34,9 +34,19 @@ class Settings(BaseSettings):
     # Server
     host: str = "0.0.0.0"
     port: int = {{ cookiecutter.app_port }}
+{% if cookiecutter.database_backend == 'none' %}
 
-    # Database
+    # Database (in-memory, no persistence)
     database_url: str | None = None
+{% elif cookiecutter.database_backend == 'sqlite' %}
+
+    # Database (SQLite)
+    database_url: str = "sqlite+aiosqlite:///./data/{{ cookiecutter.project_slug }}.db"
+{% elif cookiecutter.database_backend == 'postgresql' %}
+
+    # Database (PostgreSQL)
+    database_url: str = "postgresql+asyncpg://{{ cookiecutter.postgres_user }}:{{ cookiecutter.postgres_password }}@postgres:5432/{{ cookiecutter.postgres_db }}"
+{% endif %}
 
     @property
     def is_production(self) -> bool:

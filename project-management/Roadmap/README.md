@@ -1,10 +1,10 @@
 # Project Roadmap: devenv Cookiecutter Template
 
 ## Current Status
-**Active Bullet:** None - Milestone 3 Complete
-**Phase:** SHIP
+**Active Bullet:** Phase 11 Complete - Ready for Phase 12
+**Phase:** BUILD
 **Started:** 2025-11-29
-**Completed:** 2025-11-29
+**Milestone 4:** In Progress (Phase 11 Complete)
 
 ---
 
@@ -78,15 +78,15 @@
 
 ---
 
-## Milestone 4: Template Customization (Future)
+## Milestone 4: Template Customization (In Progress)
 
-*Not started*
+*Started 2025-11-29*
 
-### Phase 11: Conditional Features (Bullets 33-36)
-- [ ] **Bullet #33**: Make enable_mcp_services toggle compose services
-- [ ] **Bullet #34**: Make .mcp.json conditional based on enable_* flags
-- [ ] **Bullet #35**: Add database choice (PostgreSQL, SQLite, None)
-- [ ] **Bullet #36**: Add API framework choice (FastAPI, Flask, None)
+### Phase 11: Conditional Features (Bullets 33-36) ✅
+- [x] **Bullet #33**: Make enable_mcp_services toggle compose services
+- [x] **Bullet #34**: Make .mcp.json conditional based on enable_* flags
+- [x] **Bullet #35**: Add database choice (PostgreSQL, SQLite, None)
+- [x] **Bullet #36**: Add API framework choice (FastAPI, None)
 
 ### Phase 12: Feature Templates (Bullets 37-39)
 - [ ] **Bullet #37**: Add authentication feature template
@@ -96,11 +96,15 @@
 ---
 
 ## Today's Focus
-**Bullet:** None - Milestone 3 Complete
-**Goal:** Housekeeping and cleanup
-**Success Criteria:** All files synced, docs consistent
+**Phase 11:** Complete!
+**Goal:** All conditional features implemented
+**Next:** Phase 12 - Feature Templates (authentication, migrations, background tasks)
 
 ## Recent Completions
+- 2025-11-29: Bullet #36 - API framework choice (FastAPI, None) - Phase 11 Complete!
+- 2025-11-29: Bullet #35 - Database backend choice (PostgreSQL, SQLite, None) with SQLAlchemy async
+- 2025-11-29: Bullet #34 - Conditional .mcp.json based on enable_* flags
+- 2025-11-29: Bullet #33 - Conditional compose services based on enable_* flags
 - 2025-11-29: Fixed GitHub username references (JAMESVEITCH → darth-veitcher)
 - 2025-11-29: Fixed ruff linter errors in generated template (modern Python typing)
 - 2025-11-29: Added .gitignore entries for .env and build artifacts

@@ -1,8 +1,8 @@
+{%- if cookiecutter.api_framework == 'fastapi' -%}
 """Integration tests for the REST API."""
 
 from __future__ import annotations
 
-import pytest
 from httpx import AsyncClient
 
 
@@ -68,3 +68,10 @@ class TestEntityEndpoints:
 
         response = await client.delete(f"/entities/{uuid4()}")
         assert response.status_code == 404
+{%- else -%}
+"""Integration tests - API not enabled.
+
+This project was generated without an API framework.
+Add API tests here if you enable FastAPI later.
+"""
+{%- endif %}

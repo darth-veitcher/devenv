@@ -1,5 +1,9 @@
 # .devcontainer/compose-mcp.yml
+# MCP Services for AI-assisted development
+# Only included when enable_mcp_services == 'yes'
+
 services:
+{% if cookiecutter.enable_searxng == 'yes' %}
   redis:
     container_name: mcp-redis
     image: docker.io/valkey/valkey:8-alpine
@@ -10,7 +14,6 @@ services:
       - ./.data/valkey:/data:z
     networks:
       - mcp-services
-    # No ports exposed - internal access only
     cap_drop:
       - ALL
     cap_add:
@@ -52,7 +55,7 @@ services:
     networks:
       - mcp-services
     ports:
-      - "8080:8080" # Only expose if you want host access
+      - "8080:8080"
     depends_on:
       redis:
         condition: service_healthy
@@ -74,7 +77,9 @@ services:
       options:
         max-size: "1m"
         max-file: "1"
+{% endif %}
 
+{% if cookiecutter.enable_crawl4ai == 'yes' %}
   crawl4ai:
     image: unclecode/crawl4ai:0.6.0rc1-r2
     container_name: mcp-crawl4ai
@@ -90,14 +95,16 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
     ports:
-      - "11235:11235" # Only expose if you want host access
+      - "11235:11235"
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:11235/health"]
       interval: 30s
       timeout: 10s
       retries: 5
       start_period: 60s
+{% endif %}
 
+{% if cookiecutter.enable_context7 == 'yes' %}
   context7-mcp:
     build:
       context: ./mcp/context7
@@ -106,28 +113,25 @@ services:
     hostname: context7-mcp
     networks:
       - mcp-services
-    # No ports exposed - internal access only
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
       interval: 30s
       timeout: 10s
       retries: 3
+{% endif %}
 
+  # Memgraph is always included when MCP services are enabled
   memgraph:
-    image: memgraph/memgraph-mage:latest # Use latest MAGE image for advanced graph algorithms
+    image: memgraph/memgraph-mage:latest
     container_name: memgraph
     hostname: memgraph
     restart: unless-stopped
-    # No ports exposed - internal access only
     ports:
-      - "7687" # bolt
-      - "7444" # logs
+      - "7687"
+      - "7444"
     networks:
       - mcp-services
-    # environment:
-    #   MEMGRAPH_USER: memgraph
-    #   MEMGRAPH_PASSWORD: memgraph
     command:
       [
         "--log-level=INFO",
@@ -172,7 +176,7 @@ services:
     networks:
       - mcp-services
     ports:
-      - "3000:3000" # Only expose if you want host access
+      - "3000:3000"
     environment:
       QUICK_CONNECT_MG_HOST: memgraph
 

@@ -8,9 +8,16 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, Protocol
 from uuid import UUID
+{%- if cookiecutter.database_backend in ['sqlite', 'postgresql'] %}
+
+from sqlalchemy import String, Text, select
+from sqlalchemy.orm import Mapped, mapped_column
+
+from ...infrastructure.database import Base, get_session
+{%- endif %}
 
 if TYPE_CHECKING:
-    from ..domain.entities import ExampleEntity
+    from ...domain.entities import ExampleEntity
 
 
 class ExampleRepository(Protocol):
@@ -53,3 +60,72 @@ class InMemoryExampleRepository:
             del self._storage[entity_id]
             return True
         return False
+{% if cookiecutter.database_backend in ['sqlite', 'postgresql'] %}
+
+
+class ExampleEntityModel(Base):
+    """SQLAlchemy model for ExampleEntity persistence."""
+
+    __tablename__ = "example_entities"
+
+    id: Mapped[str] = mapped_column(String(36), primary_key=True)
+    name: Mapped[str] = mapped_column(String(255), nullable=False)
+    description: Mapped[str | None] = mapped_column(Text, nullable=True)
+
+
+class SQLAlchemyExampleRepository:
+    """SQLAlchemy implementation of ExampleRepository for database persistence."""
+
+    async def get_by_id(self, entity_id: UUID) -> ExampleEntity | None:
+        """Retrieve entity from database."""
+        from ...domain.entities import ExampleEntity
+
+        async with get_session() as session:
+            result = await session.execute(
+                select(ExampleEntityModel).where(ExampleEntityModel.id == str(entity_id))
+            )
+            model = result.scalar_one_or_none()
+            if model is None:
+                return None
+            return ExampleEntity(
+                id=UUID(model.id),
+                name=model.name,
+                description=model.description,
+            )
+
+    async def save(self, entity: ExampleEntity) -> ExampleEntity:
+        """Persist entity to database."""
+        async with get_session() as session:
+            # Check if exists
+            result = await session.execute(
+                select(ExampleEntityModel).where(ExampleEntityModel.id == str(entity.id))
+            )
+            existing = result.scalar_one_or_none()
+
+            if existing:
+                # Update
+                existing.name = entity.name
+                existing.description = entity.description
+            else:
+                # Create
+                model = ExampleEntityModel(
+                    id=str(entity.id),
+                    name=entity.name,
+                    description=entity.description,
+                )
+                session.add(model)
+
+            return entity
+
+    async def delete(self, entity_id: UUID) -> bool:
+        """Remove entity from database."""
+        async with get_session() as session:
+            result = await session.execute(
+                select(ExampleEntityModel).where(ExampleEntityModel.id == str(entity_id))
+            )
+            model = result.scalar_one_or_none()
+            if model is None:
+                return False
+            await session.delete(model)
+            return True
+{% endif %}
