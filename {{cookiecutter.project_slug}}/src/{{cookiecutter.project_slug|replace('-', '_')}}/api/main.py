@@ -10,7 +10,7 @@ from typing import Any, AsyncGenerator, Optional
 from uuid import UUID
 
 from fastapi import Depends, FastAPI, HTTPException
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 
 from ..adapters.repositories import InMemoryExampleRepository
 from ..infrastructure.config import Settings, get_settings
@@ -28,12 +28,11 @@ class CreateEntityRequest(BaseModel):
 class EntityResponse(BaseModel):
     """Response schema for entity data."""
 
+    model_config = ConfigDict(from_attributes=True)
+
     id: UUID
     name: str
     description: str
-
-    class Config:
-        from_attributes = True
 
 
 class HealthResponse(BaseModel):

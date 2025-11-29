@@ -7,17 +7,17 @@ domain model, independent of persistence or presentation concerns.
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from datetime import datetime
+from datetime import UTC, datetime
 from typing import Optional
 from uuid import UUID, uuid4
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, kw_only=True)
 class EntityBase:
     """Base class for domain entities with identity tracking."""
 
     id: UUID = field(default_factory=uuid4)
-    created_at: datetime = field(default_factory=datetime.utcnow)
+    created_at: datetime = field(default_factory=lambda: datetime.now(UTC))
     updated_at: Optional[datetime] = None
 
 
