@@ -1,6 +1,9 @@
 {
   "name": "{{ cookiecutter.project_name }} | Development Environment",
-  "dockerComposeFile": ["compose.yml"],
+  "dockerComposeFile": [
+    "compose.yml"{% if cookiecutter.enable_mcp_services == 'yes' %},
+    "compose-mcp.yml"{% endif %}
+  ],
   "service": "devcontainer",
   "workspaceFolder": "/workspace",
   "features": {
@@ -12,20 +15,24 @@
     "ghcr.io/devcontainers-extra/features/pre-commit:2": {}
     // "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {}
   },
-  "forwardPorts": [11235, 8080, 8000],
+  "forwardPorts": [
+    8000{% if cookiecutter.enable_mcp_services == 'yes' and cookiecutter.enable_searxng == 'yes' %},
+    8080{% endif %}{% if cookiecutter.enable_mcp_services == 'yes' and cookiecutter.enable_crawl4ai == 'yes' %},
+    11235{% endif %}
+  ],
   "portsAttributes": {
-    "8080": {
-      "label": "SearXNG MCP",
-      "onAutoForward": "notify"
-    },
-    "11235": {
-      "label": "Craw4AI MCP",
-      "onAutoForward": "notify"
-    },
     "8000": {
       "label": "FastAPI App",
       "onAutoForward": "notify"
-    }
+    }{% if cookiecutter.enable_mcp_services == 'yes' and cookiecutter.enable_searxng == 'yes' %},
+    "8080": {
+      "label": "SearXNG MCP",
+      "onAutoForward": "notify"
+    }{% endif %}{% if cookiecutter.enable_mcp_services == 'yes' and cookiecutter.enable_crawl4ai == 'yes' %},
+    "11235": {
+      "label": "Crawl4AI MCP",
+      "onAutoForward": "notify"
+    }{% endif %}
   },
   "shutdownAction": "stopCompose",
   "remoteUser": "node",

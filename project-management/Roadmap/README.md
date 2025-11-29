@@ -1,10 +1,10 @@
 # Project Roadmap: devenv Cookiecutter Template
 
 ## Current Status
-**Active Bullet:** None - Milestone 3 Complete
-**Phase:** SHIP
+**Active Bullet:** #34 - Make .mcp.json conditional
+**Phase:** BUILD
 **Started:** 2025-11-29
-**Completed:** 2025-11-29
+**Milestone 4:** In Progress
 
 ---
 
@@ -78,12 +78,12 @@
 
 ---
 
-## Milestone 4: Template Customization (Future)
+## Milestone 4: Template Customization (In Progress)
 
-*Not started*
+*Started 2025-11-29*
 
 ### Phase 11: Conditional Features (Bullets 33-36)
-- [ ] **Bullet #33**: Make enable_mcp_services toggle compose services
+- [x] **Bullet #33**: Make enable_mcp_services toggle compose services
 - [ ] **Bullet #34**: Make .mcp.json conditional based on enable_* flags
 - [ ] **Bullet #35**: Add database choice (PostgreSQL, SQLite, None)
 - [ ] **Bullet #36**: Add API framework choice (FastAPI, Flask, None)
@@ -96,11 +96,12 @@
 ---
 
 ## Today's Focus
-**Bullet:** None - Milestone 3 Complete
-**Goal:** Housekeeping and cleanup
-**Success Criteria:** All files synced, docs consistent
+**Bullet:** #34 - Make .mcp.json conditional
+**Goal:** Render .mcp.json based on enable_* cookiecutter flags
+**Success Criteria:** .mcp.json only includes enabled MCP server configs
 
 ## Recent Completions
+- 2025-11-29: Bullet #33 - Conditional compose services based on enable_* flags
 - 2025-11-29: Fixed GitHub username references (JAMESVEITCH → darth-veitcher)
 - 2025-11-29: Fixed ruff linter errors in generated template (modern Python typing)
 - 2025-11-29: Added .gitignore entries for .env and build artifacts
