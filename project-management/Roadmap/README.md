@@ -82,25 +82,27 @@
 
 *Not started*
 
-### Phase 11: Conditional Features (Bullets 33-35)
-- [ ] **Bullet #33**: Make enable_mcp_services actually toggle compose services
-- [ ] **Bullet #34**: Add database choice (PostgreSQL, SQLite, None)
-- [ ] **Bullet #35**: Add API framework choice (FastAPI, Flask, None)
+### Phase 11: Conditional Features (Bullets 33-36)
+- [ ] **Bullet #33**: Make enable_mcp_services toggle compose services
+- [ ] **Bullet #34**: Make .mcp.json conditional based on enable_* flags
+- [ ] **Bullet #35**: Add database choice (PostgreSQL, SQLite, None)
+- [ ] **Bullet #36**: Add API framework choice (FastAPI, Flask, None)
 
-### Phase 12: Feature Templates (Bullets 36-38)
-- [ ] **Bullet #36**: Add authentication feature template
-- [ ] **Bullet #37**: Add database migrations (Alembic) feature
-- [ ] **Bullet #38**: Add background tasks (Celery/ARQ) feature
+### Phase 12: Feature Templates (Bullets 37-39)
+- [ ] **Bullet #37**: Add authentication feature template
+- [ ] **Bullet #38**: Add database migrations (Alembic) feature
+- [ ] **Bullet #39**: Add background tasks (Celery/ARQ) feature
 
 ---
 
 ## Today's Focus
-**Bullet:** #30
-**Goal:** Add pre-commit hooks to root devenv repo
-**Success Criteria:** `pre-commit run --all-files` passes
+**Bullet:** None - Milestone 3 Complete
+**Goal:** Housekeeping and cleanup
+**Success Criteria:** All files synced, docs consistent
 
 ## Recent Completions
-- 2025-11-29: Bullets 27-29 - CI workflow, docs deployment, cookiecutter cleanup
+- 2025-11-29: Synced .mcp.json between root and template (fixed JSONC comments)
+- 2025-11-29: Milestone 3 complete - CI/CD & Quality (v0.3.0 tagged)
 - 2025-11-29: Milestone 2 complete - Documentation overhaul with MkDocs
 - 2025-11-29: Milestone 1 complete - Python quickstart with 18 passing tests
 
