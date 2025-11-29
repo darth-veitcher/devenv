@@ -6,3 +6,18 @@
 !.serena/memories/
 .serena/memories/*
 !.serena/memories/mcp_tool_usage_guide.md
+
+# Local secrets and environment
+.env
+.env.*
+!.env.example
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+
+# Build outputs
+site/
+dist/
+*.egg-info/
