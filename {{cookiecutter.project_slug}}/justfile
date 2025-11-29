@@ -113,9 +113,17 @@ version:
 docs-build:
     uv run mkdocs build
 
-# Serve documentation locally
+# Serve documentation locally with auto-reload
 docs-serve:
     uv run mkdocs serve
+
+# Deploy documentation to GitHub Pages
+docs-deploy:
+    uv run mkdocs gh-deploy --force
+
+# Check documentation for broken links
+docs-check:
+    uv run mkdocs build --strict
 
 # ============================================================================
 # Database (when applicable)

@@ -81,14 +81,14 @@
         "SEARXNG_URL": "http://searxng:8080"
       }
     },
-    "memgraph": {
-      "command": "sudo",
-      "args": ["docker", "run", "-i", "--rm", "--network", "mcp-services", "-e", "MEMGRAPH_URL=bolt://memgraph:7687", "-e", "MEMGRAPH_USER=", "-e", "MEMGRAPH_PASSWORD=", "-e", "MCP_TRANSPORT=stdio", "mcp-memgraph:latest"]
-    },
-    "crawl4ai": {
-      "type": "sse",
-      "url": "http://crawl4ai:11235/mcp/sse"
-    },
+    // "memgraph": {
+    //   "command": "sudo",
+    //   "args": ["docker", "run", "-i", "--rm", "--network", "mcp-services", "-e", "MEMGRAPH_URL=bolt://memgraph:7687", "-e", "MEMGRAPH_USER=", "-e", "MEMGRAPH_PASSWORD=", "-e", "MCP_TRANSPORT=stdio", "mcp-memgraph:latest"]
+    // },
+    // "crawl4ai": {
+    //   "type": "sse",
+    //   "url": "http://crawl4ai:11235/mcp/sse"
+    // },
     "docker": {
       "type": "stdio",
       "command": "uvx",

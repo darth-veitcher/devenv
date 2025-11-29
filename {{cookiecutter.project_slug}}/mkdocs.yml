@@ -1,0 +1,188 @@
+# MkDocs configuration for {{ cookiecutter.project_name }}
+# Documentation: https://www.mkdocs.org/
+
+site_name: "{{ cookiecutter.project_name }}"
+site_description: "{{ cookiecutter.project_description }}"
+site_author: "{{ cookiecutter.author_name }}"
+site_url: "https://{{ cookiecutter.github_username }}.github.io/{{ cookiecutter.project_slug }}/"
+
+repo_name: "{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}"
+repo_url: "https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}"
+edit_uri: "edit/main/docs/"
+
+# Theme configuration
+theme:
+  name: material
+  language: en
+
+  palette:
+    # Light mode
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    # Dark mode
+    - scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+
+  features:
+    # Navigation
+    - navigation.instant
+    - navigation.instant.prefetch
+    - navigation.tracking
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - navigation.footer
+
+    # Table of contents
+    - toc.follow
+
+    # Search
+    - search.suggest
+    - search.highlight
+    - search.share
+
+    # Content
+    - content.code.copy
+    - content.code.annotate
+    - content.tabs.link
+    - content.tooltips
+
+  icon:
+    repo: fontawesome/brands/github
+
+# Plugins
+plugins:
+  - search:
+      separator: '[\s\-,:!=\[\]()"/]+|(?!\b)(?=[A-Z][a-z])|\.(?!\d)|&[lg]t;'
+
+  - mkdocstrings:
+      default_handler: python
+      handlers:
+        python:
+          paths: [src]
+          options:
+            # General
+            show_source: true
+            show_root_heading: true
+            show_root_full_path: false
+            show_symbol_type_heading: true
+            show_symbol_type_toc: true
+
+            # Members
+            members_order: source
+            group_by_category: true
+            show_submodules: false
+
+            # Docstrings
+            docstring_style: google
+            docstring_section_style: spacy
+            merge_init_into_class: true
+            show_if_no_docstring: false
+
+            # Signatures
+            show_signature: true
+            show_signature_annotations: true
+            separate_signature: true
+            line_length: 80
+
+# Markdown extensions
+markdown_extensions:
+  # Python Markdown
+  - abbr
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+      toc_depth: 3
+
+  # PyMdown Extensions
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.caret
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - pymdownx.magiclink:
+      repo_url_shorthand: true
+      user: "{{ cookiecutter.github_username }}"
+      repo: "{{ cookiecutter.project_slug }}"
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.snippets:
+      base_path: docs
+      check_paths: true
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tilde
+
+# Page tree / Navigation
+nav:
+  - Home: index.md
+  - Getting Started:
+    - Installation: getting-started/installation.md
+    - Quickstart: getting-started/quickstart.md
+    - Configuration: getting-started/configuration.md
+  - Architecture:
+    - Overview: architecture/overview.md
+    - Domain Layer: architecture/domain.md
+    - Adapters Layer: architecture/adapters.md
+    - Services Layer: architecture/services.md
+  - API:
+    - REST API: api/rest.md
+    - CLI: api/cli.md
+  - Reference:
+    - reference/index.md
+    - Domain: reference/domain.md
+    - Services: reference/services.md
+    - Adapters: reference/adapters.md
+    - API: reference/api.md
+    - Infrastructure: reference/infrastructure.md
+  - Development:
+    - Contributing: development/contributing.md
+    - Testing: development/testing.md
+    - BEACON Framework: development/beacon.md
+  - Changelog: changelog.md
+
+# Extra configuration
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/{{ cookiecutter.github_username }}
+
+  generator: false
+
+  version:
+    provider: mike
+
+# Watch for auto-reload during development
+watch:
+  - src
+  - docs

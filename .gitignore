@@ -6,3 +6,6 @@
 !.serena/memories/
 .serena/memories/*
 !.serena/memories/mcp_tool_usage_guide.md
+
+# Local
+.env
