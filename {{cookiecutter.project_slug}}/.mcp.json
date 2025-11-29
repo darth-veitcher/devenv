@@ -43,12 +43,14 @@
       "env": {},
       "alwaysAllow": ["sequentialthinking"]
     },
+{% if cookiecutter.enable_context7 == 'yes' %}
     "context7": {
       "type": "stdio",
       "command": "npx",
       "args": ["-y", "@upstash/context7-mcp"],
       "env": {}
     },
+{% endif %}
     "magic": {
       "type": "stdio",
       "command": "npx",
@@ -74,6 +76,7 @@
       "command": "sudo",
       "args": ["docker", "run", "-i", "--rm", "mcp/fetch"]
     },
+{% if cookiecutter.enable_mcp_services == 'yes' and cookiecutter.enable_searxng == 'yes' %}
     "searxng": {
       "command": "npx",
       "args": ["-y", "mcp-searxng"],
@@ -81,14 +84,19 @@
         "SEARXNG_URL": "http://searxng:8080"
       }
     },
+{% endif %}
+{% if cookiecutter.enable_mcp_services == 'yes' %}
     "memgraph": {
       "command": "sudo",
       "args": ["docker", "run", "-i", "--rm", "--network", "mcp-services", "-e", "MEMGRAPH_URL=bolt://memgraph:7687", "-e", "MEMGRAPH_USER=", "-e", "MEMGRAPH_PASSWORD=", "-e", "MCP_TRANSPORT=stdio", "mcp-memgraph:latest"]
     },
+{% endif %}
+{% if cookiecutter.enable_mcp_services == 'yes' and cookiecutter.enable_crawl4ai == 'yes' %}
     "crawl4ai": {
       "type": "sse",
       "url": "http://crawl4ai:11235/mcp/sse"
     },
+{% endif %}
     "docker": {
       "type": "stdio",
       "command": "uvx",

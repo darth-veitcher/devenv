@@ -1,7 +1,7 @@
 # Project Roadmap: devenv Cookiecutter Template
 
 ## Current Status
-**Active Bullet:** #34 - Make .mcp.json conditional
+**Active Bullet:** #35 - Add database choice
 **Phase:** BUILD
 **Started:** 2025-11-29
 **Milestone 4:** In Progress
@@ -84,7 +84,7 @@
 
 ### Phase 11: Conditional Features (Bullets 33-36)
 - [x] **Bullet #33**: Make enable_mcp_services toggle compose services
-- [ ] **Bullet #34**: Make .mcp.json conditional based on enable_* flags
+- [x] **Bullet #34**: Make .mcp.json conditional based on enable_* flags
 - [ ] **Bullet #35**: Add database choice (PostgreSQL, SQLite, None)
 - [ ] **Bullet #36**: Add API framework choice (FastAPI, Flask, None)
 
@@ -96,11 +96,12 @@
 ---
 
 ## Today's Focus
-**Bullet:** #34 - Make .mcp.json conditional
-**Goal:** Render .mcp.json based on enable_* cookiecutter flags
-**Success Criteria:** .mcp.json only includes enabled MCP server configs
+**Bullet:** #35 - Add database choice
+**Goal:** Add database_backend cookiecutter option (PostgreSQL, SQLite, None)
+**Success Criteria:** Template generates appropriate DB configuration
 
 ## Recent Completions
+- 2025-11-29: Bullet #34 - Conditional .mcp.json based on enable_* flags
 - 2025-11-29: Bullet #33 - Conditional compose services based on enable_* flags
 - 2025-11-29: Fixed GitHub username references (JAMESVEITCH → darth-veitcher)
 - 2025-11-29: Fixed ruff linter errors in generated template (modern Python typing)
