@@ -12,10 +12,18 @@ from uuid import UUID
 
 from fastapi import Depends, FastAPI, HTTPException
 from pydantic import BaseModel, ConfigDict
+{%- if cookiecutter.database_backend == 'none' %}
 
 from ..adapters.repositories import InMemoryExampleRepository
 from ..infrastructure.config import Settings, get_settings
 from ..services import ExampleService
+{%- else %}
+
+from ..adapters.repositories import SQLAlchemyExampleRepository
+from ..infrastructure.config import Settings, get_settings
+from ..infrastructure.database import close_db, init_db
+from ..services import ExampleService
+{%- endif %}
 
 
 # Request/Response schemas
@@ -45,7 +53,11 @@ class HealthResponse(BaseModel):
 
 
 # Dependency injection
+{% if cookiecutter.database_backend == 'none' %}
 _repository = InMemoryExampleRepository()
+{% else %}
+_repository = SQLAlchemyExampleRepository()
+{% endif %}
 
 
 def get_example_service() -> ExampleService:
@@ -63,8 +75,14 @@ ServiceDep = Annotated[ExampleService, Depends(get_example_service)]
 async def lifespan(_app: FastAPI) -> AsyncGenerator[None, None]:
     """Application lifespan manager."""
     # Startup
+{% if cookiecutter.database_backend in ['sqlite', 'postgresql'] %}
+    await init_db()
+{% endif %}
     yield
     # Shutdown
+{% if cookiecutter.database_backend in ['sqlite', 'postgresql'] %}
+    await close_db()
+{% endif %}
 
 
 # FastAPI app

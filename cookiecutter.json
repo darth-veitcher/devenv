@@ -9,6 +9,7 @@
   "fastapi_version": "0.115.0",
   "uvicorn_version": "0.32.0",
   "app_port": "8000",
+  "database_backend": ["none", "sqlite", "postgresql"],
   "postgres_version": "15",
   "postgres_user": "appuser",
   "postgres_password": "password",

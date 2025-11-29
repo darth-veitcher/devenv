@@ -86,7 +86,7 @@
 - [x] **Bullet #33**: Make enable_mcp_services toggle compose services
 - [x] **Bullet #34**: Make .mcp.json conditional based on enable_* flags
 - [ ] **Bullet #35**: Add database choice (PostgreSQL, SQLite, None)
-- [ ] **Bullet #36**: Add API framework choice (FastAPI, Flask, None)
+- [ ] **Bullet #36**: Add API framework choice (FastAPI, None)
 
 ### Phase 12: Feature Templates (Bullets 37-39)
 - [ ] **Bullet #37**: Add authentication feature template

@@ -19,14 +19,13 @@ class TestExampleEntity:
 
     def test_entity_is_immutable(self) -> None:
         """Entity should be immutable (frozen dataclass)."""
+        import pytest
+
         entity = ExampleEntity(name="Test")
 
         # Should raise FrozenInstanceError
-        try:
+        with pytest.raises(AttributeError):
             entity.name = "Changed"  # type: ignore
-            assert False, "Should not be able to modify frozen entity"
-        except AttributeError:
-            pass  # Expected behavior
 
     def test_is_valid_with_name(self) -> None:
         """Entity with name should be valid."""

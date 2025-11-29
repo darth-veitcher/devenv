@@ -16,7 +16,8 @@
     // "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {}
   },
   "forwardPorts": [
-    8000{% if cookiecutter.enable_mcp_services == 'yes' and cookiecutter.enable_searxng == 'yes' %},
+    8000{% if cookiecutter.database_backend == 'postgresql' %},
+    5432{% endif %}{% if cookiecutter.enable_mcp_services == 'yes' and cookiecutter.enable_searxng == 'yes' %},
     8080{% endif %}{% if cookiecutter.enable_mcp_services == 'yes' and cookiecutter.enable_crawl4ai == 'yes' %},
     11235{% endif %}
   ],
@@ -24,7 +25,11 @@
     "8000": {
       "label": "FastAPI App",
       "onAutoForward": "notify"
-    }{% if cookiecutter.enable_mcp_services == 'yes' and cookiecutter.enable_searxng == 'yes' %},
+    }{% if cookiecutter.database_backend == 'postgresql' %},
+    "5432": {
+      "label": "PostgreSQL",
+      "onAutoForward": "notify"
+    }{% endif %}{% if cookiecutter.enable_mcp_services == 'yes' and cookiecutter.enable_searxng == 'yes' %},
     "8080": {
       "label": "SearXNG MCP",
       "onAutoForward": "notify"
