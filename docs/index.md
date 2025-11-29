@@ -20,7 +20,7 @@ A sophisticated containerized development environment template with Claude AI in
 pip install cookiecutter
 
 # Generate a new project
-cookiecutter gh:JAMESVEITCH/devenv
+cookiecutter gh:darth-veitcher/devenv
 
 # Follow the prompts...
 ```

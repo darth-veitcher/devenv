@@ -7,13 +7,13 @@ Create your first project in under 5 minutes.
 ### From GitHub
 
 ```bash
-cookiecutter gh:JAMESVEITCH/devenv
+cookiecutter gh:darth-veitcher/devenv
 ```
 
 ### From Local Clone
 
 ```bash
-git clone https://github.com/JAMESVEITCH/devenv.git
+git clone https://github.com/darth-veitcher/devenv.git
 cookiecutter devenv/
 ```
 

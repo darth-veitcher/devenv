@@ -4,10 +4,10 @@
 site_name: "devenv"
 site_description: "A sophisticated containerized development environment with Claude AI integration"
 site_author: "James Veitch"
-site_url: "https://jamesveitch.github.io/devenv/"
+site_url: "https://darth-veitcher.github.io/devenv/"
 
-repo_name: "JAMESVEITCH/devenv"
-repo_url: "https://github.com/JAMESVEITCH/devenv"
+repo_name: "darth-veitcher/devenv"
+repo_url: "https://github.com/darth-veitcher/devenv"
 edit_uri: "edit/main/docs/"
 
 # Theme configuration
@@ -95,7 +95,7 @@ markdown_extensions:
   - pymdownx.keys
   - pymdownx.magiclink:
       repo_url_shorthand: true
-      user: JAMESVEITCH
+      user: darth-veitcher
       repo: devenv
   - pymdownx.mark
   - pymdownx.smartsymbols
@@ -139,7 +139,7 @@ nav:
 extra:
   social:
     - icon: fontawesome/brands/github
-      link: https://github.com/JAMESVEITCH
+      link: https://github.com/darth-veitcher
 
   generator: false
 

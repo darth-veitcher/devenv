@@ -84,13 +84,13 @@ jobs:
             ```bash
             # With pip
             pip install cookiecutter
-            cookiecutter gh:JAMESVEITCH/devenv
+            cookiecutter gh:darth-veitcher/devenv
 
             # With uv
-            uvx cookiecutter gh:JAMESVEITCH/devenv
+            uvx cookiecutter gh:darth-veitcher/devenv
             ```
 
-            See [documentation](https://jamesveitch.github.io/devenv/) for full usage guide.
+            See [documentation](https://darth-veitcher.github.io/devenv/) for full usage guide.
           draft: false
           prerelease: ${{ contains(github.ref, '-') }}
         env:

@@ -2,7 +2,7 @@
 
 A [Cookiecutter](https://github.com/cookiecutter/cookiecutter) template for creating sophisticated Python projects with containerized development environments and AI-powered development support.
 
-> **[Full Documentation](https://jamesveitch.github.io/devenv/)** | **[Quick Start](#quick-start)** | **[Features](#features)**
+> **[Full Documentation](https://darth-veitcher.github.io/devenv/)** | **[Quick Start](#quick-start)** | **[Features](#features)**
 
 ## Features
 
@@ -28,10 +28,10 @@ A [Cookiecutter](https://github.com/cookiecutter/cookiecutter) template for crea
 pip install cookiecutter
 
 # Generate project
-cookiecutter gh:JAMESVEITCH/devenv
+cookiecutter gh:darth-veitcher/devenv
 
 # Or with uv
-uvx cookiecutter gh:JAMESVEITCH/devenv
+uvx cookiecutter gh:darth-veitcher/devenv
 ```
 
 ### Answer the Prompts
@@ -94,18 +94,18 @@ just cli --help       # Run CLI commands
 
 ## Documentation
 
-- **[Full Documentation](https://jamesveitch.github.io/devenv/)** - Complete guide
-- **[Getting Started](https://jamesveitch.github.io/devenv/getting-started/quickstart/)** - Step-by-step setup
-- **[Features](https://jamesveitch.github.io/devenv/features/python-scaffold/)** - What's included
-- **[Configuration](https://jamesveitch.github.io/devenv/configuration/cookiecutter-options/)** - All options
-- **[Reference](https://jamesveitch.github.io/devenv/reference/directory-structure/)** - Complete reference
+- **[Full Documentation](https://darth-veitcher.github.io/devenv/)** - Complete guide
+- **[Getting Started](https://darth-veitcher.github.io/devenv/getting-started/quickstart/)** - Step-by-step setup
+- **[Features](https://darth-veitcher.github.io/devenv/features/python-scaffold/)** - What's included
+- **[Configuration](https://darth-veitcher.github.io/devenv/configuration/cookiecutter-options/)** - All options
+- **[Reference](https://darth-veitcher.github.io/devenv/reference/directory-structure/)** - Complete reference
 
 ## Development
 
 To work on the template itself:
 
 ```bash
-git clone https://github.com/JAMESVEITCH/devenv.git
+git clone https://github.com/darth-veitcher/devenv.git
 cd devenv
 
 # Build and serve documentation
@@ -117,7 +117,7 @@ just test
 
 ## Contributing
 
-See [Contributing Guide](https://jamesveitch.github.io/devenv/contributing/) for details.
+See [Contributing Guide](https://darth-veitcher.github.io/devenv/contributing/) for details.
 
 ## License
 

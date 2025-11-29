@@ -126,7 +126,7 @@ app_port [8000]:
 ## Example Session
 
 ```bash
-$ cookiecutter gh:JAMESVEITCH/devenv
+$ cookiecutter gh:darth-veitcher/devenv
 
 project_name [My Project]: Task Tracker API
 project_slug [task-tracker-api]:
@@ -151,7 +151,7 @@ Results in:
 Skip prompts with `--no-input`:
 
 ```bash
-cookiecutter gh:JAMESVEITCH/devenv --no-input \
+cookiecutter gh:darth-veitcher/devenv --no-input \
   project_name="My API" \
   author_name="Jane" \
   github_username="janedeveloper"
@@ -161,7 +161,7 @@ cookiecutter gh:JAMESVEITCH/devenv --no-input \
 
 ```bash
 # Use previous answers
-cookiecutter gh:JAMESVEITCH/devenv --replay
+cookiecutter gh:darth-veitcher/devenv --replay
 ```
 
 ## Config File

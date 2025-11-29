@@ -9,7 +9,8 @@
       "Bash(/bin/bash -c \"cd /Users/darth-veitcher/repos/JAMESVEITCH/devenv && git status\")",
       "Bash(mkdocs build:*)",
       "Bash(pre-commit run:*)",
-      "Bash(pre-commit install:*)"
+      "Bash(pre-commit install:*)",
+      "Bash(gh run:*)"
     ]
   },
   "enableAllProjectMcpServers": true,

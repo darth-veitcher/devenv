@@ -15,7 +15,7 @@ Thank you for your interest in contributing to devenv!
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/JAMESVEITCH/devenv.git
+git clone https://github.com/darth-veitcher/devenv.git
 cd devenv
 ```
 
