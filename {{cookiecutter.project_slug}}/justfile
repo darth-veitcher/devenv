@@ -20,7 +20,7 @@ install-prod:
 # ============================================================================
 # Running
 # ============================================================================
-
+{% if cookiecutter.api_framework == 'fastapi' %}
 # Start the API server
 serve *ARGS:
     uv run {{ cookiecutter.project_slug|replace('-', '_') }} serve {{ '{{' }}ARGS{{ '}}' }}
@@ -28,7 +28,7 @@ serve *ARGS:
 # Start API server in development mode with auto-reload
 dev:
     uv run uvicorn {{ cookiecutter.project_slug|replace('-', '_') }}.api.main:app --reload --host 0.0.0.0 --port {{ cookiecutter.app_port }}
-
+{% endif %}
 # Run CLI command
 cli *ARGS:
     uv run {{ cookiecutter.project_slug|replace('-', '_') }} {{ '{{' }}ARGS{{ '}}' }}
@@ -124,9 +124,9 @@ docs-deploy:
 # Check documentation for broken links
 docs-check:
     uv run mkdocs build --strict
-
+{% if cookiecutter.database_backend == 'postgresql' %}
 # ============================================================================
-# Database (when applicable)
+# Database
 # ============================================================================
 
 # Start local database services
@@ -136,7 +136,7 @@ db-up:
 # Stop local database services
 db-down:
     docker compose -f docker-compose.yml down
-
+{% endif %}
 # ============================================================================
 # Docker
 # ============================================================================
@@ -147,7 +147,11 @@ docker-build:
 
 # Run Docker container
 docker-run:
+{% if cookiecutter.api_framework == 'fastapi' %}
     docker run -p {{ cookiecutter.app_port }}:{{ cookiecutter.app_port }} {{ cookiecutter.project_slug }}:latest
+{% else %}
+    docker run {{ cookiecutter.project_slug }}:latest
+{% endif %}
 
 # Start all services with docker-compose
 up:

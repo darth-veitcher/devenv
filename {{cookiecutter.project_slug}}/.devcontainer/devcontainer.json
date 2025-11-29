@@ -15,25 +15,26 @@
     "ghcr.io/devcontainers-extra/features/pre-commit:2": {}
     // "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {}
   },
-  "forwardPorts": [
-    8000{% if cookiecutter.database_backend == 'postgresql' %},
-    5432{% endif %}{% if cookiecutter.enable_mcp_services == 'yes' and cookiecutter.enable_searxng == 'yes' %},
-    8080{% endif %}{% if cookiecutter.enable_mcp_services == 'yes' and cookiecutter.enable_crawl4ai == 'yes' %},
+  "forwardPorts": [{% if cookiecutter.api_framework == 'fastapi' %}
+    8000{% endif %}{% if cookiecutter.database_backend == 'postgresql' %}{% if cookiecutter.api_framework == 'fastapi' %},{% endif %}
+    5432{% endif %}{% if cookiecutter.enable_mcp_services == 'yes' and cookiecutter.enable_searxng == 'yes' %}{% if cookiecutter.api_framework == 'fastapi' or cookiecutter.database_backend == 'postgresql' %},{% endif %}
+    8080{% endif %}{% if cookiecutter.enable_mcp_services == 'yes' and cookiecutter.enable_crawl4ai == 'yes' %}{% if cookiecutter.api_framework == 'fastapi' or cookiecutter.database_backend == 'postgresql' or (cookiecutter.enable_mcp_services == 'yes' and cookiecutter.enable_searxng == 'yes') %},{% endif %}
     11235{% endif %}
   ],
   "portsAttributes": {
+{%- if cookiecutter.api_framework == 'fastapi' %}
     "8000": {
       "label": "FastAPI App",
       "onAutoForward": "notify"
-    }{% if cookiecutter.database_backend == 'postgresql' %},
+    }{% endif %}{% if cookiecutter.database_backend == 'postgresql' %}{% if cookiecutter.api_framework == 'fastapi' %},{% endif %}
     "5432": {
       "label": "PostgreSQL",
       "onAutoForward": "notify"
-    }{% endif %}{% if cookiecutter.enable_mcp_services == 'yes' and cookiecutter.enable_searxng == 'yes' %},
+    }{% endif %}{% if cookiecutter.enable_mcp_services == 'yes' and cookiecutter.enable_searxng == 'yes' %}{% if cookiecutter.api_framework == 'fastapi' or cookiecutter.database_backend == 'postgresql' %},{% endif %}
     "8080": {
       "label": "SearXNG MCP",
       "onAutoForward": "notify"
-    }{% endif %}{% if cookiecutter.enable_mcp_services == 'yes' and cookiecutter.enable_crawl4ai == 'yes' %},
+    }{% endif %}{% if cookiecutter.enable_mcp_services == 'yes' and cookiecutter.enable_crawl4ai == 'yes' %}{% if cookiecutter.api_framework == 'fastapi' or cookiecutter.database_backend == 'postgresql' or (cookiecutter.enable_mcp_services == 'yes' and cookiecutter.enable_searxng == 'yes') %},{% endif %}
     "11235": {
       "label": "Crawl4AI MCP",
       "onAutoForward": "notify"

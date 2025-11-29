@@ -1,25 +1,36 @@
 # {{ cookiecutter.project_name }} - Docker Compose
-# Application stack with database
+# Application stack{% if cookiecutter.database_backend == 'postgresql' %} with database{% endif %}
 
 services:
   app:
     build: .
+{%- if cookiecutter.api_framework == 'fastapi' %}
     ports:
       - "{{ cookiecutter.app_port }}:{{ cookiecutter.app_port }}"
+{%- endif %}
     networks:
       - shared
+{%- if cookiecutter.database_backend == 'postgresql' %}
       - app-network
+{%- endif %}
     environment:
+{%- if cookiecutter.database_backend == 'postgresql' %}
       - DATABASE_URL=postgresql://{{ cookiecutter.postgres_user }}:{{ cookiecutter.postgres_password }}@postgres:5432/{{ cookiecutter.postgres_db }}
+{%- endif %}
       - DEBUG=false
+{%- if cookiecutter.database_backend == 'postgresql' %}
     depends_on:
       postgres:
         condition: service_healthy
+{%- endif %}
+{%- if cookiecutter.api_framework == 'fastapi' %}
     healthcheck:
       test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:{{ cookiecutter.app_port }}/health')"]
       interval: 30s
       timeout: 5s
       retries: 3
+{%- endif %}
+{% if cookiecutter.database_backend == 'postgresql' %}
 
   postgres:
     image: postgres:{{ cookiecutter.postgres_version }}-alpine
@@ -36,13 +47,18 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
+{%- endif %}
 
 networks:
   shared:
     external: true
     name: devcontainer_shared
+{%- if cookiecutter.database_backend == 'postgresql' %}
   app-network:
     internal: true
+{%- endif %}
+{% if cookiecutter.database_backend == 'postgresql' %}
 
 volumes:
   postgres-data:
+{%- endif %}

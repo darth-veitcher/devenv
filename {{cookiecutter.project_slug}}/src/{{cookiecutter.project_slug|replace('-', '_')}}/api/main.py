@@ -1,3 +1,4 @@
+{%- if cookiecutter.api_framework == 'fastapi' -%}
 """FastAPI application entry point.
 
 REST API presentation layer that delegates to services.
@@ -160,3 +161,10 @@ if __name__ == "__main__":
 
     settings = get_settings()
     uvicorn.run(app, host=settings.host, port=settings.port)
+{%- else -%}
+"""API module - Not enabled.
+
+This project was generated without an API framework.
+To enable FastAPI, regenerate with api_framework='fastapi'.
+"""
+{%- endif %}
