@@ -7,13 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.0] - 2025-11-29
+
 ### Added
 - GitHub Actions CI workflow for template testing and docs deployment
+- GitHub Actions release workflow with automatic changelog extraction
+- Pre-commit hooks for root devenv repository
 - CHANGELOG.md following keep-a-changelog format
 
 ### Changed
 - Cleaned up cookiecutter.json with better defaults and removed unused options
 - Reorganized project-management/ to follow BEACON framework structure
+- Fixed whitespace and EOF issues across codebase
 
 ## [0.2.0] - 2025-11-29
 
@@ -23,6 +28,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - mkdocstrings integration for auto-generated API reference
 - Root justfile with docs commands (docs-serve, docs-build, docs-deploy)
 - uv project configuration with docs dependency group
+- ADRs documenting key architectural decisions (uv, 3-layer, MkDocs, Dev Containers)
+- Background documents (problem statement, architecture)
 
 ### Changed
 - Updated root README.md with cleaner structure and documentation links
@@ -37,12 +44,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - uv package manager with hatch-vcs versioning
 - pytest test suite with 18 passing tests
 - justfile with comprehensive development commands
-- pre-commit hooks for code quality
+- pre-commit hooks for generated projects
 - VS Code Dev Container configuration
 - Claude AI agent configurations
 - MCP server integrations (SearxNG, Crawl4AI, Context7, Memgraph)
 - BEACON framework project-management structure
-- ADRs documenting key architectural decisions
 
 ### Changed
 - Migrated from pip/requirements.txt to uv/pyproject.toml
@@ -55,7 +61,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Docker Compose development environment
 - Basic FastAPI application scaffold
 
-[Unreleased]: https://github.com/JAMESVEITCH/devenv/compare/v0.2.0...HEAD
+[Unreleased]: https://github.com/JAMESVEITCH/devenv/compare/v0.3.0...HEAD
+[0.3.0]: https://github.com/JAMESVEITCH/devenv/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/JAMESVEITCH/devenv/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/JAMESVEITCH/devenv/compare/v0.0.1...v0.1.0
 [0.0.1]: https://github.com/JAMESVEITCH/devenv/releases/tag/v0.0.1
