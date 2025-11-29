@@ -1,7 +1,7 @@
 # Project Roadmap: devenv Cookiecutter Template
 
 ## Current Status
-**Active Bullet:** #15 - Create template mkdocs.yml
+**Active Bullet:** #21 - Create root mkdocs.yml
 **Phase:** BUILD (Documentation)
 **Started:** 2025-11-29
 **Target Completion:** 2025-11-30
@@ -40,15 +40,15 @@
 
 *Started 2025-11-29*
 
-### Phase 5: Template MkDocs Foundation (Bullets 15-17)
-- [ ] **Bullet #15**: Create mkdocs.yml with mkdocs-material theme
-- [ ] **Bullet #16**: Add docs/ scaffold with index.md and structure
-- [ ] **Bullet #17**: Configure mkdocstrings for API reference
+### Phase 5: Template MkDocs Foundation (Bullets 15-17) ✅
+- [x] **Bullet #15**: Create mkdocs.yml with mkdocs-material theme
+- [x] **Bullet #16**: Add docs/ scaffold with index.md and structure
+- [x] **Bullet #17**: Configure mkdocstrings for API reference
 
-### Phase 6: Template Documentation Content (Bullets 18-20)
-- [ ] **Bullet #18**: Write getting-started/ (installation, quickstart, config)
-- [ ] **Bullet #19**: Write architecture/ (3-layer overview, domain, adapters, services)
-- [ ] **Bullet #20**: Write api/ and reference/ (CLI, REST, auto-docs)
+### Phase 6: Template Documentation Content (Bullets 18-20) ✅
+- [x] **Bullet #18**: Write getting-started/ (installation, quickstart, config)
+- [x] **Bullet #19**: Write architecture/ (3-layer overview, domain, adapters, services)
+- [x] **Bullet #20**: Write api/ and reference/ (CLI, REST, auto-docs)
 
 ### Phase 7: Root devenv Documentation (Bullets 21-23)
 - [ ] **Bullet #21**: Create root mkdocs.yml and docs/ scaffold
@@ -63,14 +63,14 @@
 ---
 
 ## Today's Focus
-**Bullet:** #15
-**Goal:** Create working MkDocs site with mkdocs-material theme
-**Success Criteria:** `just docs-serve` shows themed documentation
+**Bullet:** #21
+**Goal:** Create root mkdocs.yml and docs/ scaffold for devenv template docs
+**Success Criteria:** `mkdocs serve` works in root directory
 
 ## Recent Completions
+- 2025-11-29: Phase 5-6 complete - Template docs with 20+ pages, mkdocstrings configured
 - 2025-11-29: Documentation plan created (Work/planning/documentation-overhaul.md)
 - 2025-11-29: Milestone 1 complete - Python quickstart with 18 passing tests
-- 2025-11-28: Project assessment, roadmap created
 
 ## Blockers & Decisions
 - [x] Decision: Theme → mkdocs-material (modern, feature-rich)
