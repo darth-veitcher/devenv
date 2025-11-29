@@ -1,10 +1,10 @@
 # Project Roadmap: devenv Cookiecutter Template
 
 ## Current Status
-**Active Bullet:** None - Milestone 2 Complete
-**Phase:** SHIP
+**Active Bullet:** #27 - GitHub Actions CI
+**Phase:** BUILD (CI/CD & Quality)
 **Started:** 2025-11-29
-**Completed:** 2025-11-29
+**Target Completion:** 2025-11-29
 
 ---
 
@@ -62,31 +62,52 @@
 
 ---
 
+## Milestone 3: CI/CD & Quality 🚧
+
+*Started 2025-11-29*
+
+### Phase 9: Continuous Integration (Bullets 27-29)
+- [x] **Bullet #27**: Add GitHub Actions CI workflow
+- [x] **Bullet #28**: Auto-deploy docs to GitHub Pages on push to main
+- [x] **Bullet #29**: Clean up cookiecutter.json and add CHANGELOG.md
+
+### Phase 10: Quality & Housekeeping (Bullets 30-32)
+- [ ] **Bullet #30**: Add pre-commit hooks to root devenv repo
+- [ ] **Bullet #31**: Create release workflow with semantic versioning
+- [ ] **Bullet #32**: Tag v0.2.0 release
+
+---
+
+## Milestone 4: Template Customization (Future)
+
+*Not started*
+
+### Phase 11: Conditional Features (Bullets 33-35)
+- [ ] **Bullet #33**: Make enable_mcp_services actually toggle compose services
+- [ ] **Bullet #34**: Add database choice (PostgreSQL, SQLite, None)
+- [ ] **Bullet #35**: Add API framework choice (FastAPI, Flask, None)
+
+### Phase 12: Feature Templates (Bullets 36-38)
+- [ ] **Bullet #36**: Add authentication feature template
+- [ ] **Bullet #37**: Add database migrations (Alembic) feature
+- [ ] **Bullet #38**: Add background tasks (Celery/ARQ) feature
+
+---
+
+## Today's Focus
+**Bullet:** #30
+**Goal:** Add pre-commit hooks to root devenv repo
+**Success Criteria:** `pre-commit run --all-files` passes
+
 ## Recent Completions
+- 2025-11-29: Bullets 27-29 - CI workflow, docs deployment, cookiecutter cleanup
 - 2025-11-29: Milestone 2 complete - Documentation overhaul with MkDocs
-- 2025-11-29: Phase 5-6 complete - Template docs with 20+ pages, mkdocstrings configured
 - 2025-11-29: Milestone 1 complete - Python quickstart with 18 passing tests
 
 ## Decisions Made
-- [x] Decision: Theme → mkdocs-material (modern, feature-rich)
-- [x] Decision: API docs → mkdocstrings with Google-style docstrings
-- [x] Decision: Hosting → GitHub Pages ready (gh-deploy)
-- [x] Decision: Root docs use uv with --group docs
-
-## What Was Delivered
-
-### Template Documentation (generated with each project)
-- 20+ documentation pages
-- Getting Started guide
-- Architecture documentation (3-layer)
-- API reference with mkdocstrings auto-docs
-- Development guides including BEACON methodology
-
-### Root devenv Documentation
-- Complete template usage guide
-- Feature documentation
-- Configuration reference
-- Contributing guide
+- [x] Decision: CI → GitHub Actions with uv
+- [x] Decision: Docs hosting → GitHub Pages via gh-deploy
+- [x] Decision: Changelog format → Keep a Changelog
 
 ---
 *Last Updated: 2025-11-29*
