@@ -101,7 +101,9 @@
 **Success Criteria:** All files synced, docs consistent
 
 ## Recent Completions
-- 2025-11-29: Synced .mcp.json between root and template (fixed JSONC comments)
+- 2025-11-29: Fixed GitHub username references (JAMESVEITCH → darth-veitcher)
+- 2025-11-29: Fixed ruff linter errors in generated template (modern Python typing)
+- 2025-11-29: Added .gitignore entries for .env and build artifacts
 - 2025-11-29: Milestone 3 complete - CI/CD & Quality (v0.3.0 tagged)
 - 2025-11-29: Milestone 2 complete - Documentation overhaul with MkDocs
 - 2025-11-29: Milestone 1 complete - Python quickstart with 18 passing tests
