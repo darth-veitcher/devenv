@@ -9,3 +9,7 @@
 
 # Local
 .env
+.venv
+
+# Build outputs
+site/

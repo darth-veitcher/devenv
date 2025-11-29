@@ -1,0 +1,148 @@
+# MkDocs configuration for devenv - Cookiecutter Template
+# Documentation: https://www.mkdocs.org/
+
+site_name: "devenv"
+site_description: "A sophisticated containerized development environment with Claude AI integration"
+site_author: "James Veitch"
+site_url: "https://jamesveitch.github.io/devenv/"
+
+repo_name: "JAMESVEITCH/devenv"
+repo_url: "https://github.com/JAMESVEITCH/devenv"
+edit_uri: "edit/main/docs/"
+
+# Theme configuration
+theme:
+  name: material
+  language: en
+
+  palette:
+    # Light mode
+    - scheme: default
+      primary: deep-purple
+      accent: deep-purple
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    # Dark mode
+    - scheme: slate
+      primary: deep-purple
+      accent: deep-purple
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+
+  features:
+    # Navigation
+    - navigation.instant
+    - navigation.instant.prefetch
+    - navigation.tracking
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - navigation.footer
+
+    # Table of contents
+    - toc.follow
+
+    # Search
+    - search.suggest
+    - search.highlight
+    - search.share
+
+    # Content
+    - content.code.copy
+    - content.code.annotate
+    - content.tabs.link
+    - content.tooltips
+
+  icon:
+    repo: fontawesome/brands/github
+
+# Plugins
+plugins:
+  - search:
+      separator: '[\s\-,:!=\[\]()"/]+|(?!\b)(?=[A-Z][a-z])|\.(?!\d)|&[lg]t;'
+
+# Markdown extensions
+markdown_extensions:
+  # Python Markdown
+  - abbr
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+      toc_depth: 3
+
+  # PyMdown Extensions
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.caret
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - pymdownx.magiclink:
+      repo_url_shorthand: true
+      user: JAMESVEITCH
+      repo: devenv
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.snippets:
+      base_path: docs
+      check_paths: true
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tilde
+
+# Page tree / Navigation
+nav:
+  - Home: index.md
+  - Getting Started:
+    - Prerequisites: getting-started/prerequisites.md
+    - Quickstart: getting-started/quickstart.md
+    - Dev Containers: getting-started/dev-containers.md
+  - Features:
+    - Python Scaffold: features/python-scaffold.md
+    - BEACON Framework: features/beacon-framework.md
+    - Claude AI Agents: features/claude-agents.md
+    - MCP Servers: features/mcp-servers.md
+    - Docker Setup: features/docker-setup.md
+  - Configuration:
+    - Cookiecutter Options: configuration/cookiecutter-options.md
+    - Customization: configuration/customization.md
+  - Reference:
+    - Directory Structure: reference/directory-structure.md
+    - Justfile Commands: reference/justfile-commands.md
+    - Dependencies: reference/dependencies.md
+  - Contributing: contributing.md
+
+# Extra configuration
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/JAMESVEITCH
+
+  generator: false
+
+# Watch for auto-reload during development
+watch:
+  - docs

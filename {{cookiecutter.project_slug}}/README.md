@@ -136,9 +136,19 @@ just test-integration  # API tests
 just test-cov          # With coverage report
 ```
 
-## API Documentation
+## Documentation
 
-When the server is running, API docs are available at:
+Full project documentation is available via MkDocs:
+
+```bash
+just docs-serve      # Serve docs locally at http://localhost:8000
+just docs-build      # Build static site to site/
+just docs-deploy     # Deploy to GitHub Pages
+```
+
+### API Documentation
+
+When the server is running, interactive API docs are available at:
 
 - **Swagger UI**: http://localhost:{{ cookiecutter.app_port }}/docs
 - **ReDoc**: http://localhost:{{ cookiecutter.app_port }}/redoc
