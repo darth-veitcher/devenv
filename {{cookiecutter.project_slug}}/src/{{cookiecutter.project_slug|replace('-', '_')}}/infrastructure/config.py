@@ -6,7 +6,6 @@ Environment variables and configuration management following 12-factor app princ
 from __future__ import annotations
 
 from functools import lru_cache
-from typing import Optional
 
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
@@ -37,7 +36,7 @@ class Settings(BaseSettings):
     port: int = {{ cookiecutter.app_port }}
 
     # Database
-    database_url: Optional[str] = None
+    database_url: str | None = None
 
     @property
     def is_production(self) -> bool:

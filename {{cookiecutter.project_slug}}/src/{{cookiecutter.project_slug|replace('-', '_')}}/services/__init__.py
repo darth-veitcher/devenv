@@ -6,7 +6,7 @@ on domain entities through repository interfaces.
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Optional
+from typing import TYPE_CHECKING
 from uuid import UUID
 
 if TYPE_CHECKING:
@@ -51,7 +51,7 @@ class ExampleService:
         entity = ExampleEntity(name=name.strip(), description=description)
         return await self._repository.save(entity)
 
-    async def get_by_id(self, entity_id: UUID) -> Optional[ExampleEntity]:
+    async def get_by_id(self, entity_id: UUID) -> ExampleEntity | None:
         """Retrieve an entity by ID."""
         return await self._repository.get_by_id(entity_id)
 

@@ -8,7 +8,6 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 from datetime import UTC, datetime
-from typing import Optional
 from uuid import UUID, uuid4
 
 
@@ -18,7 +17,7 @@ class EntityBase:
 
     id: UUID = field(default_factory=uuid4)
     created_at: datetime = field(default_factory=lambda: datetime.now(UTC))
-    updated_at: Optional[datetime] = None
+    updated_at: datetime | None = None
 
 
 # Example entity - replace with your domain entities

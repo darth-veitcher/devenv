@@ -6,7 +6,7 @@ domain objects and storage formats.
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Optional, Protocol
+from typing import TYPE_CHECKING, Protocol
 from uuid import UUID
 
 if TYPE_CHECKING:
@@ -19,7 +19,7 @@ class ExampleRepository(Protocol):
     Implementations should handle actual persistence (database, file, memory).
     """
 
-    async def get_by_id(self, entity_id: UUID) -> Optional[ExampleEntity]:
+    async def get_by_id(self, entity_id: UUID) -> ExampleEntity | None:
         """Retrieve an entity by its unique identifier."""
         ...
 
@@ -38,7 +38,7 @@ class InMemoryExampleRepository:
     def __init__(self) -> None:
         self._storage: dict[UUID, ExampleEntity] = {}
 
-    async def get_by_id(self, entity_id: UUID) -> Optional[ExampleEntity]:
+    async def get_by_id(self, entity_id: UUID) -> ExampleEntity | None:
         """Retrieve entity from memory."""
         return self._storage.get(entity_id)
 

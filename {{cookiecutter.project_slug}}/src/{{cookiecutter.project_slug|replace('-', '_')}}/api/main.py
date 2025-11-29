@@ -5,8 +5,9 @@ REST API presentation layer that delegates to services.
 
 from __future__ import annotations
 
+from collections.abc import AsyncGenerator
 from contextlib import asynccontextmanager
-from typing import Any, AsyncGenerator, Optional
+from typing import Annotated, Any
 from uuid import UUID
 
 from fastapi import Depends, FastAPI, HTTPException
@@ -40,7 +41,7 @@ class HealthResponse(BaseModel):
 
     status: str
     app_name: str
-    database: Optional[str]
+    database: str | None
 
 
 # Dependency injection
@@ -52,9 +53,14 @@ def get_example_service() -> ExampleService:
     return ExampleService(_repository)
 
 
+# Type aliases for dependency injection (B008 fix)
+SettingsDep = Annotated[Settings, Depends(get_settings)]
+ServiceDep = Annotated[ExampleService, Depends(get_example_service)]
+
+
 # Application lifecycle
 @asynccontextmanager
-async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
+async def lifespan(_app: FastAPI) -> AsyncGenerator[None, None]:
     """Application lifespan manager."""
     # Startup
     yield
@@ -78,7 +84,7 @@ def root() -> dict[str, str]:
 
 
 @app.get("/health", response_model=HealthResponse)
-def health(settings: Settings = Depends(get_settings)) -> HealthResponse:
+def health(settings: SettingsDep) -> HealthResponse:
     """Health check endpoint."""
     return HealthResponse(
         status="ok",
@@ -90,7 +96,7 @@ def health(settings: Settings = Depends(get_settings)) -> HealthResponse:
 @app.post("/entities", response_model=EntityResponse, status_code=201)
 async def create_entity(
     request: CreateEntityRequest,
-    service: ExampleService = Depends(get_example_service),
+    service: ServiceDep,
 ) -> Any:
     """Create a new entity."""
     try:
@@ -107,7 +113,7 @@ async def create_entity(
 @app.get("/entities/{entity_id}", response_model=EntityResponse)
 async def get_entity(
     entity_id: UUID,
-    service: ExampleService = Depends(get_example_service),
+    service: ServiceDep,
 ) -> Any:
     """Get an entity by ID."""
     entity = await service.get_by_id(entity_id)
@@ -123,7 +129,7 @@ async def get_entity(
 @app.delete("/entities/{entity_id}", status_code=204)
 async def delete_entity(
     entity_id: UUID,
-    service: ExampleService = Depends(get_example_service),
+    service: ServiceDep,
 ) -> None:
     """Delete an entity by ID."""
     deleted = await service.delete(entity_id)

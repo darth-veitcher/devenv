@@ -6,7 +6,7 @@ Command-line interface using Typer that delegates to services.
 from __future__ import annotations
 
 import asyncio
-from typing import Optional
+from typing import Annotated
 from uuid import UUID
 
 import typer
@@ -74,12 +74,12 @@ def create(
             console.print(f"  Description: {entity.description}")
     except ValueError as e:
         console.print(f"[red]Error:[/red] {e}")
-        raise typer.Exit(1)
+        raise typer.Exit(1) from None
 
 
 @app.command()
 def get(
-    entity_id: UUID = typer.Argument(..., help="Entity UUID"),
+    entity_id: Annotated[UUID, typer.Argument(help="Entity UUID")],
 ) -> None:
     """Get an entity by ID."""
     entity = run_async(_service.get_by_id(entity_id))
@@ -101,8 +101,8 @@ def get(
 
 @app.command()
 def serve(
-    host: Optional[str] = typer.Option(None, "--host", "-h", help="Host to bind to"),
-    port: Optional[int] = typer.Option(None, "--port", "-p", help="Port to bind to"),
+    host: str | None = typer.Option(None, "--host", "-h", help="Host to bind to"),
+    port: int | None = typer.Option(None, "--port", "-p", help="Port to bind to"),
 ) -> None:
     """Start the API server."""
     import uvicorn
