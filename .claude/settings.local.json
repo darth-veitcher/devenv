@@ -3,7 +3,10 @@
   "permissions": {
     "allow": [
       "mcp__serena__activate_project",
-      "Bash(just test:*)"
+      "Bash(just test:*)",
+      "Bash(test_python_quickstart:*)",
+      "Bash(git -C /Users/darth-veitcher/repos/JAMESVEITCH/devenv status)",
+      "Bash(/bin/bash -c \"cd /Users/darth-veitcher/repos/JAMESVEITCH/devenv && git status\")"
     ]
   },
   "enableAllProjectMcpServers": true,
