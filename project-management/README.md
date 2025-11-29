@@ -14,8 +14,7 @@ project-management/
 │
 ├── Background/              # Product Requirements & Context
 │   ├── 00-problem-statement.md      # Why we're building this
-│   ├── 01-final-architecture-document.md  # How it's architected
-│   └── archive/             # Historical planning documents
+│   └── 01-final-architecture-document.md  # How it's architected
 │
 ├── Roadmap/                 # Development Plan
 │   ├── README.md            # Current roadmap and status
@@ -54,17 +53,6 @@ project-management/
 ### Roadmap (Living)
 
 - **[Current Roadmap](Roadmap/README.md)** - Active milestones and tracer bullets
-
-## Historical Context
-
-The `Background/archive/` directory contains original planning documents from before the BEACON framework was adopted. These include:
-
-- Original PRD and implementation plans
-- Agent implementation guides
-- MCP server analysis
-- Various "Solo Dev" vision documents
-
-These are preserved for historical reference but are superseded by the current BEACON-structured documents.
 
 ## BEACON Framework
 
