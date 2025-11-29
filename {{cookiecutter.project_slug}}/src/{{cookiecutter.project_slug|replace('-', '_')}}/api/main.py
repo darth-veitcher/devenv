@@ -12,46 +12,20 @@ from typing import Annotated, Any
 from uuid import UUID
 
 from fastapi import Depends, FastAPI, HTTPException
-from pydantic import BaseModel, ConfigDict
 {%- if cookiecutter.database_backend == 'none' %}
 
 from ..adapters.repositories import InMemoryExampleRepository
 from ..infrastructure.config import Settings, get_settings
 from ..services import ExampleService
+from .schemas import CreateEntityRequest, EntityResponse, HealthResponse
 {%- else %}
 
 from ..adapters.repositories import SQLAlchemyExampleRepository
 from ..infrastructure.config import Settings, get_settings
 from ..infrastructure.database import close_db, init_db
 from ..services import ExampleService
+from .schemas import CreateEntityRequest, EntityResponse, HealthResponse
 {%- endif %}
-
-
-# Request/Response schemas
-class CreateEntityRequest(BaseModel):
-    """Request schema for creating an entity."""
-
-    name: str
-    description: str = ""
-
-
-class EntityResponse(BaseModel):
-    """Response schema for entity data."""
-
-    model_config = ConfigDict(from_attributes=True)
-
-    id: UUID
-    name: str
-    description: str
-
-
-class HealthResponse(BaseModel):
-    """Health check response."""
-
-    status: str
-    app_name: str
-    database: str | None
-
 
 # Dependency injection
 {% if cookiecutter.database_backend == 'none' %}
