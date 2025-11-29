@@ -4,7 +4,7 @@ default_language_version:
 repos:
   # General file fixes
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v6.0.0
+    rev: v5.0.0
     hooks:
       - id: trailing-whitespace
         name: Trim trailing whitespace
@@ -12,10 +12,14 @@ repos:
         name: Fix end of files
       - id: check-yaml
         name: Check YAML syntax
+        args: ["--unsafe"]  # Allow Python constructors in mkdocs.yml
+        exclude: "{{cookiecutter"
       - id: check-json
         name: Check JSON syntax
+        exclude: "(devcontainer\\.json|\\.mcp\\.json)"  # These have trailing commas (JSONC)
       - id: check-toml
         name: Check TOML syntax
+        exclude: "{{cookiecutter"
       - id: check-added-large-files
         name: Check for large files
         args: ["--maxkb=1000"]
@@ -29,137 +33,44 @@ repos:
         name: Fix mixed line endings
         args: ["--fix=lf"]
 
-  # Python-specific checks
-  - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v6.0.0
-    hooks:
-      - id: check-ast
-        name: Check Python AST
-      - id: check-docstring-first
-        name: Check docstring is first
-      - id: debug-statements
-        name: Check for debug statements
-      - id: name-tests-test
-        name: Check test naming
-        args: ["--pytest-test-first"]
-        exclude: "tests/qualitative/"
-
-  # Ruff - Fast Python linter and formatter
-  - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.12.8
-    hooks:
-      # Run the linter (includes import sorting)
-      - id: ruff
-        name: Ruff linter (includes import sorting)
-        args: [--fix]
-      # Run the formatter
-      - id: ruff-format
-        name: Ruff formatter
-
-  # Type checking with mypy (runs on every commit)
-  - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v1.17.1
-    hooks:
-      - id: mypy
-        name: Type check with mypy
-        additional_dependencies:
-          - types-pyyaml
-          - types-requests
-          - pydantic>=2.0.0
-          - typer
-          - rich
-        args:
-          [
-            --ignore-missing-imports,
-            --no-strict-optional,
-            --warn-unused-ignores,
-            --check-untyped-defs,
-          ]
-        exclude: ^(tests/|docs/|scripts/|examples/|)
-        # Run on commit by default, not just manual stage
-
-  # Security checks with bandit (manual stage - run with pre-commit run --hook-stage manual bandit)
-  - repo: https://github.com/PyCQA/bandit
-    rev: 1.8.6
-    hooks:
-      - id: bandit
-        name: Security check with bandit
-        args: ["-ll", "-i", "-r", "src/"]
-        exclude: ^tests/
-        stages: [manual]
-
-  # Check for outdated Python syntax
-  - repo: https://github.com/asottile/pyupgrade
-    rev: v3.20.0
-    hooks:
-      - id: pyupgrade
-        name: Upgrade Python syntax
-        args: [--py39-plus]
-
-  # Markdown linting
+  # Markdown linting (skip cookiecutter template files)
   - repo: https://github.com/igorshubovych/markdownlint-cli
-    rev: v0.45.0
+    rev: v0.43.0
     hooks:
       - id: markdownlint
         name: Lint markdown files
-        args: ["--fix", "--disable", "MD013", "--disable", "MD033"]
+        args: ["--fix", "--disable", "MD013", "--disable", "MD033", "--disable", "MD041"]
+        exclude: "{{cookiecutter"
 
-  # YAML linting
+  # YAML linting (skip cookiecutter template files)
   - repo: https://github.com/adrienverge/yamllint
-    rev: v1.37.1
+    rev: v1.35.1
     hooks:
       - id: yamllint
         name: Lint YAML files
         args: ["-d", "relaxed"]
+        exclude: "{{cookiecutter"
 
-  # Local hooks for project-specific checks
+  # Local hooks
   - repo: local
     hooks:
-      # Run tests (fast tests only) - manual stage for on-demand testing
-      - id: pytest-fast
-        name: Run fast tests
-        entry: uv run pytest tests/ -m "not slow" --tb=short -q
+      # Test template generation (manual - run with: pre-commit run --hook-stage manual test-template)
+      - id: test-template
+        name: Test cookiecutter generation
+        entry: bash -c 'rm -rf /tmp/pre-commit-test && cookiecutter . --no-input -o /tmp project_name="pre-commit-test" >/dev/null 2>&1 && cd /tmp/pre-commit-test && uv sync --quiet && uv run pytest -q && rm -rf /tmp/pre-commit-test'
         language: system
-        types: [python]
         pass_filenames: false
         stages: [manual]
 
-      # Check that pyproject.toml is valid
-      - id: check-pyproject
-        name: Validate pyproject.toml
-        entry: uv run python -c "import tomllib; tomllib.load(open('pyproject.toml', 'rb'))"
+      # Verify cookiecutter.json is valid
+      - id: check-cookiecutter
+        name: Validate cookiecutter.json
+        entry: python3 -c "import json; json.load(open('cookiecutter.json'))"
         language: system
-        files: pyproject.toml
+        files: cookiecutter.json
         pass_filenames: false
-
-      # Ensure no print statements in src/ (exclude migration, hooks, demos, and examples which need them)
-      - id: no-print-statements
-        name: Check for print statements
-        entry: '(?<!def )(?<!console\.)print\('
-        language: pygrep
-        types: [python]
-        exclude: ^(tests/|scripts/|docs/|examples/)
-
-      # Check for TODO comments (manual stage only)
-      - id: check-todos
-        name: Check for TODO comments
-        entry: "(TODO|FIXME|XXX):"
-        language: pygrep
-        types: [python]
-        pass_filenames: true
-        verbose: true
-        stages: [manual]
-
-      # Verify no sensitive data
-      - id: no-sensitive-data
-        name: Check for sensitive data
-        entry: "(api[_-]?key|secret|token|password|pwd|passwd)\\s*=\\s*[\"'][^\"']+[\"']"
-        language: pygrep
-        types: [python]
-        exclude: ^(tests/|\.env\.example)
 
 ci:
-  # Run pre-commit.ci for automatic fixes in PRs
   autofix_prs: true
   autofix_commit_msg: |
     [pre-commit.ci] auto fixes from hooks
@@ -167,4 +78,4 @@ ci:
     for more information, see https://pre-commit.ci
   autoupdate_schedule: weekly
   autoupdate_commit_msg: "[pre-commit.ci] pre-commit autoupdate"
-  skip: [pytest-fast, check-pyproject] # These require local environment
+  skip: [test-template]  # Requires cookiecutter and uv installed

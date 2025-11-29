@@ -20,7 +20,7 @@ def init_git():
 def init_submodules():
     """Initialize git submodules for MCP servers."""
     print("\nInitializing MCP server submodules...")
-    
+
     # Add memgraph-ai-toolkit submodule
     memgraph_path = '.devcontainer/mcp/memgraph-ai-toolkit'
     if not os.path.exists(memgraph_path):
@@ -30,7 +30,7 @@ def init_submodules():
         print("Memgraph AI Toolkit submodule added!")
     else:
         print("Memgraph AI Toolkit submodule already exists.")
-    
+
     # Commit the submodule addition
     subprocess.call(['git', 'add', '.gitmodules', memgraph_path])
     subprocess.call(['git', 'commit', '-m', 'Add memgraph-ai-toolkit submodule'])
@@ -39,25 +39,25 @@ def init_submodules():
 def setup_precommit():
     """Set up pre-commit hooks."""
     print("\nSetting up pre-commit hooks...")
-    
+
     try:
         # Install pre-commit using uv
-        subprocess.check_call(['uv', 'add', '--dev', 'pre-commit'], 
-                            stdout=subprocess.DEVNULL, 
+        subprocess.check_call(['uv', 'add', '--dev', 'pre-commit'],
+                            stdout=subprocess.DEVNULL,
                             stderr=subprocess.DEVNULL)
-        
+
         # Install pre-commit hooks
-        subprocess.check_call(['uv', 'run', 'pre-commit', 'install'], 
-                            stdout=subprocess.DEVNULL, 
+        subprocess.check_call(['uv', 'run', 'pre-commit', 'install'],
+                            stdout=subprocess.DEVNULL,
                             stderr=subprocess.DEVNULL)
-        
+
         print("✅ Pre-commit hooks installed successfully!")
-        
+
         # Optional: Install commit-msg hook for better commit messages
-        subprocess.call(['uv', 'run', 'pre-commit', 'install', '--hook-type', 'commit-msg'], 
-                       stdout=subprocess.DEVNULL, 
+        subprocess.call(['uv', 'run', 'pre-commit', 'install', '--hook-type', 'commit-msg'],
+                       stdout=subprocess.DEVNULL,
                        stderr=subprocess.DEVNULL)
-        
+
     except subprocess.CalledProcessError as e:
         print(f"⚠️ Warning: Failed to set up pre-commit hooks: {e}")
         print("You can set them up manually later with: uv run pre-commit install")
@@ -70,26 +70,26 @@ def main():
     """Main entry point for post generation hook."""
     print("\n🎉 Project '{{ cookiecutter.project_name }}' created successfully!")
     print("\nPost-generation tasks:")
-    
+
     # Initialize git repository
     init_git()
-    
+
     # Initialize submodules
     init_submodules()
-    
+
     # Set up pre-commit hooks
     setup_precommit()
-    
+
     # Print next steps
     print("\n📋 Next steps:")
     print("1. cd {{ cookiecutter.project_slug }}")
     print("2. Open in VS Code: code .")
     print("3. Reopen in Dev Container when prompted")
     print("4. Start coding! 🚀")
-    
+
     if "{{ cookiecutter.use_claude_ai }}" == "yes":
         print("\n🤖 Claude AI is configured and ready to assist you!")
-    
+
     print("\nFor more information, see the README.md file.")
 
 
