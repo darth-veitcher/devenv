@@ -86,7 +86,11 @@ test-unit:
 
 # Run only integration tests
 test-integration:
+{%- if cookiecutter.database_backend == 'postgresql' %}
+    DATABASE_URL="postgresql+asyncpg://{{ cookiecutter.postgres_user }}:{{ cookiecutter.postgres_password }}@localhost:5433/{{ cookiecutter.postgres_db }}" uv run pytest tests/integration/
+{%- else %}
     uv run pytest tests/integration/
+{%- endif %}
 
 # ============================================================================
 # Build & Release
@@ -147,11 +151,11 @@ docker-build:
 
 # Run Docker container
 docker-run:
-{% if cookiecutter.api_framework == 'fastapi' %}
+{%- if cookiecutter.api_framework == 'fastapi' %}
     docker run -p {{ cookiecutter.app_port }}:{{ cookiecutter.app_port }} {{ cookiecutter.project_slug }}:latest
-{% else %}
+{%- else %}
     docker run {{ cookiecutter.project_slug }}:latest
-{% endif %}
+{%- endif %}
 
 # Start all services with docker-compose
 up:
