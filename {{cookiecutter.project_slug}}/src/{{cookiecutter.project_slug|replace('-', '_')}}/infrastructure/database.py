@@ -10,8 +10,13 @@ from contextlib import asynccontextmanager
 {%- if cookiecutter.database_backend == 'sqlite' %}
 from pathlib import Path
 {%- endif %}
+{%- if cookiecutter.database_backend == 'postgresql' %}
+
+from sqlalchemy import MetaData, text
+{%- else %}
 
 from sqlalchemy import MetaData
+{%- endif %}
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
 from sqlalchemy.orm import DeclarativeBase
 
@@ -95,6 +100,10 @@ async def init_db() -> None:
 
     engine = get_engine()
     async with engine.begin() as conn:
+{%- if cookiecutter.database_backend == 'postgresql' %}
+        # Enable pgvector extension for vector similarity search
+        await conn.execute(text("CREATE EXTENSION IF NOT EXISTS vector"))
+{%- endif %}
         await conn.run_sync(Base.metadata.create_all)
 
 

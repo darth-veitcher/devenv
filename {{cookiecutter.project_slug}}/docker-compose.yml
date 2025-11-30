@@ -33,7 +33,7 @@ services:
 {% if cookiecutter.database_backend == 'postgresql' %}
 
   postgres:
-    image: postgres:{{ cookiecutter.postgres_version }}-alpine
+    image: pgvector/pgvector:pg{{ cookiecutter.postgres_version }}
     ports:
       - "5433:5432"
     environment:
