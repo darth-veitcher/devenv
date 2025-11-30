@@ -1,10 +1,10 @@
 # Project Roadmap: devenv Cookiecutter Template
 
 ## Current Status
-**Active Bullet:** Phase 11 Complete - Ready for Phase 12
-**Phase:** BUILD
+**Active Bullet:** Milestone 4 Complete!
+**Phase:** SHIP
 **Started:** 2025-11-29
-**Milestone 4:** In Progress (Phase 11 Complete)
+**Milestone 4:** Complete (v0.4.0)
 
 ---
 
@@ -78,9 +78,9 @@
 
 ---
 
-## Milestone 4: Template Customization (In Progress)
+## Milestone 4: Template Customization ✅
 
-*Started 2025-11-29*
+*Completed 2025-11-30*
 
 ### Phase 11: Conditional Features (Bullets 33-36) ✅
 - [x] **Bullet #33**: Make enable_mcp_services toggle compose services
@@ -88,26 +88,40 @@
 - [x] **Bullet #35**: Add database choice (PostgreSQL, SQLite, None)
 - [x] **Bullet #36**: Add API framework choice (FastAPI, None)
 
-### Phase 12: Feature Templates (Bullets 37-39)
-- [ ] **Bullet #37**: Add authentication feature template
-- [ ] **Bullet #38**: Add database migrations (Alembic) feature
-- [ ] **Bullet #39**: Add background tasks (Celery/ARQ) feature
+### Phase 12: Polish & Ship (Bullets 37-40) ✅
+- [x] **Bullet #37**: Separate SQLAlchemy models from repositories (adapters/models.py)
+- [x] **Bullet #38**: Add Pydantic schemas for API DTOs (api/schemas.py)
+- [x] **Bullet #39**: Expose PostgreSQL port 5433 for integration testing
+- [x] **Bullet #40**: Enhance `just test-integration` with DATABASE_URL
+- [x] **Bullet #41**: Verify full configuration matrix (6 combinations, all pass)
 
 ---
 
-## Today's Focus
-**Phase 11:** Complete!
-**Goal:** All conditional features implemented
-**Next:** Phase 12 - Feature Templates (authentication, migrations, background tasks)
+## Configuration Matrix
+
+All 6 combinations verified with real services:
+
+| api_framework | database_backend | Tests | Status |
+|---------------|------------------|-------|--------|
+| fastapi | none | 18 | ✅ |
+| fastapi | sqlite | 18 | ✅ |
+| fastapi | postgresql | 18 | ✅ |
+| none | none | 12 | ✅ |
+| none | sqlite | 12 | ✅ |
+| none | postgresql | 12 | ✅ |
+
+---
 
 ## Recent Completions
-- 2025-11-29: Bullet #36 - API framework choice (FastAPI, None) - Phase 11 Complete!
-- 2025-11-29: Bullet #35 - Database backend choice (PostgreSQL, SQLite, None) with SQLAlchemy async
+- 2025-11-30: Bullet #41 - Full matrix verification, Milestone 4 complete!
+- 2025-11-30: Bullet #40 - Enhanced just test-integration for PostgreSQL
+- 2025-11-30: Bullet #39 - Exposed PostgreSQL port for host integration testing
+- 2025-11-30: Bullet #38 - Added Pydantic schemas (api/schemas.py)
+- 2025-11-30: Bullet #37 - Separated SQLAlchemy models (adapters/models.py)
+- 2025-11-29: Bullet #36 - API framework choice (FastAPI, None)
+- 2025-11-29: Bullet #35 - Database backend choice (PostgreSQL, SQLite, None)
 - 2025-11-29: Bullet #34 - Conditional .mcp.json based on enable_* flags
 - 2025-11-29: Bullet #33 - Conditional compose services based on enable_* flags
-- 2025-11-29: Fixed GitHub username references (JAMESVEITCH → darth-veitcher)
-- 2025-11-29: Fixed ruff linter errors in generated template (modern Python typing)
-- 2025-11-29: Added .gitignore entries for .env and build artifacts
 - 2025-11-29: Milestone 3 complete - CI/CD & Quality (v0.3.0 tagged)
 - 2025-11-29: Milestone 2 complete - Documentation overhaul with MkDocs
 - 2025-11-29: Milestone 1 complete - Python quickstart with 18 passing tests
@@ -116,6 +130,7 @@
 - [x] Decision: CI → GitHub Actions with uv
 - [x] Decision: Docs hosting → GitHub Pages via gh-deploy
 - [x] Decision: Changelog format → Keep a Changelog
+- [x] Decision: Phase 12 revised - Ship solid v0.4.0 instead of feature bloat
 
 ---
-*Last Updated: 2025-11-29*
+*Last Updated: 2025-11-30*
