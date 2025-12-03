@@ -14,26 +14,26 @@ import pytest
 from httpx import ASGITransport, AsyncClient
 {%- endif %}
 
-from {{ cookiecutter.project_slug|replace('-', '_') }}.adapters.repositories import InMemoryExampleRepository
+from {{ cookiecutter.project_slug|replace('-', '_') }}.adapters.repositories import InMemoryUserRepository
 {%- if cookiecutter.api_framework == 'fastapi' %}
 from {{ cookiecutter.project_slug|replace('-', '_') }}.api.main import app
 {%- endif %}
 {%- if cookiecutter.database_backend in ['sqlite', 'postgresql'] and cookiecutter.api_framework == 'fastapi' %}
 from {{ cookiecutter.project_slug|replace('-', '_') }}.infrastructure.database import close_db, init_db
 {%- endif %}
-from {{ cookiecutter.project_slug|replace('-', '_') }}.services import ExampleService
+from {{ cookiecutter.project_slug|replace('-', '_') }}.services import UserService
 
 
 @pytest.fixture
-def repository() -> InMemoryExampleRepository:
+def repository() -> InMemoryUserRepository:
     """Provide a fresh in-memory repository for each test."""
-    return InMemoryExampleRepository()
+    return InMemoryUserRepository()
 
 
 @pytest.fixture
-def service(repository: InMemoryExampleRepository) -> ExampleService:
+def service(repository: InMemoryUserRepository) -> UserService:
     """Provide a service instance with the test repository."""
-    return ExampleService(repository)
+    return UserService(repository)
 {% if cookiecutter.api_framework == 'fastapi' %}
 
 @pytest.fixture

@@ -47,6 +47,11 @@ class Settings(BaseSettings):
     # Database (PostgreSQL)
     database_url: str = "postgresql+asyncpg://{{ cookiecutter.postgres_user }}:{{ cookiecutter.postgres_password }}@postgres:5432/{{ cookiecutter.postgres_db }}"
 {% endif %}
+{%- if cookiecutter.cache_backend in ['redis', 'falkordb'] %}
+
+    # Cache/Session (Redis{% if cookiecutter.cache_backend == 'falkordb' %}/FalkorDB{% endif %})
+    redis_url: str = "redis://cache:6379/0"
+{%- endif %}
 
     @property
     def is_production(self) -> bool:

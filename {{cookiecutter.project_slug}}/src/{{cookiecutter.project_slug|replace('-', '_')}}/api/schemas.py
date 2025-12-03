@@ -8,40 +8,51 @@ contract to evolve independently from business logic.
 
 from __future__ import annotations
 
+from datetime import datetime
 from uuid import UUID
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, EmailStr
 
 
-class CreateEntityRequest(BaseModel):
-    """Request schema for creating an entity."""
+class CreateUserRequest(BaseModel):
+    """Request schema for creating a user."""
 
-    name: str
-    description: str = ""
-
-
-class UpdateEntityRequest(BaseModel):
-    """Request schema for updating an entity."""
-
-    name: str | None = None
-    description: str | None = None
+    username: str
+    email: EmailStr
+    display_name: str = ""
 
 
-class EntityResponse(BaseModel):
-    """Response schema for entity data."""
+class UpdateUserRequest(BaseModel):
+    """Request schema for updating a user."""
+
+    display_name: str | None = None
+
+
+class UserResponse(BaseModel):
+    """Response schema for user data."""
 
     model_config = ConfigDict(from_attributes=True)
 
     id: UUID
-    name: str
-    description: str
+    username: str
+    email: str
+    display_name: str
+    created_at: datetime
 
 
-class EntityListResponse(BaseModel):
-    """Response schema for a list of entities."""
+class UserListResponse(BaseModel):
+    """Response schema for a list of users."""
 
-    items: list[EntityResponse]
+    items: list[UserResponse]
     total: int
+{%- if cookiecutter.cache_backend == 'falkordb' %}
+
+
+class FollowRequest(BaseModel):
+    """Request schema for follow/unfollow operations."""
+
+    target_user_id: UUID
+{%- endif %}
 
 
 class HealthResponse(BaseModel):
@@ -50,6 +61,9 @@ class HealthResponse(BaseModel):
     status: str
     app_name: str
     database: str | None
+{%- if cookiecutter.cache_backend in ['redis', 'falkordb'] %}
+    cache: str | None
+{%- endif %}
 
 
 class ErrorResponse(BaseModel):

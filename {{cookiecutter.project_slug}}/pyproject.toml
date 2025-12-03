@@ -22,6 +22,7 @@ dependencies = [
     # API framework
     "fastapi>={{ cookiecutter.fastapi_version }}",
     "uvicorn[standard]>={{ cookiecutter.uvicorn_version }}",
+    "email-validator>=2.0.0",  # For Pydantic EmailStr
 {%- endif %}
 
     # CLI framework
@@ -41,6 +42,14 @@ dependencies = [
 {%- if cookiecutter.database_backend == 'postgresql' %}
     "asyncpg>=0.29.0",
     "pgvector>=0.3.0",
+{%- endif %}
+{%- if cookiecutter.cache_backend in ['redis', 'falkordb'] %}
+
+    # Cache/Session
+    "redis>=5.0.0",
+{%- endif %}
+{%- if cookiecutter.cache_backend == 'falkordb' %}
+    "falkordb>=1.0.0",
 {%- endif %}
 ]
 

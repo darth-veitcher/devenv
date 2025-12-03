@@ -31,43 +31,81 @@ class TestRootEndpoint:
         assert "message" in data
 
 
-class TestEntityEndpoints:
-    """Tests for entity CRUD endpoints."""
+class TestUserEndpoints:
+    """Tests for user CRUD endpoints."""
 
-    async def test_create_entity(self, client: AsyncClient) -> None:
-        """Can create entity via POST."""
+    async def test_create_user(self, client: AsyncClient) -> None:
+        """Can create user via POST."""
         response = await client.post(
-            "/entities",
-            json={"name": "Test Entity", "description": "A test"},
+            "/users",
+            json={"username": "alice", "email": "alice@example.com", "display_name": "Alice"},
         )
 
         assert response.status_code == 201
         data = response.json()
-        assert data["name"] == "Test Entity"
+        assert data["username"] == "alice"
+        assert data["email"] == "alice@example.com"
         assert "id" in data
+        assert "created_at" in data
 
-    async def test_create_entity_empty_name_fails(self, client: AsyncClient) -> None:
-        """Creating entity with empty name returns 400."""
+    async def test_create_user_short_username_fails(self, client: AsyncClient) -> None:
+        """Creating user with short username returns 400."""
         response = await client.post(
-            "/entities",
-            json={"name": "", "description": ""},
+            "/users",
+            json={"username": "ab", "email": "ab@example.com"},
         )
 
         assert response.status_code == 400
 
-    async def test_get_entity_not_found(self, client: AsyncClient) -> None:
-        """Getting unknown entity returns 404."""
+    async def test_create_user_invalid_email_fails(self, client: AsyncClient) -> None:
+        """Creating user with invalid email returns 400."""
+        response = await client.post(
+            "/users",
+            json={"username": "alice", "email": "not-an-email"},
+        )
+
+        assert response.status_code == 422  # Pydantic validation error
+
+    async def test_get_user_not_found(self, client: AsyncClient) -> None:
+        """Getting unknown user returns 404."""
         from uuid import uuid4
 
-        response = await client.get(f"/entities/{uuid4()}")
+        response = await client.get(f"/users/{uuid4()}")
         assert response.status_code == 404
 
-    async def test_delete_entity_not_found(self, client: AsyncClient) -> None:
-        """Deleting unknown entity returns 404."""
+    async def test_get_user_by_username(self, client: AsyncClient) -> None:
+        """Can get user by username."""
+        # First create a user
+        await client.post(
+            "/users",
+            json={"username": "findme", "email": "findme@example.com"},
+        )
+
+        # Then find by username
+        response = await client.get("/users/by-username/findme")
+        assert response.status_code == 200
+        data = response.json()
+        assert data["username"] == "findme"
+
+    async def test_delete_user_not_found(self, client: AsyncClient) -> None:
+        """Deleting unknown user returns 404."""
         from uuid import uuid4
 
-        response = await client.delete(f"/entities/{uuid4()}")
+        response = await client.delete(f"/users/{uuid4()}")
         assert response.status_code == 404
+
+    async def test_create_duplicate_username_fails(self, client: AsyncClient) -> None:
+        """Creating user with duplicate username returns 400."""
+        await client.post(
+            "/users",
+            json={"username": "duplicate", "email": "first@example.com"},
+        )
+
+        response = await client.post(
+            "/users",
+            json={"username": "duplicate", "email": "second@example.com"},
+        )
+        assert response.status_code == 400
 {%- else -%}
 """Integration tests - API not enabled.
 

@@ -20,26 +20,34 @@ class EntityBase:
     updated_at: datetime | None = None
 
 
-# Example entity - replace with your domain entities
 @dataclass(frozen=True)
-class ExampleEntity(EntityBase):
-    """Example domain entity.
+class User(EntityBase):
+    """User domain entity.
 
-    Replace this with your actual domain entities. Each entity should:
-    - Be immutable (frozen=True)
-    - Have a unique identity (id)
-    - Contain business logic methods
-    - Be independent of infrastructure
+    Core user entity for authentication and social features.
+    Works across all database backends (in-memory, SQLite, PostgreSQL).
 
     Example:
-        >>> entity = ExampleEntity(name="Test", description="A test entity")
-        >>> entity.name
-        'Test'
+        >>> user = User(username="alice", email="alice@example.com")
+        >>> user.is_valid()
+        True
     """
 
-    name: str
-    description: str = ""
+    username: str
+    email: str
+    display_name: str = ""
 
     def is_valid(self) -> bool:
-        """Check if entity meets business rules."""
-        return len(self.name) > 0
+        """Check if user meets business rules."""
+        return len(self.username) >= 3 and "@" in self.email
+
+    def with_display_name(self, display_name: str) -> User:
+        """Return a new User with updated display name (immutable update)."""
+        return User(
+            id=self.id,
+            created_at=self.created_at,
+            updated_at=datetime.now(UTC),
+            username=self.username,
+            email=self.email,
+            display_name=display_name,
+        )

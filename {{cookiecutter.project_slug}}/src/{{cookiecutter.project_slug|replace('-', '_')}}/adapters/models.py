@@ -6,14 +6,16 @@ domain entities to maintain clean architecture boundaries.
 """
 
 from __future__ import annotations
+
+from datetime import datetime
 {%- if cookiecutter.database_backend == 'postgresql' %}
 
 from pgvector.sqlalchemy import Vector
-from sqlalchemy import String, Text
+from sqlalchemy import DateTime, String
 from sqlalchemy.orm import Mapped, mapped_column
 {%- else %}
 
-from sqlalchemy import String, Text
+from sqlalchemy import DateTime, String
 from sqlalchemy.orm import Mapped, mapped_column
 {%- endif %}
 
@@ -27,21 +29,25 @@ EMBEDDING_DIM = 384
 {%- endif %}
 
 
-class ExampleEntityModel(Base):
-    """SQLAlchemy model for ExampleEntity persistence.
+class UserModel(Base):
+    """SQLAlchemy model for User persistence.
 
-    Maps to the 'example_entities' database table.
+    Maps to the 'users' database table. Works with both SQLite and PostgreSQL
+    via the repository pattern.
     """
 
-    __tablename__ = "example_entities"
+    __tablename__ = "users"
 
     id: Mapped[str] = mapped_column(String(36), primary_key=True)
-    name: Mapped[str] = mapped_column(String(255), nullable=False)
-    description: Mapped[str | None] = mapped_column(Text, nullable=True)
+    username: Mapped[str] = mapped_column(String(50), nullable=False, unique=True)
+    email: Mapped[str] = mapped_column(String(255), nullable=False, unique=True)
+    display_name: Mapped[str | None] = mapped_column(String(100), nullable=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime, nullable=False)
+    updated_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
 {%- if cookiecutter.database_backend == 'postgresql' %}
 
-    # Vector embedding for similarity search (optional)
-    # Use with: SELECT * FROM example_entities ORDER BY embedding <-> :query_vector LIMIT 10
+    # Vector embedding for user profile similarity (optional)
+    # Use with: SELECT * FROM users ORDER BY embedding <-> :query_vector LIMIT 10
     embedding: Mapped[list[float] | None] = mapped_column(
         Vector(EMBEDDING_DIM), nullable=True
     )
