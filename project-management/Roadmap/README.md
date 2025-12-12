@@ -1,10 +1,10 @@
 # Project Roadmap: devenv Cookiecutter Template
 
 ## Current Status
-**Active Bullet:** Milestone 4 Complete!
-**Phase:** SHIP
-**Started:** 2025-11-29
-**Milestone 4:** Complete (v0.4.0)
+**Active Bullet:** #43 - Add CLI commands using UserService
+**Phase:** BUILD
+**Started:** 2025-12-12
+**Milestone 5:** In Progress
 
 ---
 
@@ -97,22 +97,52 @@
 
 ---
 
+## Milestone 5: Production Patterns ⏳
+
+*Started 2025-12-12*
+
+### Phase 13: Documentation & DX (Bullets 42-44)
+- [x] **Bullet #42**: Document cache/graph extension patterns in docs
+- [ ] **Bullet #43**: Add CLI commands using UserService (create, get, list)
+- [ ] **Bullet #44**: Expand /health endpoint for Redis/FalkorDB status
+
+### Phase 14: Database Migrations (Bullets 45-47)
+- [ ] **Bullet #45**: Add Alembic to pyproject.toml with conditional deps
+- [ ] **Bullet #46**: Create initial migration for User model
+- [ ] **Bullet #47**: Add justfile commands (migrate, migrate-create)
+
+### Phase 15: Background Tasks (Bullets 48-50)
+- [ ] **Bullet #48**: Add ARQ (async Redis queue) as optional dependency
+- [ ] **Bullet #49**: Create task infrastructure module with example task
+- [ ] **Bullet #50**: Add task worker to docker-compose
+
+### Phase 16: Authentication (Bullets 51-54)
+- [ ] **Bullet #51**: Add JWT token generation/validation infrastructure
+- [ ] **Bullet #52**: Create auth middleware and dependencies
+- [ ] **Bullet #53**: Add login/register endpoints
+- [ ] **Bullet #54**: Protect User endpoints with auth decorators
+
+---
+
 ## Configuration Matrix
 
-All 6 combinations verified with real services:
+All combinations verified:
 
-| api_framework | database_backend | Tests | Status |
-|---------------|------------------|-------|--------|
-| fastapi | none | 18 | ✅ |
-| fastapi | sqlite | 18 | ✅ |
-| fastapi | postgresql | 18 | ✅ |
-| none | none | 12 | ✅ |
-| none | sqlite | 12 | ✅ |
-| none | postgresql | 12 | ✅ |
+| api_framework | database_backend | cache_backend | Tests | Status |
+|---------------|------------------|---------------|-------|--------|
+| fastapi | none | none | 27 | ✅ |
+| fastapi | sqlite | none | 27 | ✅ |
+| fastapi | sqlite | redis | 27 | ✅ |
+| fastapi | sqlite | falkordb | 27 | ✅ |
+| fastapi | postgresql | falkordb | 18 | ✅ |
+| none | none | none | 12 | ✅ |
+| none | sqlite | none | 12 | ✅ |
+| none | postgresql | none | 12 | ✅ |
 
 ---
 
 ## Recent Completions
+- 2025-12-12: Bullet #42 - Document cache/graph extension patterns (docs/architecture/cache-graph.md)
 - 2025-11-30: Bullet #41 - Full matrix verification, Milestone 4 complete!
 - 2025-11-30: Bullet #40 - Enhanced just test-integration for PostgreSQL
 - 2025-11-30: Bullet #39 - Exposed PostgreSQL port for host integration testing
@@ -133,4 +163,4 @@ All 6 combinations verified with real services:
 - [x] Decision: Phase 12 revised - Ship solid v0.4.0 instead of feature bloat
 
 ---
-*Last Updated: 2025-11-30*
+*Last Updated: 2025-12-12*

@@ -155,6 +155,7 @@ nav:
     - Domain Layer: architecture/domain.md
     - Adapters Layer: architecture/adapters.md
     - Services Layer: architecture/services.md
+    - Cache & Graph: architecture/cache-graph.md
   - API:
     - REST API: api/rest.md
     - CLI: api/cli.md
