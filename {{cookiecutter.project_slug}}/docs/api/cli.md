@@ -50,55 +50,57 @@ uv run {{ cookiecutter.project_slug|replace('-', '_') }} config
 
 ### create
 
-Create a new entity.
+Create a new user.
 
 ```bash
-uv run {{ cookiecutter.project_slug|replace('-', '_') }} create NAME [OPTIONS]
+uv run {{ cookiecutter.project_slug|replace('-', '_') }} create USERNAME EMAIL [OPTIONS]
 ```
 
 **Arguments:**
 
 | Argument | Required | Description |
 |----------|----------|-------------|
-| `NAME` | Yes | Entity name |
+| `USERNAME` | Yes | Unique username (min 3 characters) |
+| `EMAIL` | Yes | Email address |
 
 **Options:**
 
 | Option | Short | Description |
 |--------|-------|-------------|
-| `--description` | `-d` | Entity description |
+| `--display-name` | `-n` | Display name |
 
 **Examples:**
 
 ```bash
-# Create with name only
-uv run {{ cookiecutter.project_slug|replace('-', '_') }} create "My Entity"
+# Create with username and email
+uv run {{ cookiecutter.project_slug|replace('-', '_') }} create alice alice@example.com
 
-# Create with description
-uv run {{ cookiecutter.project_slug|replace('-', '_') }} create "My Entity" -d "A detailed description"
+# Create with display name
+uv run {{ cookiecutter.project_slug|replace('-', '_') }} create alice alice@example.com -n "Alice Smith"
 ```
 
 **Output:**
 
 ```
-Created entity: 550e8400-e29b-41d4-a716-446655440000
-  Name: My Entity
-  Description: A detailed description
+Created user: 550e8400-e29b-41d4-a716-446655440000
+  Username: alice
+  Email: alice@example.com
+  Display Name: Alice Smith
 ```
 
 ### get
 
-Retrieve an entity by ID.
+Retrieve a user by ID.
 
 ```bash
-uv run {{ cookiecutter.project_slug|replace('-', '_') }} get ENTITY_ID
+uv run {{ cookiecutter.project_slug|replace('-', '_') }} get USER_ID
 ```
 
 **Arguments:**
 
 | Argument | Required | Description |
 |----------|----------|-------------|
-| `ENTITY_ID` | Yes | Entity UUID |
+| `USER_ID` | Yes | User UUID |
 
 **Example:**
 
@@ -109,15 +111,78 @@ uv run {{ cookiecutter.project_slug|replace('-', '_') }} get 550e8400-e29b-41d4-
 **Output:**
 
 ```
-┏━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
-┃ Field       ┃ Value                                  ┃
-┡━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┩
-│ ID          │ 550e8400-e29b-41d4-a716-446655440000   │
-│ Name        │ My Entity                              │
-│ Description │ A detailed description                 │
-│ Created     │ 2024-01-15 10:30:00                   │
-└─────────────┴────────────────────────────────────────┘
+┏━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃ Field         ┃ Value                                  ┃
+┡━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┩
+│ ID            │ 550e8400-e29b-41d4-a716-446655440000   │
+│ Username      │ alice                                  │
+│ Email         │ alice@example.com                      │
+│ Display Name  │ Alice Smith                            │
+│ Created       │ 2024-01-15 10:30:00                    │
+└───────────────┴────────────────────────────────────────┘
 ```
+
+### list
+
+List all users.
+
+```bash
+uv run {{ cookiecutter.project_slug|replace('-', '_') }} list
+```
+
+**Example:**
+
+```bash
+uv run {{ cookiecutter.project_slug|replace('-', '_') }} list
+```
+
+**Output:**
+
+```
+┏━━━━━━━━━━━━━┳━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━┳━━━━━━━━━━━━┓
+┃ ID          ┃ Username   ┃ Email             ┃ Display Name ┃ Created    ┃
+┡━━━━━━━━━━━━━╇━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━╇━━━━━━━━━━━━┩
+│ 550e8400... │ alice      │ alice@example.com │ Alice Smith  │ 2024-01-15 │
+│ 6ba7b810... │ bob        │ bob@example.com   │ -            │ 2024-01-16 │
+└─────────────┴────────────┴───────────────────┴──────────────┴────────────┘
+```
+
+### delete
+
+Delete a user by ID.
+
+```bash
+uv run {{ cookiecutter.project_slug|replace('-', '_') }} delete USER_ID [OPTIONS]
+```
+
+**Arguments:**
+
+| Argument | Required | Description |
+|----------|----------|-------------|
+| `USER_ID` | Yes | User UUID to delete |
+
+**Options:**
+
+| Option | Short | Description |
+|--------|-------|-------------|
+| `--force` | `-f` | Skip confirmation prompt |
+
+**Examples:**
+
+```bash
+# Delete with confirmation
+uv run {{ cookiecutter.project_slug|replace('-', '_') }} delete 550e8400-e29b-41d4-a716-446655440000
+
+# Delete without confirmation
+uv run {{ cookiecutter.project_slug|replace('-', '_') }} delete 550e8400-e29b-41d4-a716-446655440000 -f
+```
+
+**Output:**
+
+```
+Deleted user: alice
+```
+{%- if cookiecutter.api_framework == 'fastapi' %}
 
 ### serve
 
@@ -146,6 +211,7 @@ uv run {{ cookiecutter.project_slug|replace('-', '_') }} serve -p 3000
 # Custom host and port
 uv run {{ cookiecutter.project_slug|replace('-', '_') }} serve -h 127.0.0.1 -p 8080
 ```
+{%- endif %}
 
 ## Using Just
 
@@ -155,11 +221,16 @@ The justfile provides shortcuts:
 # Run any CLI command
 just cli --help
 just cli version
-just cli create "Test"
+just cli create alice alice@example.com
+
+# List all users
+just cli list
+{%- if cookiecutter.api_framework == 'fastapi' %}
 
 # Start server
 just serve
 just dev  # with auto-reload
+{%- endif %}
 ```
 
 ## Exit Codes

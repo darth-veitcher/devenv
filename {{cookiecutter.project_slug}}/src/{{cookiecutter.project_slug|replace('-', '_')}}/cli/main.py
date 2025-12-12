@@ -13,9 +13,9 @@ import typer
 from rich.console import Console
 from rich.table import Table
 
-from ..adapters.repositories import InMemoryExampleRepository
+from ..adapters.repositories import InMemoryUserRepository
 from ..infrastructure.config import get_settings
-from ..services import ExampleService
+from ..services import UserService
 
 app = typer.Typer(
     name="{{ cookiecutter.project_slug }}",
@@ -25,8 +25,8 @@ app = typer.Typer(
 console = Console()
 
 # Service instance (in real app, use proper dependency injection)
-_repository = InMemoryExampleRepository()
-_service = ExampleService(_repository)
+_repository = InMemoryUserRepository()
+_service = UserService(_repository)
 
 
 def run_async(coro):
@@ -62,16 +62,18 @@ def config() -> None:
 
 @app.command()
 def create(
-    name: str = typer.Argument(..., help="Entity name"),
-    description: str = typer.Option("", "--description", "-d", help="Entity description"),
+    username: str = typer.Argument(..., help="Username (unique, min 3 characters)"),
+    email: str = typer.Argument(..., help="Email address"),
+    display_name: str = typer.Option("", "--display-name", "-n", help="Display name"),
 ) -> None:
-    """Create a new entity."""
+    """Create a new user."""
     try:
-        entity = run_async(_service.create(name, description))
-        console.print(f"[green]Created entity:[/green] {entity.id}")
-        console.print(f"  Name: {entity.name}")
-        if entity.description:
-            console.print(f"  Description: {entity.description}")
+        user = run_async(_service.create(username, email, display_name))
+        console.print(f"[green]Created user:[/green] {user.id}")
+        console.print(f"  Username: {user.username}")
+        console.print(f"  Email: {user.email}")
+        if user.display_name:
+            console.print(f"  Display Name: {user.display_name}")
     except ValueError as e:
         console.print(f"[red]Error:[/red] {e}")
         raise typer.Exit(1) from None
@@ -79,24 +81,80 @@ def create(
 
 @app.command()
 def get(
-    entity_id: Annotated[UUID, typer.Argument(help="Entity UUID")],
+    user_id: Annotated[UUID, typer.Argument(help="User UUID")],
 ) -> None:
-    """Get an entity by ID."""
-    entity = run_async(_service.get_by_id(entity_id))
-    if not entity:
-        console.print(f"[red]Entity not found:[/red] {entity_id}")
+    """Get a user by ID."""
+    user = run_async(_service.get_by_id(user_id))
+    if not user:
+        console.print(f"[red]User not found:[/red] {user_id}")
         raise typer.Exit(1)
 
-    table = Table(title="Entity Details")
+    table = Table(title="User Details")
     table.add_column("Field", style="cyan")
     table.add_column("Value", style="green")
 
-    table.add_row("ID", str(entity.id))
-    table.add_row("Name", entity.name)
-    table.add_row("Description", entity.description or "-")
-    table.add_row("Created", str(entity.created_at))
+    table.add_row("ID", str(user.id))
+    table.add_row("Username", user.username)
+    table.add_row("Email", user.email)
+    table.add_row("Display Name", user.display_name or "-")
+    table.add_row("Created", str(user.created_at))
 
     console.print(table)
+
+
+@app.command("list")
+def list_users() -> None:
+    """List all users."""
+    users = run_async(_service.list_all())
+
+    if not users:
+        console.print("[yellow]No users found.[/yellow]")
+        return
+
+    table = Table(title=f"Users ({len(users)} total)")
+    table.add_column("ID", style="dim")
+    table.add_column("Username", style="cyan")
+    table.add_column("Email", style="green")
+    table.add_column("Display Name")
+    table.add_column("Created", style="dim")
+
+    for user in users:
+        table.add_row(
+            str(user.id)[:8] + "...",
+            user.username,
+            user.email,
+            user.display_name or "-",
+            str(user.created_at.date()),
+        )
+
+    console.print(table)
+
+
+@app.command()
+def delete(
+    user_id: Annotated[UUID, typer.Argument(help="User UUID to delete")],
+    force: bool = typer.Option(False, "--force", "-f", help="Skip confirmation"),
+) -> None:
+    """Delete a user by ID."""
+    user = run_async(_service.get_by_id(user_id))
+    if not user:
+        console.print(f"[red]User not found:[/red] {user_id}")
+        raise typer.Exit(1)
+
+    if not force:
+        typer.confirm(
+            f"Delete user '{user.username}' ({user_id})?",
+            abort=True,
+        )
+
+    deleted = run_async(_service.delete(user_id))
+    if deleted:
+        console.print(f"[green]Deleted user:[/green] {user.username}")
+    else:
+        console.print(f"[red]Failed to delete user:[/red] {user_id}")
+        raise typer.Exit(1)
+
+{%- if cookiecutter.api_framework == 'fastapi' %}
 
 
 @app.command()
@@ -115,6 +173,7 @@ def serve(
         host=host or settings.host,
         port=port or settings.port,
     )
+{%- endif %}
 
 
 def main() -> None:

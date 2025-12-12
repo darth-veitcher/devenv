@@ -96,3 +96,20 @@ class TestUserService:
 
         result = await service.delete(uuid4())
         assert result is False
+
+    async def test_list_all_returns_empty_initially(self, service: UserService) -> None:
+        """Service returns empty list when no users exist."""
+        users = await service.list_all()
+        assert users == []
+
+    async def test_list_all_returns_all_users(self, service: UserService) -> None:
+        """Service returns all created users."""
+        await service.create("alice", "alice@example.com")
+        await service.create("bob", "bob@example.com")
+        await service.create("charlie", "charlie@example.com")
+
+        users = await service.list_all()
+
+        assert len(users) == 3
+        usernames = {u.username for u in users}
+        assert usernames == {"alice", "bob", "charlie"}

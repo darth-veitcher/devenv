@@ -35,6 +35,10 @@ class UserRepository(Protocol):
         """Retrieve a user by their username."""
         ...
 
+    async def list_all(self) -> list[User]:
+        """Retrieve all users."""
+        ...
+
     async def save(self, user: User) -> User:
         """Persist a user, creating or updating as needed."""
         ...
@@ -59,6 +63,10 @@ class InMemoryUserRepository:
         """Retrieve user by username from memory."""
         user_id = self._username_index.get(username)
         return self._storage.get(user_id) if user_id else None
+
+    async def list_all(self) -> list[User]:
+        """Retrieve all users from memory."""
+        return list(self._storage.values())
 
     async def save(self, user: User) -> User:
         """Store user in memory."""
@@ -123,6 +131,25 @@ class SQLAlchemyUserRepository:
                 email=model.email,
                 display_name=model.display_name or "",
             )
+
+    async def list_all(self) -> list[User]:
+        """Retrieve all users from database."""
+        from ...domain.entities import User
+
+        async with get_session() as session:
+            result = await session.execute(select(UserModel))
+            models = result.scalars().all()
+            return [
+                User(
+                    id=UUID(model.id),
+                    created_at=model.created_at,
+                    updated_at=model.updated_at,
+                    username=model.username,
+                    email=model.email,
+                    display_name=model.display_name or "",
+                )
+                for model in models
+            ]
 
     async def save(self, user: User) -> User:
         """Persist user to database."""

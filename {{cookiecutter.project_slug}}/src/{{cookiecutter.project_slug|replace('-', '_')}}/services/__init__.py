@@ -84,6 +84,10 @@ class UserService:
         """Retrieve a user by username."""
         return await self._repository.get_by_username(username.strip().lower())
 
+    async def list_all(self) -> list[User]:
+        """Retrieve all users."""
+        return await self._repository.list_all()
+
     async def delete(self, user_id: UUID) -> bool:
         """Delete a user by ID."""
         user = await self._repository.get_by_id(user_id)
