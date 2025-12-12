@@ -1,10 +1,10 @@
 # Project Roadmap: devenv Cookiecutter Template
 
 ## Current Status
-**Active Bullet:** #43 - Add CLI commands using UserService
+**Active Bullet:** #45 - Add Alembic to pyproject.toml with conditional deps
 **Phase:** BUILD
 **Started:** 2025-12-12
-**Milestone 5:** In Progress
+**Milestone 5:** In Progress (Phase 13 Complete)
 
 ---
 
@@ -101,10 +101,10 @@
 
 *Started 2025-12-12*
 
-### Phase 13: Documentation & DX (Bullets 42-44)
+### Phase 13: Documentation & DX (Bullets 42-44) ✅
 - [x] **Bullet #42**: Document cache/graph extension patterns in docs
-- [ ] **Bullet #43**: Add CLI commands using UserService (create, get, list)
-- [ ] **Bullet #44**: Expand /health endpoint for Redis/FalkorDB status
+- [x] **Bullet #43**: Add CLI commands using UserService (create, get, list)
+- [x] **Bullet #44**: Expand /health endpoint for Redis/FalkorDB status
 
 ### Phase 14: Database Migrations (Bullets 45-47)
 - [ ] **Bullet #45**: Add Alembic to pyproject.toml with conditional deps
@@ -142,6 +142,8 @@ All combinations verified:
 ---
 
 ## Recent Completions
+- 2025-12-12: Bullet #44 - Expand health check with real connectivity tests (Phase 13 complete!)
+- 2025-12-12: Bullet #43 - CLI commands using UserService (create, get, list, delete)
 - 2025-12-12: Bullet #42 - Document cache/graph extension patterns (docs/architecture/cache-graph.md)
 - 2025-11-30: Bullet #41 - Full matrix verification, Milestone 4 complete!
 - 2025-11-30: Bullet #40 - Enhanced just test-integration for PostgreSQL
