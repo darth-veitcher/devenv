@@ -10,13 +10,8 @@ from contextlib import asynccontextmanager
 {%- if cookiecutter.database_backend == 'sqlite' %}
 from pathlib import Path
 {%- endif %}
-{%- if cookiecutter.database_backend == 'postgresql' %}
 
 from sqlalchemy import MetaData, text
-{%- else %}
-
-from sqlalchemy import MetaData
-{%- endif %}
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
 from sqlalchemy.orm import DeclarativeBase
 
@@ -114,6 +109,33 @@ async def close_db() -> None:
         await _engine.dispose()
         _engine = None
         _session_factory = None
+
+
+async def check_db_health() -> dict:
+    """Check database connectivity and return health status.
+
+    Returns:
+        dict with status, latency_ms, and optional error
+    """
+    import time
+
+    try:
+        start = time.perf_counter()
+        async with get_session() as session:
+            await session.execute(text("SELECT 1"))
+        latency = (time.perf_counter() - start) * 1000
+
+        return {
+            "status": "healthy",
+            "latency_ms": round(latency, 2),
+            "error": None,
+        }
+    except Exception as e:
+        return {
+            "status": "unhealthy",
+            "latency_ms": None,
+            "error": str(e),
+        }
 {% else %}
 # Database backend is 'none' - no database infrastructure needed
 {% endif %}

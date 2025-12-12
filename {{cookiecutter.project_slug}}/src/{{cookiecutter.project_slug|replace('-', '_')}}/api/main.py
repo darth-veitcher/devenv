@@ -17,20 +17,34 @@ from fastapi import Depends, FastAPI, HTTPException
 from ..adapters.repositories import InMemoryUserRepository
 from ..infrastructure.config import Settings, get_settings
 from ..services import UserService
-from .schemas import CreateUserRequest, HealthResponse, UserListResponse, UserResponse
+from .schemas import (
+    CreateUserRequest,
+    HealthResponse,
+{%- if cookiecutter.cache_backend in ['redis', 'falkordb'] %}
+    ServiceHealth,
+{%- endif %}
+    UserListResponse,
+    UserResponse,
+)
 {%- else %}
 
 from ..adapters.repositories import SQLAlchemyUserRepository
 from ..infrastructure.config import Settings, get_settings
-from ..infrastructure.database import close_db, init_db
+from ..infrastructure.database import check_db_health, close_db, init_db
 from ..services import UserService
-from .schemas import CreateUserRequest, HealthResponse, UserListResponse, UserResponse
+from .schemas import (
+    CreateUserRequest,
+    HealthResponse,
+    ServiceHealth,
+    UserListResponse,
+    UserResponse,
+)
 {%- endif %}
 {%- if cookiecutter.cache_backend in ['redis', 'falkordb'] %}
-from ..infrastructure.cache import close_cache, init_cache
+from ..infrastructure.cache import check_cache_health, close_cache, init_cache
 {%- endif %}
 {%- if cookiecutter.cache_backend == 'falkordb' %}
-from ..infrastructure.graph import close_graph, init_graph
+from ..infrastructure.graph import check_graph_health, close_graph, init_graph
 from .schemas import FollowRequest
 {%- endif %}
 
@@ -96,14 +110,62 @@ def root() -> dict[str, str]:
 
 
 @app.get("/health", response_model=HealthResponse)
-def health(settings: SettingsDep) -> HealthResponse:
-    """Health check endpoint."""
-    return HealthResponse(
-        status="ok",
-        app_name=settings.app_name,
-        database=settings.database_url or "not configured",
+async def health(settings: SettingsDep) -> HealthResponse:
+    """Health check endpoint with detailed service status.
+
+    Returns overall status:
+    - "ok": All services healthy
+    - "degraded": Some services unhealthy but app functional
+    - "unhealthy": Critical services down
+    """
+    services_healthy = []
+
+{%- if cookiecutter.database_backend in ['sqlite', 'postgresql'] %}
+    # Check database
+    db_health = await check_db_health()
+    db_status = ServiceHealth(**db_health)
+    services_healthy.append(db_health["status"] == "healthy")
+{%- endif %}
+
 {%- if cookiecutter.cache_backend in ['redis', 'falkordb'] %}
-        cache=settings.redis_url or "not configured",
+    # Check cache (Redis)
+    cache_health = await check_cache_health()
+    cache_status = ServiceHealth(**cache_health)
+    services_healthy.append(cache_health["status"] == "healthy")
+{%- endif %}
+
+{%- if cookiecutter.cache_backend == 'falkordb' %}
+    # Check graph (FalkorDB)
+    graph_health = await check_graph_health()
+    graph_status = ServiceHealth(**graph_health)
+    services_healthy.append(graph_health["status"] == "healthy")
+{%- endif %}
+
+    # Determine overall status
+{%- if cookiecutter.database_backend in ['sqlite', 'postgresql'] or cookiecutter.cache_backend in ['redis', 'falkordb'] %}
+    if all(services_healthy):
+        overall_status = "ok"
+    elif any(services_healthy):
+        overall_status = "degraded"
+    else:
+        overall_status = "unhealthy"
+{%- else %}
+    overall_status = "ok"
+{%- endif %}
+
+    return HealthResponse(
+        status=overall_status,
+        app_name=settings.app_name,
+{%- if cookiecutter.database_backend in ['sqlite', 'postgresql'] %}
+        database=db_status,
+{%- else %}
+        database="not configured",
+{%- endif %}
+{%- if cookiecutter.cache_backend in ['redis', 'falkordb'] %}
+        cache=cache_status,
+{%- endif %}
+{%- if cookiecutter.cache_backend == 'falkordb' %}
+        graph=graph_status,
 {%- endif %}
     )
 

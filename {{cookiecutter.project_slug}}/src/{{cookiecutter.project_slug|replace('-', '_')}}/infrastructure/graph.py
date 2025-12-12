@@ -165,6 +165,33 @@ class GraphRepository:
         """
         result = self.graph.query(cypher, params or {})
         return [dict(zip(result.header, row)) for row in result.result_set]
+
+
+async def check_graph_health() -> dict:
+    """Check FalkorDB graph connectivity and return health status.
+
+    Returns:
+        dict with status, latency_ms, and optional error
+    """
+    import time
+
+    try:
+        graph = get_graph()
+        start = time.perf_counter()
+        graph.query("RETURN 1")
+        latency = (time.perf_counter() - start) * 1000
+
+        return {
+            "status": "healthy",
+            "latency_ms": round(latency, 2),
+            "error": None,
+        }
+    except Exception as e:
+        return {
+            "status": "unhealthy",
+            "latency_ms": None,
+            "error": str(e),
+        }
 {% endraw %}
 {%- else -%}
 """Graph infrastructure - Not enabled.

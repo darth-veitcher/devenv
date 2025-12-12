@@ -55,14 +55,31 @@ class FollowRequest(BaseModel):
 {%- endif %}
 
 
-class HealthResponse(BaseModel):
-    """Health check response."""
+class ServiceHealth(BaseModel):
+    """Health status for an individual service."""
 
-    status: str
+    status: str  # "healthy", "unhealthy", "not_configured"
+    latency_ms: float | None = None
+    error: str | None = None
+
+
+class HealthResponse(BaseModel):
+    """Health check response with detailed service status."""
+
+    status: str  # "ok", "degraded", "unhealthy"
     app_name: str
-    database: str | None
+{%- if cookiecutter.database_backend in ['sqlite', 'postgresql'] %}
+    database: ServiceHealth
+{%- else %}
+    database: str  # "not configured"
+{%- endif %}
 {%- if cookiecutter.cache_backend in ['redis', 'falkordb'] %}
-    cache: str | None
+    cache: ServiceHealth
+{%- else %}
+    cache: str | None = None  # Only shown if configured
+{%- endif %}
+{%- if cookiecutter.cache_backend == 'falkordb' %}
+    graph: ServiceHealth
 {%- endif %}
 
 

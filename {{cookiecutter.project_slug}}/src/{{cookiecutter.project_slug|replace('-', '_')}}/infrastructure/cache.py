@@ -99,6 +99,33 @@ class SessionManager:
 
 # Default session manager
 session_manager = SessionManager()
+
+
+async def check_cache_health() -> dict:
+    """Check Redis connectivity and return health status.
+
+    Returns:
+        dict with status, latency_ms, and optional error
+    """
+    import time
+
+    try:
+        client = get_redis()
+        start = time.perf_counter()
+        await client.ping()
+        latency = (time.perf_counter() - start) * 1000
+
+        return {
+            "status": "healthy",
+            "latency_ms": round(latency, 2),
+            "error": None,
+        }
+    except Exception as e:
+        return {
+            "status": "unhealthy",
+            "latency_ms": None,
+            "error": str(e),
+        }
 {%- else -%}
 """Cache infrastructure - Not enabled.
 

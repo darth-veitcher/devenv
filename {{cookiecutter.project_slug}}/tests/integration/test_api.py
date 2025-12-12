@@ -9,14 +9,33 @@ from httpx import AsyncClient
 class TestHealthEndpoint:
     """Tests for health check endpoint."""
 
-    async def test_health_returns_ok(self, client: AsyncClient) -> None:
-        """Health endpoint returns OK status."""
+    async def test_health_returns_valid_response(self, client: AsyncClient) -> None:
+        """Health endpoint returns valid health status.
+
+        Note: Status may be "ok", "degraded", or "unhealthy" depending on
+        whether external services (Redis, FalkorDB) are available.
+        """
         response = await client.get("/health")
 
         assert response.status_code == 200
         data = response.json()
-        assert data["status"] == "ok"
+        assert data["status"] in ("ok", "degraded", "unhealthy")
         assert "app_name" in data
+{%- if cookiecutter.database_backend in ['sqlite', 'postgresql'] %}
+        # Database health should be a dict with status
+        assert "database" in data
+        assert data["database"]["status"] in ("healthy", "unhealthy")
+{%- endif %}
+{%- if cookiecutter.cache_backend in ['redis', 'falkordb'] %}
+        # Cache health should be a dict with status
+        assert "cache" in data
+        assert data["cache"]["status"] in ("healthy", "unhealthy")
+{%- endif %}
+{%- if cookiecutter.cache_backend == 'falkordb' %}
+        # Graph health should be a dict with status
+        assert "graph" in data
+        assert data["graph"]["status"] in ("healthy", "unhealthy")
+{%- endif %}
 
 
 class TestRootEndpoint:
