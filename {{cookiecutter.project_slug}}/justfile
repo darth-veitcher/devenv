@@ -128,9 +128,34 @@ docs-deploy:
 # Check documentation for broken links
 docs-check:
     uv run mkdocs build --strict
+{% if cookiecutter.database_backend in ['sqlite', 'postgresql'] %}
+# ============================================================================
+# Database Migrations
+# ============================================================================
+
+# Apply all pending migrations
+migrate:
+    uv run alembic upgrade head
+
+# Create a new migration (auto-detect model changes)
+migrate-create MESSAGE:
+    uv run alembic revision --autogenerate -m "{{ '{{' }}MESSAGE{{ '}}' }}"
+
+# Downgrade one migration
+migrate-down:
+    uv run alembic downgrade -1
+
+# Show current migration status
+migrate-status:
+    uv run alembic current
+
+# Show migration history
+migrate-history:
+    uv run alembic history
+{% endif %}
 {% if cookiecutter.database_backend == 'postgresql' %}
 # ============================================================================
-# Database
+# Database Services
 # ============================================================================
 
 # Start local database services
