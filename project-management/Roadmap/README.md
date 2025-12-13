@@ -1,10 +1,10 @@
 # Project Roadmap: devenv Cookiecutter Template
 
 ## Current Status
-**Active Bullet:** #45 - Add Alembic to pyproject.toml with conditional deps
+**Active Bullet:** #48 - Add ARQ (async Redis queue) as optional dependency
 **Phase:** BUILD
 **Started:** 2025-12-12
-**Milestone 5:** In Progress (Phase 13 Complete)
+**Milestone 5:** In Progress (Phase 14 Complete)
 
 ---
 
@@ -106,10 +106,10 @@
 - [x] **Bullet #43**: Add CLI commands using UserService (create, get, list)
 - [x] **Bullet #44**: Expand /health endpoint for Redis/FalkorDB status
 
-### Phase 14: Database Migrations (Bullets 45-47)
-- [ ] **Bullet #45**: Add Alembic to pyproject.toml with conditional deps
-- [ ] **Bullet #46**: Create initial migration for User model
-- [ ] **Bullet #47**: Add justfile commands (migrate, migrate-create)
+### Phase 14: Database Migrations (Bullets 45-47) ✅
+- [x] **Bullet #45**: Add Alembic to pyproject.toml with conditional deps
+- [x] **Bullet #46**: Create migrations/env.py and script.py.mako template
+- [x] **Bullet #47**: Add justfile commands (migrate, migrate-create)
 
 ### Phase 15: Background Tasks (Bullets 48-50)
 - [ ] **Bullet #48**: Add ARQ (async Redis queue) as optional dependency
@@ -142,6 +142,7 @@ All combinations verified:
 ---
 
 ## Recent Completions
+- 2025-12-13: Bullets #45-47 - Alembic migrations infrastructure (Phase 14 complete!)
 - 2025-12-12: Bullet #44 - Expand health check with real connectivity tests (Phase 13 complete!)
 - 2025-12-12: Bullet #43 - CLI commands using UserService (create, get, list, delete)
 - 2025-12-12: Bullet #42 - Document cache/graph extension patterns (docs/architecture/cache-graph.md)
@@ -165,4 +166,4 @@ All combinations verified:
 - [x] Decision: Phase 12 revised - Ship solid v0.4.0 instead of feature bloat
 
 ---
-*Last Updated: 2025-12-12*
+*Last Updated: 2025-12-13*
