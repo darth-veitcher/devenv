@@ -15,10 +15,18 @@ services:
       - NET_RAW
     extra_hosts:
       - host.docker.internal:host-gateway # access host's `localhost` using `host.docker.internal`
-{% if cookiecutter.database_backend == 'postgresql' %}
+{% if cookiecutter.database_backend == 'postgresql' or cookiecutter.cache_backend in ['redis', 'falkordb'] %}
     depends_on:
+{%- if cookiecutter.database_backend == 'postgresql' %}
       postgres:
         condition: service_healthy
+{%- endif %}
+{%- if cookiecutter.cache_backend in ['redis', 'falkordb'] %}
+      cache:
+        condition: service_healthy
+{%- endif %}
+{% endif %}
+{% if cookiecutter.database_backend == 'postgresql' %}
 
   postgres:
     image: postgres:{{ cookiecutter.postgres_version }}-alpine
@@ -47,13 +55,99 @@ services:
         max-size: "10m"
         max-file: "3"
 {% endif %}
+{% if cookiecutter.cache_backend == 'redis' %}
+
+  cache:
+    image: redis:7-alpine
+    container_name: {{ cookiecutter.project_slug }}-cache
+    hostname: cache
+    restart: unless-stopped
+    command: redis-server --save 60 1 --loglevel warning
+    volumes:
+      - cache_data:/data
+    networks:
+      - shared
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+{% elif cookiecutter.cache_backend == 'falkordb' %}
+
+  cache:
+    image: falkordb/falkordb:latest
+    container_name: {{ cookiecutter.project_slug }}-cache
+    hostname: cache
+    restart: unless-stopped
+    volumes:
+      - cache_data:/data
+    networks:
+      - shared
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+{% endif %}
+{% if cookiecutter.cache_backend in ['redis', 'falkordb'] %}
+
+  worker:
+    build: .
+    container_name: {{ cookiecutter.project_slug }}-worker
+    hostname: worker
+    restart: unless-stopped
+    command: uv run arq {{ cookiecutter.project_slug|replace('-', '_') }}.infrastructure.tasks.WorkerSettings
+    volumes:
+      - ..:/workspace
+    working_dir: /workspace
+    networks:
+      - shared
+    depends_on:
+      cache:
+        condition: service_healthy
+{%- if cookiecutter.database_backend == 'postgresql' %}
+      postgres:
+        condition: service_healthy
+{%- endif %}
+    environment:
+      REDIS_URL: redis://cache:6379/0
+{%- if cookiecutter.database_backend == 'sqlite' %}
+      DATABASE_URL: sqlite+aiosqlite:///./data/{{ cookiecutter.project_slug }}.db
+{%- elif cookiecutter.database_backend == 'postgresql' %}
+      DATABASE_URL: postgresql+asyncpg://{{ cookiecutter.postgres_user }}:{{ cookiecutter.postgres_password }}@postgres:5432/{{ cookiecutter.postgres_db }}
+{%- endif %}
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+{% endif %}
 
 networks:
   shared:
     # This network allows host access for your app
     driver: bridge
-{% if cookiecutter.database_backend == 'postgresql' %}
+{% if cookiecutter.database_backend == 'postgresql' or cookiecutter.cache_backend in ['redis', 'falkordb'] %}
 
 volumes:
+{%- if cookiecutter.database_backend == 'postgresql' %}
   postgres_data:
+{%- endif %}
+{%- if cookiecutter.cache_backend in ['redis', 'falkordb'] %}
+  cache_data:
+{%- endif %}
 {% endif %}

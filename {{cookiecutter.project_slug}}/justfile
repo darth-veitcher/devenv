@@ -166,6 +166,24 @@ db-up:
 db-down:
     docker compose -f docker-compose.yml down
 {% endif %}
+{% if cookiecutter.cache_backend in ['redis', 'falkordb'] %}
+# ============================================================================
+# Background Tasks (ARQ)
+# ============================================================================
+
+# Start the ARQ worker for background tasks
+worker:
+    uv run arq {{ cookiecutter.project_slug|replace('-', '_') }}.infrastructure.tasks.WorkerSettings
+
+# Start worker with verbose logging
+worker-verbose:
+    uv run arq {{ cookiecutter.project_slug|replace('-', '_') }}.infrastructure.tasks.WorkerSettings --verbose
+
+# Check worker health/status (requires worker running)
+worker-check:
+    @echo "Checking ARQ worker status..."
+    @uv run python -c "import asyncio; from {{ cookiecutter.project_slug|replace('-', '_') }}.infrastructure.tasks import get_task_pool; asyncio.run(get_task_pool())" && echo "Worker pool connection OK" || echo "Worker pool connection FAILED"
+{% endif %}
 # ============================================================================
 # Docker
 # ============================================================================

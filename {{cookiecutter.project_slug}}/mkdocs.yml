@@ -156,6 +156,7 @@ nav:
     - Adapters Layer: architecture/adapters.md
     - Services Layer: architecture/services.md
     - Cache & Graph: architecture/cache-graph.md
+    - Background Tasks: architecture/background-tasks.md
   - API:
     - REST API: api/rest.md
     - CLI: api/cli.md

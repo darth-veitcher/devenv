@@ -49,6 +49,9 @@ dependencies = [
 
     # Cache/Session
     "redis>=5.0.0",
+
+    # Background Tasks
+    "arq>=0.26.0",
 {%- endif %}
 {%- if cookiecutter.cache_backend == 'falkordb' %}
     "falkordb>=1.0.0",
