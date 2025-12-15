@@ -1,10 +1,10 @@
 # Project Roadmap: devenv Cookiecutter Template
 
 ## Current Status
-**Active Bullet:** #48 - Add ARQ (async Redis queue) as optional dependency
+**Active Bullet:** #51 - Add JWT token generation/validation infrastructure
 **Phase:** BUILD
 **Started:** 2025-12-12
-**Milestone 5:** In Progress (Phase 14 Complete)
+**Milestone 5:** In Progress (Phase 15 Complete)
 
 ---
 
@@ -111,10 +111,10 @@
 - [x] **Bullet #46**: Create migrations/env.py and script.py.mako template
 - [x] **Bullet #47**: Add justfile commands (migrate, migrate-create)
 
-### Phase 15: Background Tasks (Bullets 48-50)
-- [ ] **Bullet #48**: Add ARQ (async Redis queue) as optional dependency
-- [ ] **Bullet #49**: Create task infrastructure module with example task
-- [ ] **Bullet #50**: Add task worker to docker-compose
+### Phase 15: Background Tasks (Bullets 48-50) ✅
+- [x] **Bullet #48**: Add ARQ (async Redis queue) as optional dependency
+- [x] **Bullet #49**: Create task infrastructure module with example task
+- [x] **Bullet #50**: Add task worker and cache service to docker-compose
 
 ### Phase 16: Authentication (Bullets 51-54)
 - [ ] **Bullet #51**: Add JWT token generation/validation infrastructure
@@ -142,6 +142,7 @@ All combinations verified:
 ---
 
 ## Recent Completions
+- 2025-12-15: Bullets #48-50 - ARQ background tasks infrastructure (Phase 15 complete!)
 - 2025-12-13: Bullets #45-47 - Alembic migrations infrastructure (Phase 14 complete!)
 - 2025-12-12: Bullet #44 - Expand health check with real connectivity tests (Phase 13 complete!)
 - 2025-12-12: Bullet #43 - CLI commands using UserService (create, get, list, delete)
@@ -166,4 +167,4 @@ All combinations verified:
 - [x] Decision: Phase 12 revised - Ship solid v0.4.0 instead of feature bloat
 
 ---
-*Last Updated: 2025-12-13*
+*Last Updated: 2025-12-15*
